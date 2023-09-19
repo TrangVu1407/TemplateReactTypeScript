@@ -2,3 +2,4 @@
 
 //------------------------"branch template"-------------------
 // create project:: npx create-react-app client --template typescript
+// sắp xếp lại cấu trúc project
