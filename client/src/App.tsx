@@ -1,8 +1,13 @@
-import Home from './views/pages/Home';
+import { CssBaseline, StyledEngineProvider } from '@mui/material';
+
+import Routes from './routes';
 
 const App = () => {
   return (
-    <Home />
+    <StyledEngineProvider injectFirst>
+      <CssBaseline />
+      <Routes />
+    </StyledEngineProvider>
   );
 };
 

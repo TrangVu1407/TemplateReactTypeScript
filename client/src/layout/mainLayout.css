@@ -1,0 +1,9 @@
+#style_overflow::-webkit-scrollbar {
+  width: 5px;
+}
+#style_overflow::-webkit-scrollbar-thumb {
+  background-color: #555;
+}
+#style_overflow {
+  overflow-y: scroll;
+}
