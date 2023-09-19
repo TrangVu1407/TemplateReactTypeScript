@@ -3,3 +3,4 @@
 //------------------------"branch template"-------------------
 // create project:: npx create-react-app client --template typescript
 // sắp xếp lại cấu trúc project
+// import thư viện MUI để hỗ trợ code giao diện người dùng: npm install @mui/material @emotion/react @emotion/styled
