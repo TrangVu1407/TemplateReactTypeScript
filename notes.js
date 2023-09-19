@@ -10,3 +10,4 @@
 
 //------------------------"branch theme-setting"----------------
 // npm i react-perfect-scrollbar
+// npm install @tabler/icons-react
