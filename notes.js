@@ -11,3 +11,5 @@
 //------------------------"branch theme-setting"----------------
 // npm i react-perfect-scrollbar
 // npm install @tabler/icons-react
+// npm i react-redux
+// npm i redux
