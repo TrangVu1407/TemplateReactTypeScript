@@ -6,12 +6,14 @@ import type { State } from "../App";
 export const initialState: State = {
   customization: {
     themes: config.themes,
+    fontFamily: config.fontFamily,
   },
 };
 
 export interface action {
   type: string;
   themes?: boolean;
+  fontFamily?: string;
 }
 
 const customizationReducer = (
@@ -26,7 +28,13 @@ const customizationReducer = (
         config.name = "Bình";
       }
       return {
+        ...state,
         themes: action.themes,
+      };
+    case actionTypes.SET_FONT_FAMILY:
+      return {
+        ...state,
+        fontFamily: action.fontFamily,
       };
     default:
       return state;

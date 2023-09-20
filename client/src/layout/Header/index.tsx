@@ -60,7 +60,6 @@ const Header: React.FC<Props> = ({ openSidebar, handleDrawerOpen }) => {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            {/* Persistent drawer */}
             {config.name}
           </Typography>
         </Toolbar>

@@ -5,7 +5,7 @@ import { Tooltip, Fab, Drawer, Grid, FormControl, RadioGroup, FormControlLabel, 
 import PerfectScrollbar from "react-perfect-scrollbar";
 import Switch from '@mui/material/Switch';
 import { useDispatch } from "react-redux";
-import { SET_THEMES } from "../store/actions";
+import { SET_THEMES, SET_FONT_FAMILY } from "../store/actions";
 import type { action } from "../store/customizationReducer"
 
 import SettingCard from "../ui-component/cards/Setting";
@@ -36,11 +36,33 @@ const Setting: React.FC<Props> = ({ change, themes, fontFamily, setFontFamily })
         }
         dispatch(actionSetTheme({ type: SET_THEMES, themes: newThemes }));
     }, [dispatch, themes]);
-
-
     const actionSetTheme = ({ type, themes }: action) => ({
         type: type,
         themes: themes
+    });
+
+    useEffect(() => {
+        let newFont;
+        switch (fontFamily) {
+            case "Inter":
+                newFont = "Inter";
+                break;
+            case "Poppins":
+                newFont = "Poppins";
+                break;
+            case "Neucha":
+                newFont = "Neucha";
+                break;
+            case "Roboto":
+            default:
+                newFont = "Roboto";
+                break;
+        }
+        dispatch(actionSetFontFamily({ type: SET_FONT_FAMILY, fontFamily: newFont }));
+    }, [dispatch, fontFamily]);
+    const actionSetFontFamily = ({ type, fontFamily }: action) => ({
+        type: type,
+        fontFamily: fontFamily
     });
 
     const labelTheme = { inputProps: { 'aria-label': 'Background color' } };
