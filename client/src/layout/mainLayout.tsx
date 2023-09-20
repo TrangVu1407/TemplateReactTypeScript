@@ -6,6 +6,8 @@ import Sidebar from "./Sidebar"
 import { styled } from '@mui/material/styles';
 import "./mainLayout.css"
 import config from "../config"
+import Setting from '../setting/setting';
+
 export interface Props {
     handleDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
     openSidebar: boolean;
@@ -50,6 +52,8 @@ const MainLayout = () => {
         setOpenSidebar(false)
     }
 
+    const [darkMode, setDarkMode] = useState(config.themes);
+    const [fontFamily, setFontFamily] = useState(config.fontFamily);
     return (
         <>
             {/* Container nằm ở đây, vì layout chia làm 2 phần. 
@@ -66,6 +70,8 @@ const MainLayout = () => {
                     {/* container */}
                     <Main open={openSidebar} id="style_overflow">
                         <Outlet />
+                        {/* setting */}
+                        <Setting themes={darkMode} change={() => setDarkMode(!darkMode)} fontFamily={fontFamily} setFontFamily={setFontFamily} />
                     </Main>
                 </AppBar>
                 {/* sidebar */}
