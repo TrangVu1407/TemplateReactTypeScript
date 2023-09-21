@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { useMediaQuery } from '@mui/material';
@@ -13,18 +12,11 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import config from "../../config"
 import { useTheme } from "@mui/material/styles";
+import InfoSidebar from './InfoSidebar';
 
 import type { Props } from "../mainLayout"
 
 import "../mainLayout.css"
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-}));
 
 const SideBar: React.FC<Props> = ({ openSidebar, drawerToggle }) => {
     const theme = useTheme();
@@ -46,10 +38,7 @@ const SideBar: React.FC<Props> = ({ openSidebar, drawerToggle }) => {
                     variant={matchUpMd ? "persistent" : "temporary"}
                     anchor="left"
                 >
-                    <DrawerHeader style={{ background: "orange" }}></DrawerHeader>
-                    {/* Dấu gạch ngang */}
-                    <Divider />
-
+                    <InfoSidebar />
                     <div id="style_overflow">
                         <List>
                             {['Send email', 'Drafts'].map((text, index) => (
@@ -63,8 +52,6 @@ const SideBar: React.FC<Props> = ({ openSidebar, drawerToggle }) => {
                                 </ListItem>
                             ))}
                         </List>
-                        {/* gạch ngang */}
-                        <Divider />
                     </div>
                 </Drawer>
             </Box>

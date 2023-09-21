@@ -23,9 +23,9 @@ const customizationReducer = (
   switch (action.type) {
     case actionTypes.SET_THEMES:
       if (action.themes === true) {
-        config.name = "Như";
+        config.name = "Văn Bình";
       } else if (action.themes === false) {
-        config.name = "Bình";
+        config.name = "Như Huỳnh";
       }
       return {
         ...state,
