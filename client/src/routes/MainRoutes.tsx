@@ -3,7 +3,7 @@ import MainLayout from "../layout/mainLayout"
 import Home from "../views/pages/Home"
 
 const MainRoutes = {
-    path: "/",
+    path: "/dashboard",
     element: <MainLayout />,
     children: [
         {
