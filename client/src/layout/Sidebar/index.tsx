@@ -2,16 +2,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { useMediaQuery } from '@mui/material';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import config from "../../config"
 import { useTheme } from "@mui/material/styles";
 import InfoSidebar from './InfoSidebar';
+import MenuList from "./MenuList";
 
 import type { Props } from "../mainLayout"
 
@@ -39,7 +33,7 @@ const SideBar: React.FC<Props> = ({ openSidebar, drawerToggle }) => {
                 >
                     <InfoSidebar />
                     <div id="style_overflow">
-                        <List>
+                        {/* <List>
                             {['Send email', 'Drafts'].map((text, index) => (
                                 <ListItem key={text} disablePadding>
                                     <ListItemButton>
@@ -50,7 +44,8 @@ const SideBar: React.FC<Props> = ({ openSidebar, drawerToggle }) => {
                                     </ListItemButton>
                                 </ListItem>
                             ))}
-                        </List>
+                        </List> */}
+                          <MenuList />
                     </div>
                 </Drawer>
             </Box>
