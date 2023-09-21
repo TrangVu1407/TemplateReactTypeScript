@@ -24,7 +24,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { useNavigate } from "react-router-dom";
 
-import loginServices from "../../services/login/login.js";
+import loginServices from "../../services/login/login";
+import type { PropsLogin } from "../../services/login/login"
 
 const FirebaseLogin = ({ ...others }) => {
   let navigate = useNavigate();
@@ -59,7 +60,7 @@ const FirebaseLogin = ({ ...others }) => {
         })}
         onSubmit={async (values, { setErrors }) => {
           try {
-            let body = { email: values.email, password: values.password };
+            let body: PropsLogin = { email: values.email, password: values.password };
             const response = await loginServices.login(body);
             const result = response.data;
             if (result && !result.error) {
