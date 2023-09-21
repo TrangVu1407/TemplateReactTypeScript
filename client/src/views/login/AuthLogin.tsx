@@ -1,6 +1,4 @@
 import { useState } from "react";
-
-import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Button,
@@ -29,7 +27,6 @@ import type { PropsLogin } from "../../services/login/login"
 
 const FirebaseLogin = ({ ...others }) => {
   let navigate = useNavigate();
-  const theme = useTheme();
   const [checked, setChecked] = useState(true);
 
   const [showPassword, setShowPassword] = useState(false);
