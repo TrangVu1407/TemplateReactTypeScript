@@ -24,7 +24,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { useNavigate } from "react-router-dom";
 
-// import loginServices from "../../services/login/login.js";
+import loginServices from "../../services/login/login.js";
 
 const FirebaseLogin = ({ ...others }) => {
   let navigate = useNavigate();
@@ -58,25 +58,25 @@ const FirebaseLogin = ({ ...others }) => {
           password: Yup.string().max(255).required("Password is required"),
         })}
         onSubmit={async (values, { setErrors }) => {
-          // try {
-          //   let body = { email: values.email, password: values.password };
-          //   const response = await loginServices.login(body);
-          //   const result = response.data;
-          //   if (result && !result.error) {
-          //     localStorage.setItem(
-          //       "permissions",
-          //       JSON.stringify(result.data.permissions)
-          //     );
-          //     localStorage.setItem("employee_name", result.data.employee.name);
-          //     navigate("/");
-          //   } else {
-          //     if (!loginError) {
-          //       setLoginError(!loginError);
-          //     }
-          //   }
-          // } catch (err) {
-          //   setErrors({ submit: err.message });
-          // }
+          try {
+            let body = { email: values.email, password: values.password };
+            const response = await loginServices.login(body);
+            const result = response.data;
+            if (result && !result.error) {
+              localStorage.setItem(
+                "permissions",
+                JSON.stringify(result.data.permissions)
+              );
+              localStorage.setItem("employee_name", result.data.employee.name);
+              navigate("/dashboard");
+            } else {
+              if (!loginError) {
+                setLoginError(!loginError);
+              }
+            }
+          } catch (error: any) {
+            setErrors({ submit: error.message });
+          }
         }}
       >
         {({
