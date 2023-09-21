@@ -14,14 +14,11 @@ export interface Props {
     drawerToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-let marginTop = config.heightHeader > 64 ? `${config.heightHeader - 64}px` : '0px';
-
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
     open?: boolean;
 }>(({ theme, open }) => ({
     background: 'red',
     height: "100%",
-    marginTop: marginTop,
     padding: theme.spacing(1),
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,

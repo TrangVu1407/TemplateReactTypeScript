@@ -1,23 +1,19 @@
-import React from 'react'
-import { Box } from "@mui/material";
+import { Toolbar, Typography } from '@mui/material';
+
 import config from "../../../config"
 
-const InfoSidebar = () => {
+const Header: React.FC = () => {
     return (
-        <>
-            <Box
-                sx={{
-                    height: config.heightHeader < 65 ? '64px' : `${config.heightHeader}px`,
-                    background: "orange",
-                    cursor: "pointer",
-                }}
+        <Toolbar style={{ background: "orange" }}>
+            <Typography
+                variant="h3"
+                noWrap
+                sx={{ fontWeight: 600 }}
             >
-                <h2 style={{ textAlign: "center", color: "white", marginTop: "16px" }}>
-                    {config.name}
-                </h2>
-            </Box>
-        </>
-    )
+                {config.name}
+            </Typography>
+        </Toolbar>
+    );
 }
 
-export default InfoSidebar
+export default Header;
