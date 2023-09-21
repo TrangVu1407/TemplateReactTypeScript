@@ -15,3 +15,6 @@
 // npm i redux
 
 //-----------------------"Login and connect API"-------------------
+//npm i formik
+//npm i yup
+//npm i framer-motion
