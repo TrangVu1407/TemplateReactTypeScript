@@ -1,5 +1,6 @@
 import React from "react";
-
+import { useTheme } from "@mui/material/styles";
+import { NavLink } from 'react-router-dom';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Box, ListSubheader, Collapse } from "@mui/material";
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -18,6 +19,7 @@ interface Object { name: string; path: string; icon: JSX.Element; }
 interface ObjectGroup { name: string; path?: string; icon: JSX.Element; itemGropss: Array<Object> }
 
 const Navgroup = (item: Props) => {
+    const theme = useTheme();
     const [open, setOpen] = React.useState(-1);
     return (
         <Box>
@@ -33,12 +35,16 @@ const Navgroup = (item: Props) => {
                 }
             >
                 {item.items.itemNav.map((item) => (
-                    <ListItemButton>
-                        <ListItemIcon>
-                            {item.icon}
-                        </ListItemIcon>
-                        <ListItemText primary={item.name} />
-                    </ListItemButton>
+                    <NavLink to={item.path} key={item.path} className={theme.palette.mode === 'dark' ? 'link_dark' : 'link_light'}>
+                        <ListItem key={item.name} disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    {item.icon}
+                                </ListItemIcon>
+                                <ListItemText primary={item.name} />
+                            </ListItemButton>
+                        </ListItem>
+                    </NavLink>
                 ))}
 
                 {/* bắt đầu menu 2 cấp */}
@@ -56,14 +62,16 @@ const Navgroup = (item: Props) => {
                         <Collapse in={open === index} timeout="auto" unmountOnExit>
                             <List>
                                 {group.itemGropss.map((item) => (
-                                    <ListItem key={item.name} disablePadding>
-                                        <ListItemButton sx={{ pl: 4 }}>
-                                            <ListItemIcon>
-                                                {item.icon}
-                                            </ListItemIcon>
-                                            <ListItemText primary={item.name} />
-                                        </ListItemButton>
-                                    </ListItem>
+                                    <NavLink to={item.path} key={item.path} className={theme.palette.mode === 'dark' ? 'link_dark' : 'link_light'}>
+                                        <ListItem key={item.name} disablePadding>
+                                            <ListItemButton sx={{ pl: 4 }}>
+                                                <ListItemIcon>
+                                                    {item.icon}
+                                                </ListItemIcon>
+                                                <ListItemText primary={item.name} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </NavLink>
                                 ))}
                             </List>
                         </Collapse>

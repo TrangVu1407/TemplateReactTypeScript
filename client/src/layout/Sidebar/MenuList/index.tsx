@@ -1,4 +1,3 @@
-import React from "react";
 import { useTheme } from "@mui/material/styles";
 
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box } from "@mui/material";
@@ -81,6 +80,7 @@ const MenuList = () => {
       ]
     },
   ];
+  
   return (
     <Box sx={{ overflow: "auto" }}>
       <List>
