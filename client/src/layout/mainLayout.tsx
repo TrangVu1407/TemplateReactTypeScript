@@ -4,7 +4,7 @@ import { AppBar, Box, CssBaseline, Toolbar } from "@mui/material";
 import Header from "./Header"
 import Sidebar from "./Sidebar"
 import { styled } from '@mui/material/styles';
-import "./mainLayout.css"
+import "./mainLayout.sass"
 import config from "../config"
 import Setting from '../setting/setting';
 

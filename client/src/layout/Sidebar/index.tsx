@@ -9,7 +9,7 @@ import MenuList from "./MenuList";
 
 import type { Props } from "../mainLayout"
 
-import "../mainLayout.css"
+import "../mainLayout.sass"
 
 const SideBar: React.FC<Props> = ({ openSidebar, drawerToggle }) => {
     const theme = useTheme();
