@@ -35,7 +35,7 @@ const MenuList = () => {
       },
       {
         path: "/demo2",
-        name: "Vav2",
+        name: "Nav2",
         icon: <MailIcon />
       },],
       itemGroup: [
@@ -48,7 +48,7 @@ const MenuList = () => {
               name: "Group1.1",
               icon: <MailIcon />
             }, {
-              path: "/demo2",
+              path: "/demo1",
               name: "Group1.2",
               icon: <MailIcon />
             },
@@ -59,12 +59,21 @@ const MenuList = () => {
           icon: <InboxIcon />,
           itemGropss: [
             {
-              path: "/demo2",
+              path: "/demo1",
               name: "Group2.1",
               icon: <MailIcon />
             }, {
               path: "/demo2",
               name: "Group2.2",
+              icon: <MailIcon />
+            },
+            {
+              path: "/demo1",
+              name: "Group2.3",
+              icon: <MailIcon />
+            }, {
+              path: "/demo2",
+              name: "Group2.4",
               icon: <MailIcon />
             },
           ]
@@ -77,7 +86,7 @@ const MenuList = () => {
       <List>
         {menuItem.map((item) => (
           !item.itemGroup ? (
-            <NavLink to={item.path} key={item.name} className={theme.palette.mode === 'dark' ? 'link_dark' : 'link_light'}>
+            <NavLink to={item.path} key={item.path} className={theme.palette.mode === 'dark' ? 'link_dark' : 'link_light'}>
               <ListItem key={item.name} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
