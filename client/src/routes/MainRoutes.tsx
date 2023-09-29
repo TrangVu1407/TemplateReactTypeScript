@@ -26,6 +26,34 @@ const MainRoutes = {
             path: "/demo3",
             element: <Demo3 />,
         },
+        {
+            path: "/demo4",
+            element: <Demo1 />,
+        },
+        {
+            path: "/demo5",
+            element: <Demo2 />,
+        },
+        {
+            path: "/demo6",
+            element: <Demo3 />,
+        },
+        {
+            path: "/demo7",
+            element: <Demo1 />,
+        },
+        {
+            path: "/demo8",
+            element: <Demo2 />,
+        },
+        {
+            path: "/demo9",
+            element: <Demo3 />,
+        },
+        {
+            path: "/demo10",
+            element: <Demo3 />,
+        },
     ],
 }
 

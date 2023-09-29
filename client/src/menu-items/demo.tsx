@@ -5,24 +5,27 @@ import SendIcon from '@mui/icons-material/Send';
 const Demo = [
     {
         path: "/demo1",
+        child: false,
         name: "Inbox",
         icon: <InboxIcon />
     },
     {
         path: "/demo2",
+        child: false,
         name: "Starred",
         icon: <MailIcon />
     },
     {
         nameGroup: "Nested List Items",
         icon: <SendIcon />,
+        child: true,
         itemNav: [{
-            path: "/demo1",
+            path: "/demo3",
             name: "Nav1",
             icon: <InboxIcon />
         },
         {
-            path: "/demo2",
+            path: "/demo4",
             name: "Nav2",
             icon: <MailIcon />
         },],
@@ -32,11 +35,11 @@ const Demo = [
                 icon: <InboxIcon />,
                 itemGropss: [
                     {
-                        path: "/demo2",
+                        path: "/demo5",
                         name: "Group1.1",
                         icon: <MailIcon />
                     }, {
-                        path: "/demo1",
+                        path: "/demo6",
                         name: "Group1.2",
                         icon: <MailIcon />
                     },
@@ -47,20 +50,20 @@ const Demo = [
                 icon: <InboxIcon />,
                 itemGropss: [
                     {
-                        path: "/demo1",
+                        path: "/demo7",
                         name: "Group2.1",
                         icon: <MailIcon />
                     }, {
-                        path: "/demo2",
+                        path: "/demo8",
                         name: "Group2.2",
                         icon: <MailIcon />
                     },
                     {
-                        path: "/demo1",
+                        path: "/demo9",
                         name: "Group2.3",
                         icon: <MailIcon />
                     }, {
-                        path: "/demo2",
+                        path: "/demo10",
                         name: "Group2.4",
                         icon: <MailIcon />
                     },

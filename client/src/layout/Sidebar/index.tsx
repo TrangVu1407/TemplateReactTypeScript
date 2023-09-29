@@ -33,19 +33,7 @@ const SideBar: React.FC<Props> = ({ openSidebar, drawerToggle }) => {
                 >
                     <InfoSidebar />
                     <div id="style_overflow">
-                        {/* <List>
-                            {['Send email', 'Drafts'].map((text, index) => (
-                                <ListItem key={text} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                        </ListItemIcon>
-                                        <ListItemText primary={text} />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
-                        </List> */}
-                          <MenuList />
+                        <MenuList />
                     </div>
                 </Drawer>
             </Box>

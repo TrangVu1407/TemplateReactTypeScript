@@ -10,8 +10,9 @@ export interface Props {
     items: {
         nameGroup?: string
         icon: JSX.Element;
-        itemGroup: Array<ObjectGroup>;
-        itemNav: Array<Object>;
+        itemGroup?: Array<ObjectGroup>;
+        itemNav?: Array<Object>;
+        child?: boolean; 
     }
 }
 
@@ -34,7 +35,7 @@ const Navgroup = (item: Props) => {
                     </ListSubheader>
                 }
             >
-                {item.items.itemNav.map((item) => (
+                {item.items.itemNav?.map((item) => (
                     <NavLink to={item.path} key={item.path} className={theme.palette.mode === 'dark' ? 'link_dark' : 'link_light'}>
                         <ListItem key={item.path} disablePadding>
                             <ListItemButton>
@@ -48,7 +49,7 @@ const Navgroup = (item: Props) => {
                 ))}
 
                 {/* bắt đầu menu 2 cấp */}
-                {item.items.itemGroup.map((group, index) => (
+                {item.items.itemGroup?.map((group, index) => (
                     <Box key={index}>
                         <ListItemButton
                             onClick={() => setOpen(open === index ? -1 : index)}
