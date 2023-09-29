@@ -27,7 +27,7 @@ const MenuList = () => {
             </NavLink>) :
             (
               // nếu là menu 2 cấp thì vào đây
-              <NavGroup items={item} />
+              <NavGroup items={item} key={item.nameGroup}/>
             )
         ))}
       </List>

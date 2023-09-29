@@ -36,7 +36,7 @@ const Navgroup = (item: Props) => {
             >
                 {item.items.itemNav.map((item) => (
                     <NavLink to={item.path} key={item.path} className={theme.palette.mode === 'dark' ? 'link_dark' : 'link_light'}>
-                        <ListItem key={item.name} disablePadding>
+                        <ListItem key={item.path} disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
                                     {item.icon}
@@ -49,7 +49,7 @@ const Navgroup = (item: Props) => {
 
                 {/* bắt đầu menu 2 cấp */}
                 {item.items.itemGroup.map((group, index) => (
-                    <Box>
+                    <Box key={index}>
                         <ListItemButton
                             onClick={() => setOpen(open === index ? -1 : index)}
                         >
@@ -63,7 +63,7 @@ const Navgroup = (item: Props) => {
                             <List>
                                 {group.itemGropss.map((item) => (
                                     <NavLink to={item.path} key={item.path} className={theme.palette.mode === 'dark' ? 'link_dark' : 'link_light'}>
-                                        <ListItem key={item.name} disablePadding>
+                                        <ListItem key={item.path} disablePadding>
                                             <ListItemButton sx={{ pl: 4 }}>
                                                 <ListItemIcon>
                                                     {item.icon}
