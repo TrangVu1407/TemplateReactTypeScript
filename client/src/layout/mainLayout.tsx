@@ -17,7 +17,8 @@ export interface Props {
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
     open?: boolean;
 }>(({ theme, open }) => ({
-    background: 'red',
+    background: theme.colors.background,
+    color: theme.colors.backgroundColor,
     height: "100%",
     padding: theme.spacing(1),
     transition: theme.transitions.create('margin', {

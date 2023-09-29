@@ -305,6 +305,12 @@ interface cls {
   blueGreyA400: string;
   blueGreyA700: string;
 
+
+
+  // màu tự định nghĩa
+  color121212: string;
+  colorWhite: string;
+
   //không cần định nghĩa các tên mã màu thì dùng câu bên dưới
   //[key: string]: string;
 }
@@ -615,6 +621,11 @@ let libraryColors: cls = {
   blueGreyA200: "#b0bec5",
   blueGreyA400: "#78909c",
   blueGreyA700: "#455a64",
+
+
+  // màu tự định nghĩa
+  color121212: "#121212",
+  colorWhite: "white",
 };
 
 export { libraryColors };

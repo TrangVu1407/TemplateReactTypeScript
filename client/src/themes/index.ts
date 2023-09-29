@@ -21,6 +21,8 @@ const theme = ({ darkMode, fontFamily }: Props) => {
     colors: {
       color_header: palette.colors?.color_header,
       binh: palette.colors?.binh,
+      backgroundColor: palette.colors?.backgroundColor,
+      background: palette.colors?.background,
     },
     //ghi chú để đây khi nào cần đến, nếu muốn tạo thêm object nằm ở ngoài này
     khoitaonew: {
