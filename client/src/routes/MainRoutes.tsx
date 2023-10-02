@@ -15,6 +15,10 @@ const MainRoutes = {
             element: <Home />,
         },
         {
+            path: "/dashboard",
+            element: <Home />,
+        },
+        {
             path: "/demo1",
             element: <Demo1 />,
         },
