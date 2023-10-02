@@ -2,24 +2,12 @@ import React from "react";
 import { useTheme } from "@mui/material/styles";
 import { NavLink } from 'react-router-dom';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Box, ListSubheader, Collapse } from "@mui/material";
+import type {PropsMenuList} from "../../../../menu-items/index"
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
-export interface Props {
-    items: {
-        nameGroup?: string
-        icon: JSX.Element;
-        itemGroup?: Array<ObjectGroup>;
-        itemNav?: Array<Object>;
-        child?: boolean; 
-    }
-}
-
-interface Object { name: string; path: string; icon: JSX.Element; }
-interface ObjectGroup { name: string; path?: string; icon: JSX.Element; itemGropss: Array<Object> }
-
-const Navgroup = (item: Props) => {
+const Navgroup = (item: PropsMenuList) => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(-1);
     return (
