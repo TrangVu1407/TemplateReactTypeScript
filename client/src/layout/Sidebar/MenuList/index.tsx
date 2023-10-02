@@ -26,7 +26,7 @@ const MenuList = () => {
 
       // navItem
       let dataNav = MenuList1.items[i].itemNav ? MenuList1.items[i].itemNav : [];
-      if (dataNav != undefined) {
+      if (dataNav !== undefined) {
         for (let k = 0; k < dataNav.length; k++) {
           for (let j = 0; j < permissions.length; j++) {
             if (permissions[j].screen === dataNav[k].path) {
@@ -38,7 +38,7 @@ const MenuList = () => {
 
       // itemGroup
       let dataGroup = MenuList1.items[i].itemGroup ? MenuList1.items[i].itemGroup : [];
-      if (dataGroup != undefined) {
+      if (dataGroup !== undefined) {
         for (let k = 0; k < dataGroup.length; k++) {
           let itemNav = [];
           let dataGroups = dataGroup[k].itemGropss ? dataGroup[k].itemGropss : [];
