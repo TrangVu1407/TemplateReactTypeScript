@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import config from "../../config"
+import ProfileSection from "./ProfileSection";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -62,6 +63,8 @@ const Header: React.FC<Props> = ({ openSidebar, handleDrawerOpen }) => {
           >
             Header
           </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <ProfileSection />
         </Toolbar>
       </AppBar>
     </Box>
