@@ -9,8 +9,6 @@ export interface State {
   }
 }
 
-export 
-
 const App = () => {
   const customization = useSelector((state: State) => state.customization);
   let darkMode = customization.themes;

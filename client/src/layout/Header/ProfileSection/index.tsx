@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
   let navigate = useNavigate();
   const handleLogout = async () => {
+    localStorage.setItem("localStorage", "");
     navigate("/login");
   };
 
