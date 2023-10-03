@@ -8,13 +8,13 @@ import type { typeLocalStorage } from "../local-storage/localStorage"
 
 export default function ThemeRoutes() {
     const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
-    
-
     let children = [];
-    for (let i = 0; i < data.permissions.length; i++) {
-        for (let j = 0; j < MainRoutes.children.length; j++) {
-            if (data.permissions[i].screen === MainRoutes.children[j].path) {
-                children.push(MainRoutes.children[j])
+    if (data.permissions) {
+        for (let i = 0; i < data.permissions.length; i++) {
+            for (let j = 0; j < MainRoutes.children.length; j++) {
+                if (data.permissions[i].screen === MainRoutes.children[j].path) {
+                    children.push(MainRoutes.children[j])
+                }
             }
         }
     }
