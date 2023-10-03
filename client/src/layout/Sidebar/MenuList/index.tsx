@@ -6,17 +6,17 @@ import { NavLink } from 'react-router-dom';
 
 import NavGroup from "./NavGroup/navgroup"
 import MenuList1 from "../../../menu-items"
+import type { typeLocalStorage } from "../../../local-storage/localStorage"
 
 const MenuList = () => {
   const theme = useTheme();
-  
   let listMenuItem = [];
-  const permissions = JSON.parse(localStorage.getItem("permissions") || "{}");
+  const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
 
   for (let i = 0; i < MenuList1.items.length; i++) {
     if (MenuList1.items[i].child === false) {
-      for (let j = 0; j < permissions.length; j++) {
-        if (MenuList1.items[i].path === permissions[j].screen) {
+      for (let j = 0; j < data.permissions.length; j++) {
+        if (MenuList1.items[i].path === data.permissions[j].screen) {
           listMenuItem.push(MenuList1.items[i]);
         }
       }
@@ -28,8 +28,8 @@ const MenuList = () => {
       let dataNav = MenuList1.items[i].itemNav ? MenuList1.items[i].itemNav : [];
       if (dataNav !== undefined) {
         for (let k = 0; k < dataNav.length; k++) {
-          for (let j = 0; j < permissions.length; j++) {
-            if (permissions[j].screen === dataNav[k].path) {
+          for (let j = 0; j < data.permissions.length; j++) {
+            if (data.permissions[j].screen === dataNav[k].path) {
               itemNav.push(dataNav[k]);
             }
           }
@@ -43,8 +43,8 @@ const MenuList = () => {
           let itemNav = [];
           let dataGroups = dataGroup[k].itemGropss ? dataGroup[k].itemGropss : [];
           for (let m = 0; m < dataGroups.length; m++) {
-            for (let j = 0; j < permissions.length; j++) {
-              if (permissions[j].screen === dataGroup[k].itemGropss[m].path) {
+            for (let j = 0; j < data.permissions.length; j++) {
+              if (data.permissions[j].screen === dataGroup[k].itemGropss[m].path) {
                 itemNav.push(dataGroup[k].itemGropss[m]);
               }
             }
@@ -83,8 +83,6 @@ const MenuList = () => {
             )
         ))}
       </List>
-
-
     </Box>
   );
 };

@@ -62,10 +62,9 @@ const FirebaseLogin = ({ ...others }) => {
             const result = response.data;
             if (result && !result.error) {
               localStorage.setItem(
-                "permissions",
-                JSON.stringify(result.data.permissions)
+                "localStorage",
+                JSON.stringify(result.data)
               );
-              localStorage.setItem("employee_name", result.data.employee.name);
               navigate("/dashboard");
             } else {
               if (!loginError) {
