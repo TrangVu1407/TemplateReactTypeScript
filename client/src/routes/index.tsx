@@ -15,7 +15,6 @@ export default function ThemeRoutes() {
             return navigate("/login");
         }
         let children = [];
-        if (data.permissions) {
             for (let i = 0; i < data.permissions.length; i++) {
                 for (let j = 0; j < MainRoutes.children.length; j++) {
                     if (data.permissions[i].screen === MainRoutes.children[j].path) {
@@ -23,9 +22,8 @@ export default function ThemeRoutes() {
                     }
                 }
             }
-        }
         MainRoutes.children = children;
-    }, [])
+    }, [data.permissions, navigate])
     axios.defaults.baseURL = config.API_URL;
 
     return useRoutes([MainRoutes, AuthenticationRoutes]);
