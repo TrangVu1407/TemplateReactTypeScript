@@ -39,6 +39,7 @@ const FirebaseLogin = ({ ...others }) => {
   };
 
   const [loginError, setLoginError] = useState(false);
+  const [connectError, setConnectError] = useState(false);
 
   return (
     <>
@@ -67,11 +68,15 @@ const FirebaseLogin = ({ ...others }) => {
               );
               navigate("/dashboard");
             } else {
+              setConnectError(false);
               if (!loginError) {
                 setLoginError(!loginError);
               }
             }
           } catch (error: any) {
+            if (!connectError) {
+              setConnectError(!connectError);
+            }
             setErrors({ submit: error.message });
           }
         }}
@@ -180,7 +185,13 @@ const FirebaseLogin = ({ ...others }) => {
 
             {loginError && (
               <Box>
-                <h4 style={{ color: "red" }}>Sai tài khoản hoặc mật khẩu</h4>
+                <h4 style={{ color: "red" }} >Sai tài khoản hoặc mật khẩu</h4>
+              </Box>
+            )}
+
+            {connectError && (
+              <Box>
+                <h4 style={{ color: "red" }} >Không có kết nối, vui lòng kiểm tra lại</h4>
               </Box>
             )}
 
