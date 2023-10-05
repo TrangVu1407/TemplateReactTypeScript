@@ -5,14 +5,20 @@ interface Object { name: string; path: string; icon: JSX.Element; }
 interface ObjectGroup { name: string; path?: string; icon: JSX.Element; itemGropss: Array<Object> }
 export interface PropsMenuList {
     items: {
-        nameGroup?: string
-        itemGroup?: Array<ObjectGroup>;
-        itemNav?: Array<Object>;
+        nameGroup: string
+        itemGroup: Array<ObjectGroup>;
+        itemNav: Array<Object>;
     }
 }
 
+export interface PropsMenuItem {
+    nameGroup: string;
+    itemNav: Array<Object>;
+    itemGroup: Array<ObjectGroup>;
+}
+
 const MenuList = {
-    items: [...dashboard, ...Demo]
+    items: [dashboard, Demo]
 }
 
 export default MenuList
