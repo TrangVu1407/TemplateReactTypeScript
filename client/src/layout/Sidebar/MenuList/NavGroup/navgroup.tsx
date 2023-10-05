@@ -1,8 +1,8 @@
 import React from "react";
 import { useTheme } from "@mui/material/styles";
 import { NavLink } from 'react-router-dom';
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Box, ListSubheader, Collapse } from "@mui/material";
-import type {PropsMenuList} from "../../../../menu-items/index"
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box, Collapse } from "@mui/material";
+import type { PropsMenuList } from "../../../../menu-items/index"
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -12,30 +12,7 @@ const Navgroup = (item: PropsMenuList) => {
     const [open, setOpen] = React.useState(-1);
     return (
         <Box>
-            <Divider />
-            <List
-                sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-                component="nav"
-                aria-labelledby="nested-list-subheader"
-                subheader={
-                    <ListSubheader component="div" id="nested-list-subheader">
-                        {item.items.nameGroup}
-                    </ListSubheader>
-                }
-            >
-                {item.items.itemNav?.map((item) => (
-                    <NavLink to={item.path} key={item.path} className={theme.palette.mode === 'dark' ? 'link_dark' : 'link_light'}>
-                        <ListItem key={item.path} disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {item.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={item.name} />
-                            </ListItemButton>
-                        </ListItem>
-                    </NavLink>
-                ))}
-
+            <List>
                 {/* bắt đầu menu 2 cấp */}
                 {item.items.itemGroup?.map((group, index) => (
                     <Box key={index}>

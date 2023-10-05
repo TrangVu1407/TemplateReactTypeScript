@@ -4,42 +4,29 @@ import SendIcon from '@mui/icons-material/Send';
 
 const Demo = [
     {
-        path: "/demo1",
-        child: false,
-        name: "Inbox",
-        icon: <InboxIcon />
-    },
-    {
-        path: "/demo2",
-        child: false,
-        name: "Starred",
-        icon: <MailIcon />
-    },
-    {
         nameGroup: "Nested List Items",
-        icon: <SendIcon />,
-        child: true,
-        itemNav: [{
-            path: "/demo3",
-            name: "Nav1",
-            icon: <InboxIcon />
-        },
-        {
-            path: "/demo4",
-            name: "Nav2",
-            icon: <MailIcon />
-        },],
+        itemNav: [
+            {
+                path: "/demo1",
+                name: "Inbox",
+                icon: <InboxIcon />
+            },
+            {
+                path: "/demo2",
+                name: "Starred",
+                icon: <MailIcon />
+            },],
         itemGroup: [
             {
                 name: "Group1",
                 icon: <InboxIcon />,
                 itemGropss: [
                     {
-                        path: "/demo5",
+                        path: "/demo4",
                         name: "Group1.1",
                         icon: <MailIcon />
                     }, {
-                        path: "/demo6",
+                        path: "/demo5",
                         name: "Group1.2",
                         icon: <MailIcon />
                     },
