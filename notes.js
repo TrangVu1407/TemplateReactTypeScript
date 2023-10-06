@@ -22,3 +22,6 @@
 
 //------------------------"menu_list"----------------------------
 //npm install node-sass --save-dev || import sass (viết css thì khó hiểu hơn nhưng nó là mới nhất nên import thoi)
+
+//------------------------"develop"-------------------------------
+// code các giao diện màn hình mẫu để bắt đầu!!!
