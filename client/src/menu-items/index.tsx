@@ -1,5 +1,6 @@
 import Demo from "./demo"
-import dashboard from "./dashboard"
+import Dashboard from "./dashboard"
+import Product from "./product"
 
 interface Object { name: string; path: string; icon: JSX.Element; }
 interface ObjectGroup { name: string; path?: string; icon: JSX.Element; itemGropss: Array<Object> }
@@ -18,7 +19,7 @@ export interface PropsMenuItem {
 }
 
 const MenuList = {
-    items: [dashboard, Demo]
+    items: [Dashboard, Product, Demo]
 }
 
 export default MenuList
