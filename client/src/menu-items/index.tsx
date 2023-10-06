@@ -1,4 +1,3 @@
-import Demo from "./demo"
 import Dashboard from "./dashboard"
 import Product from "./product"
 
@@ -19,7 +18,7 @@ export interface PropsMenuItem {
 }
 
 const MenuList = {
-    items: [Dashboard, Product, Demo]
+    items: [Dashboard, Product]
 }
 
 export default MenuList
