@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { AppBar, Box, CssBaseline, Toolbar } from "@mui/material";
 import Header from "./Header"
 import Sidebar from "./Sidebar"
+import Footer from "./Footer"
 import { styled } from '@mui/material/styles';
 import "./mainLayout.sass"
 import config from "config"
@@ -71,6 +72,7 @@ const MainLayout = () => {
                     {/* container */}
                     <Main open={openSidebar} id="style_overflow">
                         <Outlet />
+                        <Footer />
                         {/* setting */}
                         <Setting themes={darkMode} change={() => setDarkMode(!darkMode)} fontFamily={fontFamily} setFontFamily={setFontFamily} />
                     </Main>
