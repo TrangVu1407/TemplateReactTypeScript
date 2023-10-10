@@ -1,7 +1,7 @@
 import * as React from 'react';
 import MainProduct from "ui-component/Product/MainProduct"
 import { DataGrid, GridColDef, GridValueGetterParams, useGridApiContext, useGridSelector, gridPageCountSelector, gridPageSelector } from '@mui/x-data-grid';
-import { Box, Pagination, PaginationItem } from '@mui/material';
+import { Box, Pagination, PaginationItem, Button, TextField } from '@mui/material';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 90 },
@@ -104,6 +104,16 @@ const ProductType = () => {
 
   return (
     <MainProduct title="Loại sản phẩm" sx={{ border: 0 }}>
+      <Box sx={{ p: 1 }}>
+        <TextField
+          label="Nhập thông tin"
+          id="outlined-size-small"
+          defaultValue="Nhập thông tin"
+          size="small"
+        />
+        <Button variant="contained" sx={{ml: 2}}>Tìm</Button>
+      </Box>
+      
       <Box sx={{ height: "650px", width: '100%' }}>
         <DataGrid
           rows={rows}
