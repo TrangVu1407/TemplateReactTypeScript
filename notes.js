@@ -26,3 +26,4 @@
 //------------------------"develop"-------------------------------
 // code các giao diện màn hình mẫu để bắt đầu!!!
 // thu gọn đường dẫn path: https://homiedev.com/jsonfig-tsconfig-compileroptions-rut-ngan-import-paths-cho-du-an-react/
+// npm i @mui/x-data-grid: hiện thị dạng bảng
