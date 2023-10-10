@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { useMediaQuery } from '@mui/material';
-import config from "../../config"
+import config from "config"
 import { useTheme } from "@mui/material/styles";
 import InfoSidebar from './InfoSidebar';
 import MenuList from "./MenuList";

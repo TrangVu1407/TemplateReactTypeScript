@@ -5,10 +5,10 @@ import { Tooltip, Fab, Drawer, Grid, FormControl, RadioGroup, FormControlLabel, 
 import PerfectScrollbar from "react-perfect-scrollbar";
 import Switch from '@mui/material/Switch';
 import { useDispatch } from "react-redux";
-import { SET_THEMES, SET_FONT_FAMILY } from "../store/actions";
-import type { action } from "../store/customizationReducer"
+import { SET_THEMES, SET_FONT_FAMILY } from "store/actions";
+import type { action } from "store/customizationReducer"
 
-import SettingCard from "../ui-component/cards/Setting";
+import SettingCard from "ui-component/cards/Setting";
 interface Props {
     change: (e: React.FormEvent) => void;
     themes: boolean;

@@ -1,4 +1,4 @@
-import { libraryColors } from "../assets/libraryColors";
+import { libraryColors } from "assets/libraryColors";
 import type { Props } from "./index";
 declare module "@mui/material/styles" {
   interface Theme {

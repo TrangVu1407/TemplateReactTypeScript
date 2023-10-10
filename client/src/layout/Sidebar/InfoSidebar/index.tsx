@@ -1,6 +1,6 @@
 import { Toolbar, Typography } from '@mui/material';
 
-import config from "../../../config"
+import config from "config"
 import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {

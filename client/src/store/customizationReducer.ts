@@ -1,7 +1,7 @@
-import config from "../config";
+import config from "config";
 import * as actionTypes from "./actions";
 
-import type { State } from "../App";
+import type { State } from "App";
 
 export const initialState: State = {
   customization: {

@@ -5,7 +5,7 @@ import AuthenticationRoutes from './AuthenticationRoutes'
 
 import axios from "axios"
 import config from '../config';
-import type { typeLocalStorage } from "../local-storage/localStorage"
+import type { typeLocalStorage } from "local-storage/localStorage"
 
 export default function ThemeRoutes() {
     const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");

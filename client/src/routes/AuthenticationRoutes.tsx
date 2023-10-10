@@ -1,6 +1,6 @@
 // import MainLayout from "../layout/mainLayout"
 
-import Login from "../views/login"
+import Login from "views/login"
 
 const MainRoutes = {
     path: "/",

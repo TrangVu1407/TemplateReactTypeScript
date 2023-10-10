@@ -2,7 +2,7 @@ import React from "react";
 import { useTheme } from "@mui/material/styles";
 import { NavLink } from 'react-router-dom';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box, Collapse } from "@mui/material";
-import type { PropsMenuList } from "../../../../menu-items/index"
+import type { PropsMenuList } from "menu-items/index"
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';

@@ -1,8 +1,11 @@
 import React from 'react'
+import MainProduct from "ui-component/Product/MainProduct"
 
 const ProductSize = () => {
   return (
-    <div>Khích thước sản phẩm</div>
+    <MainProduct title="Loại sản phẩm" sx={{}}>
+      <div>Loại sản phẩm</div>
+    </MainProduct>
   )
 }
 

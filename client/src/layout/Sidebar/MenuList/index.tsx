@@ -1,10 +1,9 @@
-import React from "react";
 import { useTheme } from "@mui/material/styles";
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Box, ListSubheader } from "@mui/material";
 import { NavLink } from 'react-router-dom';
 import NavGroup from "./NavGroup/navgroup"
-import MenuList1 from "../../../menu-items"
-import type { typeLocalStorage } from "../../../local-storage/localStorage"
+import MenuList1 from "menu-items"
+import type { typeLocalStorage } from "local-storage/localStorage"
 
 const MenuList = () => {
   const theme = useTheme();

@@ -5,8 +5,8 @@ import Header from "./Header"
 import Sidebar from "./Sidebar"
 import { styled } from '@mui/material/styles';
 import "./mainLayout.sass"
-import config from "../config"
-import Setting from '../setting/setting';
+import config from "config"
+import Setting from 'setting/setting';
 
 export interface Props {
     handleDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;

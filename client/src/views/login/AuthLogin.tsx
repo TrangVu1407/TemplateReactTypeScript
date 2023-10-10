@@ -22,8 +22,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { useNavigate } from "react-router-dom";
 
-import loginServices from "../../services/login/login";
-import type { PropsLogin } from "../../services/login/login"
+import loginServices from "services/login/login";
+import type { PropsLogin } from "services/login/login"
 
 const FirebaseLogin = ({ ...others }) => {
   let navigate = useNavigate();
