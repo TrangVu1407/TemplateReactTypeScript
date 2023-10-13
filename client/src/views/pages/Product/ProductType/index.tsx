@@ -97,11 +97,22 @@ function CustomPagination() {
 
 
 const ProductType = () => {
-  const heigth = window.innerHeight
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: 15,
     page: 0,
   });
+  const [dimensions, setDimensions] = React.useState({
+    height: window.innerHeight,
+  })
+
+  React.useEffect(() => {
+    function handleResize() {
+      setDimensions({
+        height: window.innerHeight,
+      })
+    }
+    window.addEventListener('resize', handleResize)
+  }, []);
 
   return (
     <MainProduct title="Loại sản phẩm" sx={{ border: 0 }}>
@@ -115,7 +126,7 @@ const ProductType = () => {
         <Button variant="contained" sx={{ ml: 2 }}>Tìm</Button>
       </Box>
 
-      <Box sx={{ height: heigth - 260 }}>
+      <Box sx={{ height: dimensions.height - 260 }}>
         <DataGrid
           rows={rows}
           columns={columns}
