@@ -97,6 +97,7 @@ function CustomPagination() {
 
 
 const ProductType = () => {
+  const heigth = window.innerHeight
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: 15,
     page: 0,
@@ -111,10 +112,10 @@ const ProductType = () => {
           defaultValue="Nhập thông tin"
           size="small"
         />
-        <Button variant="contained" sx={{ml: 2}}>Tìm</Button>
+        <Button variant="contained" sx={{ ml: 2 }}>Tìm</Button>
       </Box>
-      
-      <Box sx={{ height: "650px", width: '100%' }}>
+
+      <Box sx={{ height: heigth - 260 }}>
         <DataGrid
           rows={rows}
           columns={columns}
