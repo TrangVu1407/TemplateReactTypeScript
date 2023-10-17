@@ -1,7 +1,9 @@
 import * as React from 'react';
 import MainProduct from "ui-component/Product/MainProduct"
 import { DataGrid, GridColDef, GridValueGetterParams, useGridApiContext, useGridSelector, gridPageCountSelector, gridPageSelector } from '@mui/x-data-grid';
-import { Box, Pagination, PaginationItem, Button, TextField } from '@mui/material';
+import { Box, Pagination, PaginationItem, Button, TextField, Fab, Tooltip, Dialog, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import InfoDialog from "./InfoDialog"
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 90 },
@@ -114,6 +116,15 @@ const ProductType = () => {
     window.addEventListener('resize', handleResize)
   }, []);
 
+  const [open, setOpen] = React.useState(false);
+
+  const openInfoDialog = async () => {
+    setOpen(true);
+  };
+  const closeOpen = async () => {
+    setOpen(false);
+  };
+
   return (
     <MainProduct title="Loại sản phẩm" sx={{ border: 0 }}>
       <Box sx={{ p: 1 }}>
@@ -127,6 +138,11 @@ const ProductType = () => {
       </Box>
 
       <Box sx={{ height: dimensions.height - 260 }}>
+        <Tooltip title="Tạo mới" sx={{ color: "red", background: "red" }}>
+          <Fab size="medium" color="primary" aria-label="add" sx={{ ml: 2, mb: -3 }} onClick={openInfoDialog}>
+            <AddIcon />
+          </Fab>
+        </Tooltip>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -139,6 +155,8 @@ const ProductType = () => {
           }}
         />
       </Box>
+
+      <InfoDialog open={open} closeOpen={closeOpen} />
     </MainProduct>
   )
 }
