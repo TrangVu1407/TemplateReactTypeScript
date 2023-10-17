@@ -30,6 +30,17 @@ const theme = ({ darkMode, fontFamily }: Props) => {
     },
     // thay đổi font-family thì vào đây??? :))
     typography: typography({ fontFamily }),
+
+    // thay đổi tooltip khi di chuyển chuột đến. có thể chỉnh thêm màu nền và màu chữ
+    components: {
+      MuiTooltip: {
+        styleOverrides: {
+          tooltip: {
+            fontSize: "1em",
+          },
+        },
+      },
+    },
   });
 
   return themes;
