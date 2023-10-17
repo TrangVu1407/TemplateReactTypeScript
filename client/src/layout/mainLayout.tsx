@@ -8,6 +8,8 @@ import { styled } from '@mui/material/styles';
 import "./mainLayout.sass"
 import config from "config"
 import Setting from 'setting/setting';
+import { useMediaQuery } from '@mui/material';
+import { useTheme } from "@mui/material/styles";
 
 export interface Props {
     handleDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -45,7 +47,9 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }));
 
 const MainLayout = () => {
-    const [openSidebar, setOpenSidebar] = useState<boolean>(true);
+    const theme = useTheme();
+    const matchUpMd = useMediaQuery(theme.breakpoints.up("md"));
+    const [openSidebar, setOpenSidebar] = useState<boolean>(matchUpMd ? true : false);
     const handleDrawerOpen = () => {
         setOpenSidebar(!openSidebar)
     };
