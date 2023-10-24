@@ -1,7 +1,7 @@
 import * as React from 'react';
 import MainProduct from "ui-component/Product/MainProduct"
 import { DataGrid, GridColDef, GridValueGetterParams, useGridApiContext, useGridSelector, gridPageCountSelector, gridPageSelector } from '@mui/x-data-grid';
-import { Box, Pagination, PaginationItem, Button, TextField, Fab, Tooltip, Dialog, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Box, Pagination, PaginationItem, Button, TextField, Fab, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import InfoDialog from "./InfoDialog"
 
