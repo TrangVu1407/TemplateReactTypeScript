@@ -11,6 +11,12 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen }) => {
     const [valueDescribe, setValueDescribe] = React.useState("")
     const [valueNotes, setValueNotes] = React.useState("")
 
+    React.useEffect(() => {
+        setValueTypeProduct("Quần áo");
+        setValueDescribe("");
+        setValueNotes("");
+    },[open]);
+
     const createTypeProduct = async () => {
         console.warn("valueRef.current.value", `loại sản phẩm: ${valueTypeProduct} - mô tả: ${valueDescribe} - ghi chú: ${valueNotes}`);
     }
@@ -22,7 +28,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen }) => {
             keepMounted
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle sx={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'}}>{"$Thêm mới loại sản phẩm"}</DialogTitle>
+            <DialogTitle sx={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }}>{"$Thêm mới loại sản phẩm"}</DialogTitle>
             <hr />
             <DialogContent>
                 <Box component="form"
