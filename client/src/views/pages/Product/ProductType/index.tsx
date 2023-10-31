@@ -4,6 +4,8 @@ import { DataGrid, GridColDef, GridValueGetterParams, useGridApiContext, useGrid
 import { Box, Pagination, PaginationItem, Button, TextField, Fab, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import InfoDialog from "./InfoDialog"
+import productTypeServices from "services/product_type/product_type";
+import type { PropsGetProductType } from "services/product_type/product_type"
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 90 },
@@ -114,6 +116,7 @@ const ProductType = () => {
       })
     }
     window.addEventListener('resize', handleResize)
+    //getProductType();
   }, []);
 
   const [open, setOpen] = React.useState(false);
@@ -125,6 +128,21 @@ const ProductType = () => {
     setOpen(false);
   };
 
+  const getProductType = async () => {
+    try {
+      let params: PropsGetProductType = { shop_id: 1 };
+      const response = await productTypeServices.getList(params);
+      const result = response.data;
+      if (result && !result.error) {
+        console.warn("result.data", result.data);
+      } else {
+        return "Văn Bình"
+      }
+    } catch (error: any) {
+      console.warn("lỗi kết nối");
+    }
+  }
+
   return (
     <MainProduct title="Loại sản phẩm" sx={{ border: 0 }}>
       <Box sx={{ p: 1 }}>
@@ -134,7 +152,7 @@ const ProductType = () => {
           defaultValue="Nhập thông tin"
           size="small"
         />
-        <Button variant="contained" sx={{ ml: 2 }}>Tìm</Button>
+        <Button variant="contained" sx={{ ml: 2 }} onClick={getProductType}>Tìm</Button>
       </Box>
 
       <Box sx={{ height: dimensions.height - 260 }}>

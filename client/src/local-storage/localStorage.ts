@@ -12,4 +12,5 @@ interface ObjectEmployee {
 export interface typeLocalStorage {
   permissions: Array<ObjectPermission>;
   employee: ObjectEmployee;
+  token: "no_token";
 }
