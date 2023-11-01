@@ -8,8 +8,11 @@ import config from '../config';
 import type { typeLocalStorage } from "local-storage/localStorage"
 
 export default function ThemeRoutes() {
+    const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
     axios.defaults.baseURL = config.API_URL;
     let navigate = useNavigate();
+
+    axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
     useEffect(() => {
         const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
         if (!data.permissions) {
@@ -24,16 +27,6 @@ export default function ThemeRoutes() {
             }
         }
         MainRoutes.children = children;
-
-        axios.interceptors.request.use(
-            (request) => {
-                const token = data.token;
-                if (token) {
-                    request.headers.Authorization = "Bearer " + token;
-                }
-                return request;
-            },
-        );
     }, [])
 
     return useRoutes([MainRoutes, AuthenticationRoutes]);
