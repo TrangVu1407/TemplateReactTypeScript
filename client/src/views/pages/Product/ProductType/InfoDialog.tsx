@@ -12,16 +12,21 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen }) => {
     const [valueTypeProduct, setValueTypeProduct] = React.useState("Quần áo");
     const [valueDescribe, setValueDescribe] = React.useState("")
     const [valueNotes, setValueNotes] = React.useState("")
+    // loại sản phẩm đã tồn tại
+    const [isExisting, setIsExisting] = React.useState(false)
+    const [isExistingMesage, setIsExistingMessage] = React.useState("")
 
     React.useEffect(() => {
         setValueTypeProduct("Quần áo");
         setValueDescribe("");
         setValueNotes("");
+        setIsExisting(false);
+        setIsExistingMessage("");
     }, [open]);
 
     const createTypeProduct = async () => {
         try {
-            let body = {
+            let body: PropsPostProductType = {
                 shop_id: 1,
                 name: valueTypeProduct,
                 notes: valueNotes,
@@ -34,7 +39,15 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen }) => {
                 let callApp = true;
                 closeOpen(callApp);
             } else {
-
+                switch (result.code) {
+                    case 209:
+                        console.warn("loại đã tồn tại");
+                        setIsExistingMessage("Thêm mới thất bại. loại sản phẩm đã tồn tại");
+                        setIsExisting(true);
+                        break;
+                    default:
+                    // code block
+                }
             }
         } catch (e) {
 
@@ -90,6 +103,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen }) => {
                     />
                 </Box>
             </DialogContent>
+            {isExisting && <Box style={{ marginLeft: "20px", color: "red" }}><h4>Trạng thái: {isExistingMesage}</h4></Box>}
             <hr />
             <DialogActions>
                 <Button variant="outlined" onClick={() => closeOpen(!open)}>Đóng</Button>
