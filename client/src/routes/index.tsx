@@ -23,7 +23,7 @@ export default function ThemeRoutes() {
                 }
             }
         MainRoutes.children = children;
-    }, [data.permissions, navigate])
+    }, [])
     axios.defaults.baseURL = config.API_URL;
 
     return useRoutes([MainRoutes, AuthenticationRoutes]);
