@@ -1,9 +1,11 @@
 import React from 'react'
 import { Box, TextareaAutosize, TextField, Button, Dialog, DialogContent, DialogTitle, DialogActions } from '@mui/material';
+import productTypeServices from "services/product_type/product_type";
+import type { PropsPostProductType } from "services/product_type/product_type"
 
 interface Props {
     open: boolean;
-    closeOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    closeOpen: (status: boolean) => Promise<void>
 }
 
 const InfoDialog: React.FC<Props> = ({ open, closeOpen }) => {
@@ -15,10 +17,28 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen }) => {
         setValueTypeProduct("Quần áo");
         setValueDescribe("");
         setValueNotes("");
-    },[open]);
+    }, [open]);
 
     const createTypeProduct = async () => {
-        console.warn("valueRef.current.value", `loại sản phẩm: ${valueTypeProduct} - mô tả: ${valueDescribe} - ghi chú: ${valueNotes}`);
+        try {
+            let body = {
+                shop_id: 1,
+                name: valueTypeProduct,
+                notes: valueNotes,
+                describe: valueDescribe,
+            };
+
+            const response = await productTypeServices.create(body);
+            const result = response.data;
+            if (result && !result.error) {
+                let callApp = true;
+                closeOpen(callApp);
+            } else {
+
+            }
+        } catch (e) {
+
+        }
     }
 
     return (
