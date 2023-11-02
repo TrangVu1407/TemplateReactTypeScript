@@ -12,7 +12,6 @@ interface Props {
 }
 
 const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
-    const initialState = { name: item.name };
     const [valueTypeProduct, setValueTypeProduct] = React.useState("Loại sản phẩm");
     const [valueDescribe, setValueDescribe] = React.useState("")
     const [valueNotes, setValueNotes] = React.useState("")
