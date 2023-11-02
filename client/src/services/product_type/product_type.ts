@@ -4,7 +4,7 @@ export interface PropsGetProductType {
   shop_id?: number;
 }
 
-export interface PropsPostProductType {
+export interface PropsCreateProductType {
   shop_id: number;
   name: string;
   code?: string;
@@ -12,13 +12,21 @@ export interface PropsPostProductType {
   notes: string;
 }
 
+export interface PropsUpdateProductType extends PropsCreateProductType {
+  id: number;
+}
+
 const productType = {
   getList: function (params: PropsGetProductType) {
     return axios.get("/product_type/list", { params });
   },
 
-  create: function (body: PropsPostProductType) {
+  create: function (body: PropsCreateProductType) {
     return axios.post("/product_type/create", body);
+  },
+
+  update: function (body: PropsUpdateProductType) {
+    return axios.post("/product_type/update", body);
   },
 };
 

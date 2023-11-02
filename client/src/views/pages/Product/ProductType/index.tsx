@@ -11,11 +11,13 @@ import EditIcon from '@mui/icons-material/Edit';
 
 export interface objectUpdate {
   name: string;
-  id?: number;
   describe: string,
   notes: string,
 }
 
+export interface dataUpdate extends objectUpdate {
+  id: number;
+}
 
 const ProductType = () => {
   const columns: GridColDef[] = [
@@ -63,11 +65,11 @@ const ProductType = () => {
 
   const [open, setOpen] = React.useState(false);
   const [type, setType] = React.useState(false);
-  const [itemUpdate, setItemUpdate] = React.useState<objectUpdate>(Object);
+  const [itemUpdate, setItemUpdate] = React.useState<dataUpdate>(Object);
 
   const openInfoDialog = async () => {
     setType(false);
-    setItemUpdate({ name: "Loại sản phẩm", describe: "", notes: "" });
+    setItemUpdate({ name: "Quần áo", describe: "", notes: "", id: 0 });
     setOpen(true);
   };
   const closeOpen = async (callApp: boolean) => {
@@ -130,7 +132,6 @@ const ProductType = () => {
 
   const updateInfoDialog = (item: GridRowParams) => () => {
     setType(true);
-    console.warn("item", item);
     let data = {
       name: item.row.name,
       id: item.row.id,

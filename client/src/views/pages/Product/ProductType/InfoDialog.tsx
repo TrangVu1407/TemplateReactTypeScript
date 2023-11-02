@@ -1,14 +1,14 @@
 import React from 'react'
 import { Box, TextareaAutosize, TextField, Button, Dialog, DialogContent, DialogTitle, DialogActions } from '@mui/material';
 import productTypeServices from "services/product_type/product_type";
-import type { PropsPostProductType } from "services/product_type/product_type"
-import { objectUpdate } from "./index"
+import type { PropsCreateProductType, PropsUpdateProductType } from "services/product_type/product_type"
+import { objectUpdate, dataUpdate } from "./index"
 
 interface Props {
     open: boolean;
     closeOpen: (status: boolean) => Promise<void>
     type: boolean;
-    item: objectUpdate;
+    item: dataUpdate;
 }
 
 const initState = { name: "", notes: "", describe: "" }
@@ -47,7 +47,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
 
     const createTypeProduct = async () => {
         try {
-            let body: PropsPostProductType = {
+            let body: PropsCreateProductType = {
                 shop_id: 1,
                 name: value.name,
                 notes: value.notes,
@@ -70,7 +70,43 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
                 }
             }
         } catch (e) {
+        }
+    }
 
+    const updateTypeProduct = async () => {
+        try {
+            let body: PropsUpdateProductType = {
+                shop_id: 1,
+                id: item.id,
+                name: value.name,
+                notes: value.notes,
+                describe: value.describe,
+            };
+
+            const response = await productTypeServices.update(body);
+            const result = response.data;
+            if (result && !result.error) {
+                let callApp = true;
+                closeOpen(callApp);
+            } else {
+                switch (result.code) {
+                    case 209:
+                        setIsExistingMessage("Cập nhật thất bại. loại sản phẩm đã tồn tại");
+                        setIsExisting(true);
+                        break;
+                    default:
+                    // code block
+                }
+            }
+        } catch (e) {
+        }
+    }
+
+    const actionProductType = async () => {
+        if (!type) {
+            await createTypeProduct();
+        } else if (type) {
+            await updateTypeProduct();
         }
     }
 
@@ -127,7 +163,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
             <hr />
             <DialogActions>
                 <Button variant="outlined" onClick={() => closeOpen(!open)}>Đóng</Button>
-                <Button variant="contained" onClick={() => createTypeProduct()}>{!type ? "Thêm" : "Cập nhật"}</Button>
+                <Button variant="contained" onClick={() => actionProductType()}>{!type ? "Thêm" : "Cập nhật"}</Button>
             </DialogActions>
         </Dialog>
     )
