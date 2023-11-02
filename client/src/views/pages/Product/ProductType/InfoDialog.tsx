@@ -2,14 +2,18 @@ import React from 'react'
 import { Box, TextareaAutosize, TextField, Button, Dialog, DialogContent, DialogTitle, DialogActions } from '@mui/material';
 import productTypeServices from "services/product_type/product_type";
 import type { PropsPostProductType } from "services/product_type/product_type"
+import { objectUpdate } from "./index"
 
 interface Props {
     open: boolean;
     closeOpen: (status: boolean) => Promise<void>
+    type: boolean;
+    item: objectUpdate;
 }
 
-const InfoDialog: React.FC<Props> = ({ open, closeOpen }) => {
-    const [valueTypeProduct, setValueTypeProduct] = React.useState("Quần áo");
+const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
+    const initialState = { name: item.name };
+    const [valueTypeProduct, setValueTypeProduct] = React.useState("Loại sản phẩm");
     const [valueDescribe, setValueDescribe] = React.useState("")
     const [valueNotes, setValueNotes] = React.useState("")
     // loại sản phẩm đã tồn tại
@@ -17,7 +21,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen }) => {
     const [isExistingMesage, setIsExistingMessage] = React.useState("")
 
     React.useEffect(() => {
-        setValueTypeProduct("Quần áo");
+        setValueTypeProduct(item.name);
         setValueDescribe("");
         setValueNotes("");
         setIsExisting(false);
@@ -61,7 +65,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen }) => {
             keepMounted
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle sx={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }}>{"$Thêm mới loại sản phẩm"}</DialogTitle>
+            <DialogTitle sx={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }}>{!type ? "$Thêm mới loại sản phẩm" : "$Cập nhật loại sản phẩm"}</DialogTitle>
             <hr />
             <DialogContent>
                 <Box component="form"
@@ -107,7 +111,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen }) => {
             <hr />
             <DialogActions>
                 <Button variant="outlined" onClick={() => closeOpen(!open)}>Đóng</Button>
-                <Button variant="contained" onClick={() => createTypeProduct()}>Thêm</Button>
+                <Button variant="contained" onClick={() => createTypeProduct()}>{!type ? "Thêm" : "Cập nhật"}</Button>
             </DialogActions>
         </Dialog>
     )

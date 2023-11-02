@@ -1,18 +1,34 @@
 import * as React from 'react';
 import MainProduct from "ui-component/Product/MainProduct"
-import { DataGrid, GridColDef, useGridApiContext, useGridSelector, gridPageCountSelector, gridPageSelector } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, useGridApiContext, useGridSelector, gridPageCountSelector, gridPageSelector, GridActionsCellItem, GridRowParams, } from '@mui/x-data-grid';
 import { Box, Pagination, PaginationItem, Button, TextField, Fab, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import InfoDialog from "./InfoDialog"
 import productTypeServices from "services/product_type/product_type";
-import type { PropsGetProductType } from "services/product_type/product_type"
+import type { PropsGetProductType } from "services/product_type/product_type";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
-
+export interface objectUpdate{
+  name: string;
+}
 
 
 const ProductType = () => {
   const columns: GridColDef[] = [
     { field: 'stt', headerName: 'STT', width: 90 },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Thao tác',
+      width: 100,
+      getActions: (item) => {
+        return [
+          <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={updateInfoDialog(item)} />,
+          <GridActionsCellItem icon={<DeleteIcon />} label="Delete" />,
+        ]
+      },
+    },
     {
       field: 'name',
       headerName: 'Tên',
@@ -43,8 +59,12 @@ const ProductType = () => {
   })
 
   const [open, setOpen] = React.useState(false);
+  const [type, setType] = React.useState(false);
+  const [itemUpdate, setItemUpdate] = React.useState<objectUpdate>(Object);
 
   const openInfoDialog = async () => {
+    setType(false);
+    setItemUpdate({name: "Loại sản phẩm"});
     setOpen(true);
   };
   const closeOpen = async (callApp: boolean) => {
@@ -105,6 +125,15 @@ const ProductType = () => {
     );
   }
 
+  const updateInfoDialog = (item: GridRowParams) => () => {
+    setType(true);
+    let data = {
+      name: item.row.name
+    }
+    setItemUpdate(data);
+    setOpen(true);
+  };
+
   return (
     <MainProduct title="Loại sản phẩm" sx={{ border: 0 }}>
       <Box sx={{ p: 1 }}>
@@ -136,7 +165,7 @@ const ProductType = () => {
         />
       </Box>
 
-      <InfoDialog open={open} closeOpen={closeOpen} />
+      <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} />
     </MainProduct>
   )
 }
