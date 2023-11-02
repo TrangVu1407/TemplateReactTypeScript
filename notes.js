@@ -28,3 +28,6 @@
 // thu gọn đường dẫn path: https://homiedev.com/jsonfig-tsconfig-compileroptions-rut-ngan-import-paths-cho-du-an-react/
 // npm i @mui/x-data-grid: hiện thị dạng bảng
 // thiết kế ô ghi chú: https://codesandbox.io/s/material-ui-textareaautosize-l2l2v?file=/src/index.tsx:2517-2655
+// ------------Truyền object (update from index to infoDialog)--------------------
+// React.useReducer :https://www.youtube.com/watch?v=lSY5R9ByO6Y
+// Tài liệu google: https://dev.to/craigaholliday/using-the-usereducer-hook-in-react-with-typescript-27m1
