@@ -9,8 +9,11 @@ import type { PropsGetProductType } from "services/product_type/product_type";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-export interface objectUpdate{
+export interface objectUpdate {
   name: string;
+  id?: number;
+  describe: string,
+  notes: string,
 }
 
 
@@ -64,7 +67,7 @@ const ProductType = () => {
 
   const openInfoDialog = async () => {
     setType(false);
-    setItemUpdate({name: "Loại sản phẩm"});
+    setItemUpdate({ name: "Loại sản phẩm", describe: "", notes: "" });
     setOpen(true);
   };
   const closeOpen = async (callApp: boolean) => {
@@ -127,8 +130,12 @@ const ProductType = () => {
 
   const updateInfoDialog = (item: GridRowParams) => () => {
     setType(true);
+    console.warn("item", item);
     let data = {
-      name: item.row.name
+      name: item.row.name,
+      id: item.row.id,
+      describe: item.row.describe,
+      notes: item.row.notes
     }
     setItemUpdate(data);
     setOpen(true);

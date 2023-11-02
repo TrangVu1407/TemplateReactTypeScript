@@ -11,29 +11,47 @@ interface Props {
     item: objectUpdate;
 }
 
+const initState = { name: "", notes: "", describe: "" }
+const enum REDUCER_ACTION_TYPE { setData, name, notes, describe }
+type ReducerAction = {
+    type: REDUCER_ACTION_TYPE,
+    value: objectUpdate,
+}
+const reducer = (state: typeof initState, action: ReducerAction): typeof
+    initState => {
+    switch (action.type) {
+        case REDUCER_ACTION_TYPE.setData:
+            return { ...state, name: action.value.name, describe: action.value.describe, notes: action.value.notes }
+        case REDUCER_ACTION_TYPE.name:
+            return { ...state, name: action.value.name }
+        case REDUCER_ACTION_TYPE.describe:
+            return { ...state, describe: action.value.describe }
+        case REDUCER_ACTION_TYPE.notes:
+            return { ...state, notes: action.value.notes }
+        default:
+            throw new Error()
+    }
+}
+
 const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
-    const [valueTypeProduct, setValueTypeProduct] = React.useState("Loại sản phẩm");
-    const [valueDescribe, setValueDescribe] = React.useState("")
-    const [valueNotes, setValueNotes] = React.useState("")
+    const [value, setValue] = React.useReducer(reducer, initState);
     // loại sản phẩm đã tồn tại
     const [isExisting, setIsExisting] = React.useState(false)
     const [isExistingMesage, setIsExistingMessage] = React.useState("")
 
     React.useEffect(() => {
-        setValueTypeProduct(item.name);
-        setValueDescribe("");
-        setValueNotes("");
+        setValue({ type: REDUCER_ACTION_TYPE.setData, value: { name: `${item.name}`, notes: `${item.notes}`, describe: `${item.describe}` } })
         setIsExisting(false);
         setIsExistingMessage("");
-    }, [open]);
+    }, [open, item.name, item.describe, item.notes]);
 
     const createTypeProduct = async () => {
         try {
             let body: PropsPostProductType = {
                 shop_id: 1,
-                name: valueTypeProduct,
-                notes: valueNotes,
-                describe: valueDescribe,
+                name: value.name,
+                notes: value.notes,
+                describe: value.describe,
             };
 
             const response = await productTypeServices.create(body);
@@ -44,7 +62,6 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
             } else {
                 switch (result.code) {
                     case 209:
-                        console.warn("loại đã tồn tại");
                         setIsExistingMessage("Thêm mới thất bại. loại sản phẩm đã tồn tại");
                         setIsExisting(true);
                         break;
@@ -79,8 +96,8 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
                         id="outlined-size-small"
                         size="small"
                         fullWidth
-                        value={valueTypeProduct}
-                        onChange={e => setValueTypeProduct(e.target.value)}
+                        value={value.name}
+                        onChange={e => setValue({ type: REDUCER_ACTION_TYPE.name, value: { name: e.target.value, describe: "", notes: "" } })}
                     />
                     <TextField
                         fullWidth
@@ -90,8 +107,8 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
                             inputComponent: TextareaAutosize,
                             rows: 3
                         }}
-                        value={valueDescribe}
-                        onChange={e => setValueDescribe(e.target.value)}
+                        value={value.describe}
+                        onChange={e => setValue({ type: REDUCER_ACTION_TYPE.describe, value: { name: "", describe: e.target.value, notes: "" } })}
                     />
                     <TextField
                         fullWidth
@@ -101,8 +118,8 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
                             inputComponent: TextareaAutosize,
                             rows: 3
                         }}
-                        value={valueNotes}
-                        onChange={e => setValueNotes(e.target.value)}
+                        value={value.notes}
+                        onChange={e => setValue({ type: REDUCER_ACTION_TYPE.notes, value: { name: "", describe: "", notes: e.target.value } })}
                     />
                 </Box>
             </DialogContent>
