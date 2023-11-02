@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 
 const initState = { count: 2 }
 const enum REDUCER_ACTION_TYPE { INCREMENT, DECREMENT }
@@ -17,10 +16,6 @@ const reducer = (state: typeof initState, action: ReducerAction): typeof
     default:
       throw new Error()
   }
-}
-
-type ChildrenType = {
-  children: (num: number) => React.ReactNode
 }
 
 const ProductSize = () => {
