@@ -50,7 +50,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
     const createTypeProduct = async () => {
         try {
             let body: PropsCreateProductType = {
-                shop_id: 1,
+                shop_id: data.employee.shop_id,
                 name: value.name,
                 notes: value.notes,
                 describe: value.describe,
