@@ -15,7 +15,7 @@ const MainProduct: React.FC<Props> = ({ title, children, sx }) => {
 
       <Box sx={{ p: 2, background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', borderRadius: "10px" }}>
         <Typography variant="h5">
-          ${title}
+          {title}
         </Typography>
       </Box>
 
