@@ -57,8 +57,8 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
             const response = await productTypeServices.create(body);
             const result = response.data;
             if (result && !result.error) {
-                let callApp = true;
-                closeOpen(callApp);
+                let callApi = true;
+                closeOpen(callApi);
             } else {
                 switch (result.code) {
                     case 209:
@@ -86,8 +86,8 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
             const response = await productTypeServices.update(body);
             const result = response.data;
             if (result && !result.error) {
-                let callApp = true;
-                closeOpen(callApp);
+                let callApi = true;
+                closeOpen(callApi);
             } else {
                 switch (result.code) {
                     case 209:
@@ -117,7 +117,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
             keepMounted
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle sx={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }}>{!type ? "$Thêm mới loại sản phẩm" : "$Cập nhật loại sản phẩm"}</DialogTitle>
+            <DialogTitle sx={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }}>{!type ? "Thêm mới loại sản phẩm" : "Cập nhật loại sản phẩm"}</DialogTitle>
             <hr />
             <DialogContent>
                 <Box component="form"

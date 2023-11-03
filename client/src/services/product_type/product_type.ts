@@ -4,6 +4,10 @@ export interface PropsGetProductType {
   shop_id?: number;
 }
 
+export interface PropsDeleteProductType {
+  id: number;
+}
+
 export interface PropsCreateProductType {
   shop_id: number;
   name: string;
@@ -27,6 +31,10 @@ const productType = {
 
   update: function (body: PropsUpdateProductType) {
     return axios.post("/product_type/update", body);
+  },
+
+  delete: function (body: PropsDeleteProductType) {
+    return axios.post("/product_type/delete", body);
   },
 };
 

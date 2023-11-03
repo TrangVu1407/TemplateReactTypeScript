@@ -2,6 +2,7 @@ import { CssBaseline, ThemeProvider, StyledEngineProvider } from '@mui/material'
 import { useSelector } from "react-redux";
 import Routes from 'routes';
 import themes from 'themes';
+import "./views/pages/pages.sass"
 export interface State {
   customization: {
     themes: boolean;

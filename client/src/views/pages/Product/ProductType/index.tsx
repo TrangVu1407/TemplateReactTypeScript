@@ -3,7 +3,8 @@ import MainProduct from "ui-component/Product/MainProduct"
 import { DataGrid, GridColDef, useGridApiContext, useGridSelector, gridPageCountSelector, gridPageSelector, GridActionsCellItem, GridRowParams, } from '@mui/x-data-grid';
 import { Box, Pagination, PaginationItem, Button, TextField, Fab, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import InfoDialog from "./InfoDialog"
+import InfoDialog from "./InfoDialog";
+import DeleteDialog from "./DeleteDialog";
 import productTypeServices from "services/product_type/product_type";
 import type { PropsGetProductType } from "services/product_type/product_type";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -30,7 +31,7 @@ const ProductType = () => {
       getActions: (item) => {
         return [
           <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={updateInfoDialog(item)} />,
-          <GridActionsCellItem icon={<DeleteIcon />} label="Delete" />,
+          <GridActionsCellItem icon={<DeleteIcon />} label="Delete" onClick={deleteInfoDialog(item)} />,
         ]
       },
     },
@@ -64,6 +65,7 @@ const ProductType = () => {
   })
 
   const [open, setOpen] = React.useState(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
   const [type, setType] = React.useState(false);
   const [itemUpdate, setItemUpdate] = React.useState<dataUpdate>(Object);
 
@@ -72,11 +74,17 @@ const ProductType = () => {
     setItemUpdate({ name: "Quần áo", describe: "", notes: "", id: 0 });
     setOpen(true);
   };
-  const closeOpen = async (callApp: boolean) => {
-    if (callApp) {
+  const closeOpen = async (callApi: boolean) => {
+    if (callApi) {
       getProductType();
     }
     setOpen(false);
+  };
+  const closeOpenDelete = async (callApi: boolean) => {
+    if (callApi) {
+      getProductType();
+    }
+    setOpenDelete(false);
   };
 
   React.useEffect(() => {
@@ -142,6 +150,17 @@ const ProductType = () => {
     setOpen(true);
   };
 
+  const deleteInfoDialog = (item: GridRowParams) => () => {
+    let data = {
+      name: item.row.name,
+      id: item.row.id,
+      describe: item.row.describe,
+      notes: item.row.notes
+    }
+    setItemUpdate(data);
+    setOpenDelete(true);
+  };
+
   return (
     <MainProduct title="Loại sản phẩm" sx={{ border: 0 }}>
       <Box sx={{ p: 1 }}>
@@ -174,6 +193,7 @@ const ProductType = () => {
       </Box>
 
       <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} />
+      <DeleteDialog open={openDelete} closeOpen={closeOpenDelete} item={itemUpdate} />
     </MainProduct>
   )
 }
