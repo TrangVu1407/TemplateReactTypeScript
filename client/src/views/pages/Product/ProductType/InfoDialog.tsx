@@ -3,6 +3,7 @@ import { Box, TextareaAutosize, TextField, Button, Dialog, DialogContent, Dialog
 import productTypeServices from "services/product_type/product_type";
 import type { PropsCreateProductType, PropsUpdateProductType } from "services/product_type/product_type"
 import { objectUpdate, dataUpdate } from "./index"
+import type { typeLocalStorage } from "local-storage/localStorage"
 
 interface Props {
     open: boolean;
@@ -34,6 +35,7 @@ const reducer = (state: typeof initState, action: ReducerAction): typeof
 }
 
 const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
+    const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
     const [value, setValue] = React.useReducer(reducer, initState);
     // loại sản phẩm đã tồn tại
     const [isExisting, setIsExisting] = React.useState(false)
@@ -76,7 +78,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
     const updateTypeProduct = async () => {
         try {
             let body: PropsUpdateProductType = {
-                shop_id: 1,
+                shop_id: data.employee.shop_id,
                 id: item.id,
                 name: value.name,
                 notes: value.notes,

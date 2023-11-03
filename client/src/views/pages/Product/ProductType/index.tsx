@@ -9,6 +9,7 @@ import productTypeServices from "services/product_type/product_type";
 import type { PropsGetProductType } from "services/product_type/product_type";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import type { typeLocalStorage } from "local-storage/localStorage"
 
 export interface objectUpdate {
   name: string;
@@ -99,7 +100,8 @@ const ProductType = () => {
 
   const getProductType = async () => {
     try {
-      let params: PropsGetProductType = { shop_id: 1 };
+      const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
+      let params: PropsGetProductType = { shop_id: data.employee.shop_id };
       const response = await productTypeServices.getList(params);
       const result = response.data;
       if (result && !result.error) {
@@ -174,7 +176,7 @@ const ProductType = () => {
       </Box>
 
       <Box sx={{ height: dimensions.height - 260 }}>
-        <Tooltip title="Tạo mới" sx={{ color: "red", background: "red" }}>
+        <Tooltip title="Tạo mới">
           <Fab size="medium" color="primary" aria-label="add" sx={{ ml: 2, mb: -3 }} onClick={openInfoDialog}>
             <AddIcon />
           </Fab>

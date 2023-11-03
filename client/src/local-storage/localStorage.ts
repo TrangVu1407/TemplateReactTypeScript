@@ -6,6 +6,7 @@ interface ObjectPermission {
 interface ObjectEmployee {
   id: number;
   shop_name: string;
+  shop_id: number;
   name: string;
 }
 
