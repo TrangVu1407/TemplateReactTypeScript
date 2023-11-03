@@ -23,7 +23,7 @@ export interface dataUpdate extends objectUpdate {
 
 const ProductType = () => {
   const columns: GridColDef[] = [
-    { field: 'stt', headerName: 'STT', width: 90 },
+    { field: 'stt', headerName: 'STT', width: 90, sortable: false, disableColumnMenu: true },
     {
       field: 'actions',
       type: 'actions',
@@ -31,8 +31,8 @@ const ProductType = () => {
       width: 100,
       getActions: (item) => {
         return [
-          <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={updateInfoDialog(item)} />,
-          <GridActionsCellItem icon={<DeleteIcon />} label="Delete" onClick={deleteInfoDialog(item)} />,
+          <GridActionsCellItem icon={<EditIcon color="primary" />} label="Edit" onClick={updateInfoDialog(item)} />,
+          <GridActionsCellItem icon={<DeleteIcon sx={{ color: "red" }} />} label="Delete" onClick={deleteInfoDialog(item)} />,
         ]
       },
     },
@@ -40,19 +40,22 @@ const ProductType = () => {
       field: 'name',
       headerName: 'Tên',
       width: 150,
-      editable: true,
+      // không cho thay đổi giá trị bảng
+      editable: false,
     },
     {
       field: 'describe',
       headerName: 'Mô tả',
       width: 230,
-      editable: true,
+      // không cho thay đổi giá trị bảng
+      editable: false,
     },
     {
       field: 'notes',
       headerName: 'Ghi chú',
       width: 270,
-      editable: true,
+      // không cho thay đổi giá trị bảng
+      editable: false,
     },
   ];
   //let rows: any[] = [];
