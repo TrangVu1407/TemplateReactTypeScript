@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button, Dialog, DialogContent, DialogTitle, DialogActions, DialogContentText, Typography } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, DialogActions, Typography } from '@mui/material';
 import productTypeServices from "services/product_type/product_type";
 import type { PropsDeleteProductType } from "services/product_type/product_type"
-import { objectUpdate, dataUpdate } from "./index"
+import { dataUpdate } from "./index"
 
 interface Props {
     open: boolean;
@@ -10,35 +10,12 @@ interface Props {
     item: dataUpdate;
 }
 
-const initState = { name: "", notes: "", describe: "" }
-const enum REDUCER_ACTION_TYPE { setData }
-type ReducerAction = {
-    type: REDUCER_ACTION_TYPE,
-    value: objectUpdate,
-}
-const reducer = (state: typeof initState, action: ReducerAction): typeof
-    initState => {
-    switch (action.type) {
-        case REDUCER_ACTION_TYPE.setData:
-            return { ...state, name: action.value.name, describe: action.value.describe, notes: action.value.notes }
-        default:
-            throw new Error()
-    }
-}
-
 const InfoDialog: React.FC<Props> = ({ open, closeOpen, item }) => {
-    const [value, setValue] = React.useReducer(reducer, initState);
-
-    React.useEffect(() => {
-        setValue({ type: REDUCER_ACTION_TYPE.setData, value: { name: `${item.name}`, notes: `${item.notes}`, describe: `${item.describe}` } })
-    }, [open, item.name, item.describe, item.notes]);
-
     const deleteTypeProduct = async () => {
         try {
             let body: PropsDeleteProductType = {
                 id: item.id,
             };
-
             const response = await productTypeServices.delete(body);
             const result = response.data;
             if (result && !result.error) {
