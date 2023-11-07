@@ -1,16 +1,18 @@
 import React from 'react'
 import { Button, Dialog, DialogContent, DialogTitle, DialogActions, Typography } from '@mui/material';
 import productTypeServices from "services/product_type/product_type";
-import type { PropsDeleteProductType } from "services/product_type/product_type"
-import { dataUpdate } from "./index"
+import type { PropsDeleteProductType } from "services/product_type/product_type";
+import { dataUpdate } from "./index";
+import { messageSnackBar } from "ui-component/Snackbar/index"
 
 interface Props {
     open: boolean;
-    closeOpen: (status: boolean) => Promise<void>
+    closeOpen: (status: boolean) => Promise<void>;
     item: dataUpdate;
+    setMessage: React.Dispatch<React.SetStateAction<messageSnackBar>>
 }
 
-const InfoDialog: React.FC<Props> = ({ open, closeOpen, item }) => {
+const InfoDialog: React.FC<Props> = ({ open, closeOpen, item, setMessage }) => {
     const deleteTypeProduct = async () => {
         try {
             let body: PropsDeleteProductType = {
@@ -19,11 +21,14 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, item }) => {
             const response = await productTypeServices.delete(body);
             const result = response.data;
             if (result && !result.error) {
+                setMessage({ notification: "Xóa lại sản phẩm thành công", severity: "success" })
                 let callApi = true;
                 closeOpen(callApi);
             } else {
+                setMessage({ notification: "Đã xẩy ra lỗi, vui lòng thử lại sau", severity: "error" })
             }
         } catch (e) {
+            setMessage({ notification: "Đã xẩy ra lỗi, vui lòng thử lại sau", severity: "error" })
         }
     }
 

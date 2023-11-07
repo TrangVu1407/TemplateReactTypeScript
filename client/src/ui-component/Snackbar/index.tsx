@@ -35,7 +35,7 @@ const SnackBar: React.FC<Props> = ({ openMessage, messsage, setOpenMessage }) =>
             <Snackbar anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "center"
-            }} open={openMessage} autoHideDuration={6000} onClose={handleClose}>
+            }} open={openMessage} autoHideDuration={3000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity={messsage.severity} sx={{ width: '100%' }}>
                     {messsage.notification}
                 </Alert>

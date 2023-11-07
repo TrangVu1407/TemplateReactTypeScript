@@ -92,6 +92,7 @@ const ProductType = () => {
   const closeOpenDelete = async (callApi: boolean) => {
     if (callApi) {
       getProductType();
+      setOpenMessage(true);
     }
     setOpenDelete(false);
   };
@@ -205,7 +206,7 @@ const ProductType = () => {
 
         <>{openMessage && (<SnackBar openMessage={openMessage} messsage={message} setOpenMessage={setOpenMessage} />)}</>
         <>{open && <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} setMessage={setMessage} />}</>
-        <>{openDelete && <DeleteDialog open={openDelete} closeOpen={closeOpenDelete} item={itemUpdate} />}</>
+        <>{openDelete && <DeleteDialog open={openDelete} closeOpen={closeOpenDelete} item={itemUpdate} setMessage={setMessage} />}</>
 
       </MainProduct>
     </>

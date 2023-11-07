@@ -63,7 +63,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
             const response = await productTypeServices.create(body);
             const result = response.data;
             if (result && !result.error) {
-                setMessage({ notification: "Thêm thành công, xin chúc mừng bạn", severity: "info" })
+                setMessage({ notification: "Thêm mới loại sản phẩm thành công", severity: "info" });
                 let callApi = true;
                 closeOpen(callApi);
             } else {
@@ -73,10 +73,12 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                         setIsExisting(true);
                         break;
                     default:
-                    // code block
+                        // code block
+                        setMessage({ notification: "Đã xẩy ra lỗi, vui lòng thử lại sau", severity: "error" })
                 }
             }
         } catch (e) {
+            setMessage({ notification: "Đã xẩy ra lỗi, vui lòng thử lại sau", severity: "error" })
         }
     }
 
@@ -93,7 +95,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
             const response = await productTypeServices.update(body);
             const result = response.data;
             if (result && !result.error) {
-                setMessage({ notification: "Cập nhật thành công, xin chúc mừng bạn", severity: "success" })
+                setMessage({ notification: "Cập nhật loại sản phẩm thành công", severity: "success" });
                 let callApi = true;
                 closeOpen(callApi);
             } else {
@@ -103,10 +105,12 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                         setIsExisting(true);
                         break;
                     default:
-                    // code block
+                        // code block
+                        setMessage({ notification: "Đã xẩy ra lỗi, vui lòng thử lại sau", severity: "error" })
                 }
             }
         } catch (e) {
+            setMessage({ notification: "Đã xẩy ra lỗi, vui lòng thử lại sau", severity: "error" })
         }
     }
 
