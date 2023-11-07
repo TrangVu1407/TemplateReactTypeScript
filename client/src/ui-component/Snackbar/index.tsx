@@ -10,13 +10,19 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-interface Props {
-    openMessage: boolean;
+export interface messageSnackBar {
+    notification: string;
+    color: string;
 }
 
-const SnackBar: React.FC<Props> = ({ openMessage }) => {
-    const [open_v1, setOpen] = React.useState(openMessage);
+interface Props {
+    openMessage: boolean;
+    messsage: messageSnackBar
+}
 
+const SnackBar: React.FC<Props> = ({ openMessage, messsage }) => {
+    const [open_v1, setOpen] = React.useState(openMessage);
+    console.warn("vào đây snack bar", openMessage);
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -31,7 +37,7 @@ const SnackBar: React.FC<Props> = ({ openMessage }) => {
                 horizontal: "center"
             }} open={open_v1} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                    chúc mừng bạn đã thêm loại loại sản phẩm mới thành công!!!
+                    {messsage.notification}
                 </Alert>
             </Snackbar>
         </Stack>

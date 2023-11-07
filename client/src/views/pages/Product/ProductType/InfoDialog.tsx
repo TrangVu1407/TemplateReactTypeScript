@@ -4,12 +4,14 @@ import productTypeServices from "services/product_type/product_type";
 import type { PropsCreateProductType, PropsUpdateProductType } from "services/product_type/product_type"
 import { objectUpdate, dataUpdate } from "./index"
 import type { typeLocalStorage } from "local-storage/localStorage"
+import { messageSnackBar } from "ui-component/Snackbar/index"
 
 interface Props {
     open: boolean;
     closeOpen: (status: boolean) => Promise<void>
     type: boolean;
     item: dataUpdate;
+    setMessage: React.Dispatch<React.SetStateAction<messageSnackBar>>
 }
 const initState = { name: "", notes: "", describe: "" }
 const enum REDUCER_ACTION_TYPE { setData, name, notes, describe }
@@ -33,7 +35,7 @@ const reducer = (state: typeof initState, action: ReducerAction): typeof
     }
 }
 
-const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
+const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }) => {
     const dataInitState = { name: item.name, notes: item.notes, describe: item.describe }
 
     const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
@@ -61,6 +63,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
             const response = await productTypeServices.create(body);
             const result = response.data;
             if (result && !result.error) {
+                setMessage({ notification: "Thêm mới thnahf công, xin chúc mừng bạn", color: "red" })
                 let callApi = true;
                 closeOpen(callApi);
             } else {

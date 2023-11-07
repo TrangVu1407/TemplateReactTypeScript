@@ -9,8 +9,9 @@ import productTypeServices from "services/product_type/product_type";
 import type { PropsGetProductType } from "services/product_type/product_type";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import type { typeLocalStorage } from "local-storage/localStorage"
+import type { typeLocalStorage } from "local-storage/localStorage";
 import SnackBar from "ui-component/Snackbar/index";
+import { messageSnackBar } from "ui-component/Snackbar/index";
 
 export interface objectUpdate {
   name: string;
@@ -71,6 +72,7 @@ const ProductType = () => {
 
   const [open, setOpen] = React.useState(false);
   const [openMessage, setOpenMessage] = React.useState(false);
+  const [message, setMessage] = React.useState<messageSnackBar>({ notification: "", color: "" })
   const [openDelete, setOpenDelete] = React.useState(false);
   const [type, setType] = React.useState(false);
   const [itemUpdate, setItemUpdate] = React.useState<dataUpdate>(Object);
@@ -201,8 +203,8 @@ const ProductType = () => {
           />
         </Box>
 
-        <>{openMessage && (<SnackBar openMessage={openMessage} />)}</>
-        <>{open && <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} />}</>
+        <>{openMessage && (<SnackBar openMessage={openMessage} messsage={message} />)}</>
+        <>{open && <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} setMessage={setMessage} />}</>
         <>{openDelete && <DeleteDialog open={openDelete} closeOpen={closeOpenDelete} item={itemUpdate} />}</>
 
       </MainProduct>
