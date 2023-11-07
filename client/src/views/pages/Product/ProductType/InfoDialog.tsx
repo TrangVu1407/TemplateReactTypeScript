@@ -11,7 +11,6 @@ interface Props {
     type: boolean;
     item: dataUpdate;
 }
-
 const initState = { name: "", notes: "", describe: "" }
 const enum REDUCER_ACTION_TYPE { setData, name, notes, describe }
 type ReducerAction = {
@@ -35,17 +34,20 @@ const reducer = (state: typeof initState, action: ReducerAction): typeof
 }
 
 const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item }) => {
+    const dataInitState = { name: item.name, notes: item.notes, describe: item.describe }
+
     const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
-    const [value, setValue] = React.useReducer(reducer, initState);
+    const [value, setValue] = React.useReducer(reducer, dataInitState);
     // loại sản phẩm đã tồn tại
     const [isExisting, setIsExisting] = React.useState(false)
     const [isExistingMesage, setIsExistingMessage] = React.useState("")
 
     React.useEffect(() => {
-        setValue({ type: REDUCER_ACTION_TYPE.setData, value: { name: `${item.name}`, notes: `${item.notes}`, describe: `${item.describe}` } })
+        //không cần setValue vè khởi tạo ban đầu đã truyền vào item
+        //setValue({ type: REDUCER_ACTION_TYPE.setData, value: { name: `${item.name}`, notes: `${item.notes}`, describe: `${item.describe}` } })
         setIsExisting(false);
         setIsExistingMessage("");
-    }, [open, item.name, item.describe, item.notes]);
+    }, [open]);
 
     const createTypeProduct = async () => {
         try {
