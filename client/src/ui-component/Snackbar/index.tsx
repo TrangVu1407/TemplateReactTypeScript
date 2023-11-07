@@ -23,7 +23,6 @@ interface Props {
 }
 
 const SnackBar: React.FC<Props> = ({ openMessage, messsage, setOpenMessage }) => {
-    console.warn("vào đây snack bar", openMessage);
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
