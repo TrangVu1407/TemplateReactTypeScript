@@ -17,17 +17,17 @@ export interface messageSnackBar {
 
 interface Props {
     openMessage: boolean;
-    messsage: messageSnackBar
+    setOpenMessage: React.Dispatch<React.SetStateAction<boolean>>;
+    messsage: messageSnackBar;
 }
 
-const SnackBar: React.FC<Props> = ({ openMessage, messsage }) => {
-    const [open_v1, setOpen] = React.useState(openMessage);
+const SnackBar: React.FC<Props> = ({ openMessage, messsage, setOpenMessage }) => {
     console.warn("vào đây snack bar", openMessage);
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
-        setOpen(false);
+        setOpenMessage(false);
     };
 
     return (
@@ -35,7 +35,7 @@ const SnackBar: React.FC<Props> = ({ openMessage, messsage }) => {
             <Snackbar anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "center"
-            }} open={open_v1} autoHideDuration={6000} onClose={handleClose}>
+            }} open={openMessage} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                     {messsage.notification}
                 </Alert>
