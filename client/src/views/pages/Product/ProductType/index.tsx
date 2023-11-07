@@ -82,8 +82,8 @@ const ProductType = () => {
   };
   const closeOpen = async (callApi: boolean) => {
     if (callApi) {
+      await getProductType();
       setOpenMessage(true);
-      getProductType();
     }
     setOpen(false);
   };
