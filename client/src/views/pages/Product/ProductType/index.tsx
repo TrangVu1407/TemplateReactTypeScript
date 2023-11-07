@@ -72,7 +72,7 @@ const ProductType = () => {
 
   const [open, setOpen] = React.useState(false);
   const [openMessage, setOpenMessage] = React.useState(false);
-  const [message, setMessage] = React.useState<messageSnackBar>({ notification: "", color: "" })
+  const [message, setMessage] = React.useState<messageSnackBar>({ notification: "", severity: "success" })
   const [openDelete, setOpenDelete] = React.useState(false);
   const [type, setType] = React.useState(false);
   const [itemUpdate, setItemUpdate] = React.useState<dataUpdate>(Object);

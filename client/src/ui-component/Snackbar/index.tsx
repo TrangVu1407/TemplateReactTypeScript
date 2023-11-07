@@ -10,9 +10,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+type AlertColor = "success" | "error" | "warning" | "info";
 export interface messageSnackBar {
     notification: string;
-    color: string;
+    severity: AlertColor;
 }
 
 interface Props {
@@ -36,7 +37,7 @@ const SnackBar: React.FC<Props> = ({ openMessage, messsage, setOpenMessage }) =>
                 vertical: "bottom",
                 horizontal: "center"
             }} open={openMessage} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={handleClose} severity={messsage.severity} sx={{ width: '100%' }}>
                     {messsage.notification}
                 </Alert>
             </Snackbar>
