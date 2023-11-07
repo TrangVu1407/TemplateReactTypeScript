@@ -10,6 +10,7 @@ import type { PropsGetProductType } from "services/product_type/product_type";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import type { typeLocalStorage } from "local-storage/localStorage"
+import SnackBar from "ui-component/Snackbar/index";
 
 export interface objectUpdate {
   name: string;
@@ -69,6 +70,7 @@ const ProductType = () => {
   })
 
   const [open, setOpen] = React.useState(false);
+  const [openMessage, setOpenMessage] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
   const [type, setType] = React.useState(false);
   const [itemUpdate, setItemUpdate] = React.useState<dataUpdate>(Object);
@@ -80,6 +82,7 @@ const ProductType = () => {
   };
   const closeOpen = async (callApi: boolean) => {
     if (callApi) {
+      setOpenMessage(true);
       getProductType();
     }
     setOpen(false);
@@ -167,39 +170,43 @@ const ProductType = () => {
   };
 
   return (
-    <MainProduct title="Loại sản phẩm" sx={{ border: 0 }}>
-      <Box sx={{ p: 1 }}>
-        <TextField
-          label="Nhập thông tin"
-          id="outlined-size-small"
-          defaultValue="Nhập thông tin"
-          size="small"
-        />
-        <Button variant="contained" sx={{ ml: 2 }} onClick={getProductType}>Tìm</Button>
-      </Box>
+    <>
+      <MainProduct title="Loại sản phẩm" sx={{ border: 0 }}>
+        <Box sx={{ p: 1 }}>
+          <TextField
+            label="Nhập thông tin"
+            id="outlined-size-small"
+            defaultValue="Nhập thông tin"
+            size="small"
+          />
+          <Button variant="contained" sx={{ ml: 2 }} onClick={getProductType}>Tìm</Button>
+        </Box>
 
-      <Box sx={{ height: dimensions.height - 260 }}>
-        <Tooltip title="Tạo mới">
-          <Fab size="medium" color="primary" aria-label="add" sx={{ ml: 2, mb: -3 }} onClick={openInfoDialog}>
-            <AddIcon />
-          </Fab>
-        </Tooltip>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          checkboxSelection
-          disableRowSelectionOnClick
-          paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
-          slots={{
-            pagination: CustomPagination,
-          }}
-        />
-      </Box>
+        <Box sx={{ height: dimensions.height - 260 }}>
+          <Tooltip title="Tạo mới">
+            <Fab size="medium" color="primary" aria-label="add" sx={{ ml: 2, mb: -3 }} onClick={openInfoDialog}>
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            checkboxSelection
+            disableRowSelectionOnClick
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
+            slots={{
+              pagination: CustomPagination,
+            }}
+          />
+        </Box>
 
-      <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} />
-      <DeleteDialog open={openDelete} closeOpen={closeOpenDelete} item={itemUpdate} />
-    </MainProduct>
+        <>{openMessage && (<SnackBar openMessage={openMessage} />)}</>
+        <>{open && <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} />}</>
+        <>{openDelete && <DeleteDialog open={openDelete} closeOpen={closeOpenDelete} item={itemUpdate} />}</>
+
+      </MainProduct>
+    </>
   )
 }
 
