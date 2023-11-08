@@ -58,8 +58,6 @@ const MainLayout = () => {
         setOpenSidebar(false)
     }
 
-    const [darkMode, setDarkMode] = useState(config.themes);
-    const [fontFamily, setFontFamily] = useState(config.fontFamily);
     return (
         <>
             {/* Container nằm ở đây, vì layout chia làm 2 phần. 
@@ -78,7 +76,7 @@ const MainLayout = () => {
                         <Outlet />
                         <Footer />
                         {/* setting */}
-                        <Setting themes={darkMode} change={() => setDarkMode(!darkMode)} fontFamily={fontFamily} setFontFamily={setFontFamily} />
+                        <Setting />
                     </Main>
                 </AppBar>
                 {/* sidebar */}

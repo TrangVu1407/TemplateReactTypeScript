@@ -7,25 +7,24 @@ import Switch from '@mui/material/Switch';
 import { useDispatch } from "react-redux";
 import { SET_THEMES, SET_FONT_FAMILY } from "store/actions";
 import type { action } from "store/customizationReducer"
+import config from "config"
 
 import SettingCard from "ui-component/cards/Setting";
-interface Props {
-    change: (e: React.FormEvent) => void;
-    themes: boolean;
-    fontFamily: string;
-    setFontFamily: React.Dispatch<React.SetStateAction<string>>;
-}
 
-const Setting: React.FC<Props> = ({ change, themes, fontFamily, setFontFamily }) => {
+const Setting = () => {
+    const [fontFamily, setFontFamily] = useState(config.fontFamily);
+    const [darkMode, setDarkMode] = useState<boolean>(config.themes);
+
     const dispatch = useDispatch();
     const [open, setOpen] = useState<boolean>(false);
     const handleToggle = () => {
         setOpen(!open);
     };
 
+
     useEffect(() => {
         let newThemes = true;
-        switch (themes) {
+        switch (darkMode) {
             case true:
                 newThemes = true;
                 break;
@@ -35,11 +34,12 @@ const Setting: React.FC<Props> = ({ change, themes, fontFamily, setFontFamily })
                 break;
         }
         dispatch(actionSetTheme({ type: SET_THEMES, themes: newThemes }));
-    }, [dispatch, themes]);
+    }, [dispatch, darkMode]);
     const actionSetTheme = ({ type, themes }: action) => ({
         type: type,
         themes: themes
     });
+
 
     useEffect(() => {
         let newFont;
@@ -64,6 +64,14 @@ const Setting: React.FC<Props> = ({ change, themes, fontFamily, setFontFamily })
         type: type,
         fontFamily: fontFamily
     });
+
+    var str2bool = (value: any) => {
+        if (value && typeof value === "string") {
+            if (value.toLowerCase() === "true") return true;
+            if (value.toLowerCase() === "false") return false;
+        }
+        return value;
+    }
 
     const labelTheme = { inputProps: { 'aria-label': 'Background color' } };
     return (
@@ -179,12 +187,12 @@ const Setting: React.FC<Props> = ({ change, themes, fontFamily, setFontFamily })
                                 <FormControl>
                                     <RadioGroup
                                         aria-label="theme"
-                                        value={themes ? 'dark' : 'light'}
-                                        onChange={change}
+                                        value={darkMode}
+                                        onChange={(e) => setDarkMode(str2bool(e.target.value))}
                                         name="radio-buttons-group"
                                     >
                                         <FormControlLabel
-                                            value="light"
+                                            value={false}
                                             control={
                                                 <Radio
                                                     style={{ color: "red" }}
@@ -199,7 +207,7 @@ const Setting: React.FC<Props> = ({ change, themes, fontFamily, setFontFamily })
                                             }}
                                         />
                                         <FormControlLabel
-                                            value="dark"
+                                            value={true}
                                             control={
                                                 <Radio
                                                     style={{ color: "red" }}
@@ -217,7 +225,7 @@ const Setting: React.FC<Props> = ({ change, themes, fontFamily, setFontFamily })
 
                                 </FormControl>
                                 <Divider sx={{ opacity: 1, borderColor: "red" }} />
-                                <Switch {...labelTheme} color="default" onChange={change} checked={themes} />
+                                <Switch {...labelTheme} color="default" onChange={(e) => setDarkMode(!darkMode)} checked={darkMode} />
                             </SettingCard>
                         </Grid>
                     </Grid>
