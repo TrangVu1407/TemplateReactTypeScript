@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRoutes, useNavigate } from 'react-router-dom';
+import { useRoutes, useNavigate, useLocation } from 'react-router-dom';
 import MainRoutes from './MainRoutes';
 import AuthenticationRoutes from './AuthenticationRoutes'
 
@@ -13,6 +13,16 @@ export default function ThemeRoutes() {
     let navigate = useNavigate();
 
     axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+    // kiểm tra token hợp lệ hay không?? - bug console.warn("bug này chưa fix, chat GPT không trả lời được")
+    axios.interceptors.response.use
+        (
+            (response) => {
+                return response;
+            }, (error) => {
+                return navigate("/login");
+            }
+        );
+
     useEffect(() => {
         const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
         if (!data.permissions) {
