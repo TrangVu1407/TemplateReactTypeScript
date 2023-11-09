@@ -14,7 +14,6 @@ const MenuList = () => {
   const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
 
   useEffect(() => {
-    console.warn("vào đây menu list");
     if (data.permissions) {
       let listMenu = [];
       for (let i = 0; i < MenuList1.items.length; i++) {
