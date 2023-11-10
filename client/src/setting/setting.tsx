@@ -17,16 +17,15 @@ const Setting = () => {
     const [darkMode, setDarkMode] = useState<boolean>(config.themes);
     const [language, setLanguage] = useState<string>(config.language);
 
-    useEffect(() => {
-        i18next.changeLanguage(language)
-    }, [language])
-
     const dispatch = useDispatch();
     const [open, setOpen] = useState<boolean>(false);
     const handleToggle = () => {
         setOpen(!open);
     };
 
+    useEffect(() => {
+        i18next.changeLanguage(language)
+    }, [language])
 
     useEffect(() => {
         let newThemes = true;

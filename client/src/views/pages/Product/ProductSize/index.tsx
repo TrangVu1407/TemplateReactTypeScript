@@ -21,8 +21,6 @@ const reducer = (state: typeof initState, action: ReducerAction): typeof
 
 const ProductSize = () => {
   const { t } = useTranslation();
-  console.warn("vào đây product size");
-  
   const [state, dispatch] = React.useReducer(reducer, initState);
   const increment = () => dispatch({ type: REDUCER_ACTION_TYPE.INCREMENT });
   const decrement = () => dispatch({ type: REDUCER_ACTION_TYPE.DECREMENT });
@@ -30,7 +28,6 @@ const ProductSize = () => {
     <>
       <div style={{ textAlign: "center", marginBottom: "10px" }}>
         <h1>Kết quả: {state.count}</h1>
-        <h2>{t('greeting')}</h2>
 
         <Button variant="outlined" onClick={increment}>
           Tăng
@@ -38,6 +35,8 @@ const ProductSize = () => {
         <Button variant="outlined" color="error" onClick={decrement} style={{ marginLeft: "12px" }}>
           Giảm
         </Button>
+
+        <h2>{t('demo_language')}</h2>
       </div>
       <hr />
     </>
