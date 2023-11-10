@@ -1,7 +1,9 @@
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 const Profile = () => {
+  const { t } = useTranslation();
   let navigate = useNavigate();
   const handleLogout = async () => {
     localStorage.setItem("localStorage", "");
@@ -14,7 +16,7 @@ const Profile = () => {
       variant="outlined"
       onClick={handleLogout}
     >
-      Logout
+      {t('logout')}
     </Button>
   );
 };

@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import config from "config"
 import ProfileSection from "./ProfileSection";
+import { useTranslation } from 'react-i18next';
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -39,6 +40,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const Header: React.FC<Props> = ({ openSidebar, handleDrawerOpen }) => {
+  const { t } = useTranslation();
   return (
     <Box sx={{
       display: 'flex'
@@ -61,7 +63,7 @@ const Header: React.FC<Props> = ({ openSidebar, handleDrawerOpen }) => {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Header
+            {t('header')}
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <ProfileSection />
