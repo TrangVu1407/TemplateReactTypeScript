@@ -45,6 +45,8 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
     // loại sản phẩm đã tồn tại
     const [isExisting, setIsExisting] = React.useState(false)
     const [isExistingMesage, setIsExistingMessage] = React.useState("")
+    const [errorName, setErrorName] = React.useState('');
+    const [errorDescribe, setErrorDescribe] = React.useState('');
 
     React.useEffect(() => {
         //không cần setValue vè khởi tạo ban đầu đã truyền vào item
@@ -123,6 +125,22 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
             await updateTypeProduct();
         }
     }
+    const handleSubmit = () => {
+        if (value.describe.trim() === '') {
+            setErrorDescribe("trường này không được để trống");
+        } else {
+            setErrorDescribe("");
+        }
+        if (value.name.trim() === '') {
+            setErrorName("trường này không được để trống");
+        } else {
+            setErrorName("");
+        }
+    };
+
+    React.useEffect(() => {
+        handleSubmit();
+    }, [value.describe, value.name])
 
     return (
         <Dialog
@@ -146,12 +164,22 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                         id="outlined-size-small"
                         size="small"
                         fullWidth
+                        inputProps={{
+                            required: true,
+                        }}
                         value={value.name}
+                        error={errorName !== ''}
+                        helperText={errorName !== '' ? errorName : null}
                         onChange={e => setValue({ type: REDUCER_ACTION_TYPE.name, value: { name: e.target.value, describe: "", notes: "" } })}
                     />
                     <TextField
                         fullWidth
                         multiline
+                        inputProps={{
+                            required: true,
+                        }}
+                        error={errorDescribe !== ''}
+                        helperText={errorDescribe !== '' ? errorDescribe : null}
                         label={t('product_type_describe')}
                         InputProps={{
                             inputComponent: TextareaAutosize,
