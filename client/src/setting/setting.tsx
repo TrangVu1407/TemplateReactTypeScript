@@ -8,12 +8,18 @@ import { useDispatch } from "react-redux";
 import { SET_THEMES, SET_FONT_FAMILY } from "store/actions";
 import type { action } from "store/customizationReducer"
 import config from "config"
+import i18next from "i18next"
 
 import SettingCard from "ui-component/cards/Setting";
 
 const Setting = () => {
     const [fontFamily, setFontFamily] = useState(config.fontFamily);
     const [darkMode, setDarkMode] = useState<boolean>(config.themes);
+    const [language, setLanguage] = useState<string>(config.language);
+
+    useEffect(() => {
+        i18next.changeLanguage(language)
+    }, [language])
 
     const dispatch = useDispatch();
     const [open, setOpen] = useState<boolean>(false);
@@ -227,6 +233,53 @@ const Setting = () => {
                                 <Divider sx={{ opacity: 1, borderColor: "red" }} />
                                 <Switch {...labelTheme} color="default" onChange={(e) => setDarkMode(!darkMode)} checked={darkMode} />
                             </SettingCard>
+                        </Grid>
+                    </Grid>
+
+                    <Grid container spacing={3} sx={{ p: 3 }}>
+                        <Grid item xs={12}>
+                            <SettingCard title="Language" sx={{ borderColor: 'red', borderColorHr: 'blue' }}>
+                                <FormControl>
+                                    <RadioGroup
+                                        aria-label="language"
+                                        value={language}
+                                        onChange={(e) => setLanguage(e.target.value)}
+                                        name="radio-buttons-group"
+                                    >
+                                        <FormControlLabel
+                                            value="vn"
+                                            control={
+                                                <Radio
+                                                    style={{ color: "red" }}
+                                                />
+                                            }
+                                            label="Tiếng việt"
+                                            sx={{
+                                                "& .MuiSvgIcon-root": { fontSize: 28 },
+                                                "& .MuiFormControlLabel-label": {
+                                                    color: "red"
+                                                },
+                                            }}
+                                        />
+                                        <FormControlLabel
+                                            value="en"
+                                            control={
+                                                <Radio
+                                                    style={{ color: "red" }}
+                                                />
+                                            }
+                                            label="English"
+                                            sx={{
+                                                "& .MuiSvgIcon-root": { fontSize: 28 },
+                                                "& .MuiFormControlLabel-label": {
+                                                    color: "red"
+                                                },
+                                            }}
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
+                            </SettingCard>
+
                         </Grid>
                     </Grid>
                 </PerfectScrollbar>
