@@ -3,11 +3,13 @@ import { useTheme } from "@mui/material/styles";
 import { NavLink, useLocation } from 'react-router-dom';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box, Collapse } from "@mui/material";
 import type { PropsMenuList } from "menu-items/index"
+import { useTranslation } from 'react-i18next';
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
 const Navgroup = (item: PropsMenuList) => {
+    const { t } = useTranslation();
     const theme = useTheme();
     let checkOpen = -1;
     const currentLocation = useLocation().pathname;
@@ -35,7 +37,7 @@ const Navgroup = (item: PropsMenuList) => {
                             <ListItemIcon>
                                 {group.icon}
                             </ListItemIcon>
-                            <ListItemText primary={group.name} />
+                            <ListItemText primary={t(group.name)} />
                             {open === index ? <ExpandLess /> : <ExpandMore />}
                         </ListItemButton>
                         <Collapse in={open === index} timeout="auto" unmountOnExit>
@@ -47,7 +49,7 @@ const Navgroup = (item: PropsMenuList) => {
                                                 <ListItemIcon>
                                                     {item.icon}
                                                 </ListItemIcon>
-                                                <ListItemText primary={item.name} />
+                                                <ListItemText primary={t(item.name)} />
                                             </ListItemButton>
                                         </ListItem>
                                     </NavLink>

@@ -6,8 +6,10 @@ import NavGroup from "./NavGroup/navgroup"
 import MenuList1 from "menu-items"
 import type { typeLocalStorage } from "local-storage/localStorage"
 import type { PropsMenuItem } from "menu-items/index"
+import { useTranslation } from 'react-i18next';
 
 const MenuList = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   //let listMenuItem = [];
   const [listMenuItem, setListMenuItem] = useState<PropsMenuItem[]>([]);
@@ -69,7 +71,7 @@ const MenuList = () => {
           aria-labelledby="nested-list-subheader"
           subheader={
             <ListSubheader component="div" id="nested-list-subheader">
-              {item.nameGroup}
+              {t(item.nameGroup)}
             </ListSubheader>
           }
           key={index}
@@ -81,7 +83,7 @@ const MenuList = () => {
                   <ListItemIcon>
                     {item.icon}
                   </ListItemIcon>
-                  <ListItemText primary={item.name} />
+                  <ListItemText primary={t(item.name)} />
                 </ListItemButton>
               </ListItem>
             </NavLink>

@@ -6,23 +6,23 @@ import PermDeviceInformation from "@mui/icons-material/PermDeviceInformation"
 import type { PropsMenuItem } from "./index"
 
 const Dashboard: PropsMenuItem = {
-    nameGroup: "Product",
+    nameGroup: "product",
     itemNav: [{
         path: "/product",
-        name: "Sản phẩm",
+        name: "menu_product",
         icon: <ShoppingCart />
     },],
     itemGroup: [{
-        name: "Information",
+        name: "nav_product",
         icon: <PermDeviceInformation />,
         itemGropss: [
             {
                 path: "/product_type",
-                name: "Loại sản phẩm",
+                name: "product_type",
                 icon: <TypeSpecimen />
             }, {
                 path: "/product_size",
-                name: "Kích thước",
+                name: "product_size",
                 icon: <CropRotate />
             },
         ]
