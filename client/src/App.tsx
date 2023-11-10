@@ -3,7 +3,7 @@ import { CssBaseline, ThemeProvider, StyledEngineProvider } from '@mui/material'
 import { useSelector } from "react-redux";
 import Routes from 'routes';
 import themes from 'themes';
-import "./views/pages/pages.sass"
+import "views/pages/pages.sass"
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -13,10 +13,10 @@ i18n
   .init({
     resources: {
       en: {
-        translation: require('./local-storage/i18n/en/en.json')
+        translation: require('local-storage/i18n/en/en.json')
       },
       vn: {
-        translation: require('./local-storage/i18n/vn/vn.json')
+        translation: require('local-storage/i18n/vn/vn.json')
       }
     },
     lng: 'vn', // default language
