@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import type { typeLocalStorage } from "local-storage/localStorage";
 import SnackBar from "ui-component/Snackbar/index";
 import { messageSnackBar } from "ui-component/Snackbar/index";
+import { useTranslation } from 'react-i18next';
 
 export interface objectUpdate {
   name: string;
@@ -24,12 +25,13 @@ export interface dataUpdate extends objectUpdate {
 }
 
 const ProductType = () => {
+  const { t } = useTranslation();
   const columns: GridColDef[] = [
-    { field: 'stt', headerName: 'STT', width: 90, sortable: false, disableColumnMenu: true },
+    { field: 'stt', headerName: `${t('no')}`, width: 90, sortable: false, disableColumnMenu: true },
     {
       field: 'actions',
       type: 'actions',
-      headerName: 'Thao tác',
+      headerName: `${t('actions')}`,
       width: 100,
       getActions: (item) => {
         return [
@@ -40,21 +42,21 @@ const ProductType = () => {
     },
     {
       field: 'name',
-      headerName: 'Tên',
+      headerName: `${t("product_type_name")}`,
       width: 150,
       // không cho thay đổi giá trị bảng
       editable: false,
     },
     {
       field: 'describe',
-      headerName: 'Mô tả',
+      headerName: `${t("product_type_describe")}`,
       width: 230,
       // không cho thay đổi giá trị bảng
       editable: false,
     },
     {
       field: 'notes',
-      headerName: 'Ghi chú',
+      headerName: `${t('product_type_notes')}`,
       width: 270,
       // không cho thay đổi giá trị bảng
       editable: false,
@@ -174,19 +176,19 @@ const ProductType = () => {
 
   return (
     <>
-      <MainProduct title="Loại sản phẩm" sx={{ border: 0 }}>
+      <MainProduct title={t('product_type_title')} sx={{ border: 0 }}>
         <Box sx={{ p: 1 }}>
           <TextField
-            label="Nhập thông tin"
+            label={t('product_type_import_infomations')}
             id="outlined-size-small"
-            defaultValue="Nhập thông tin"
+            //defaultValue={t('product_type_import_infomations')}
             size="small"
           />
-          <Button variant="contained" sx={{ ml: 2 }} onClick={getProductType}>Tìm</Button>
+          <Button variant="contained" sx={{ ml: 2 }} onClick={getProductType}>{t('search')}</Button>
         </Box>
 
         <Box sx={{ height: dimensions.height - 260 }}>
-          <Tooltip title="Tạo mới">
+          <Tooltip title={t('create_new')}>
             <Fab size="medium" color="primary" aria-label="add" sx={{ ml: 2, mb: -3 }} onClick={openInfoDialog}>
               <AddIcon />
             </Fab>

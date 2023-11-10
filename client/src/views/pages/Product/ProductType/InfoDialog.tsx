@@ -5,6 +5,7 @@ import type { PropsCreateProductType, PropsUpdateProductType } from "services/pr
 import { objectUpdate, dataUpdate } from "./index"
 import type { typeLocalStorage } from "local-storage/localStorage"
 import { messageSnackBar } from "ui-component/Snackbar/index"
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     open: boolean;
@@ -36,6 +37,7 @@ const reducer = (state: typeof initState, action: ReducerAction): typeof
 }
 
 const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }) => {
+    const { t } = useTranslation();
     const dataInitState = { name: item.name, notes: item.notes, describe: item.describe }
 
     const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
@@ -63,22 +65,22 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
             const response = await productTypeServices.create(body);
             const result = response.data;
             if (result && !result.error) {
-                setMessage({ notification: "Thêm mới loại sản phẩm thành công", severity: "info" });
+                setMessage({ notification: `${t('product_type_create_success')}`, severity: "info" });
                 let callApi = true;
                 closeOpen(callApi);
             } else {
                 switch (result.code) {
                     case 209:
-                        setIsExistingMessage("Thêm mới thất bại. loại sản phẩm đã tồn tại");
+                        setIsExistingMessage(`${t('product_type_create_error_is_existing')}`);
                         setIsExisting(true);
                         break;
                     default:
                         // code block
-                        setMessage({ notification: "Đã xẩy ra lỗi, vui lòng thử lại sau", severity: "error" })
+                        setMessage({ notification: `${('product_type_connect_error')}`, severity: "error" })
                 }
             }
         } catch (e) {
-            setMessage({ notification: "Đã xẩy ra lỗi, vui lòng thử lại sau", severity: "error" })
+            setMessage({ notification: `${('product_type_connect_error')}`, severity: "error" })
         }
     }
 
@@ -95,22 +97,22 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
             const response = await productTypeServices.update(body);
             const result = response.data;
             if (result && !result.error) {
-                setMessage({ notification: "Cập nhật loại sản phẩm thành công", severity: "success" });
+                setMessage({ notification: `${t('product_type_update_success')}`, severity: "success" });
                 let callApi = true;
                 closeOpen(callApi);
             } else {
                 switch (result.code) {
                     case 209:
-                        setIsExistingMessage("Cập nhật thất bại. loại sản phẩm đã tồn tại");
+                        setIsExistingMessage(`${t('product_type_update_error_is_existing')}`);
                         setIsExisting(true);
                         break;
                     default:
                         // code block
-                        setMessage({ notification: "Đã xẩy ra lỗi, vui lòng thử lại sau", severity: "error" })
+                        setMessage({ notification: `${('product_type_connect_error')}`, severity: "error" })
                 }
             }
         } catch (e) {
-            setMessage({ notification: "Đã xẩy ra lỗi, vui lòng thử lại sau", severity: "error" })
+            setMessage({ notification: `${('product_type_connect_error')}`, severity: "error" })
         }
     }
 
@@ -129,7 +131,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
             keepMounted
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle sx={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }}>{!type ? "Thêm mới loại sản phẩm" : "Cập nhật loại sản phẩm"}</DialogTitle>
+            <DialogTitle sx={{ background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }}>{!type ? `${t('product_type_create_new_title')}` : `${t('product_type_update_title')}`}</DialogTitle>
             <hr />
             <DialogContent>
                 <Box component="form"
@@ -140,7 +142,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                     autoComplete="off"
                 >
                     <TextField
-                        label="Tên loại sản phẩm"
+                        label={t('product_type_title')}
                         id="outlined-size-small"
                         size="small"
                         fullWidth
@@ -150,7 +152,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                     <TextField
                         fullWidth
                         multiline
-                        label="Mô tả"
+                        label={t('product_type_describe')}
                         InputProps={{
                             inputComponent: TextareaAutosize,
                             rows: 3
@@ -161,7 +163,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                     <TextField
                         fullWidth
                         multiline
-                        label="Ghi chú"
+                        label={t('product_type_notes')}
                         InputProps={{
                             inputComponent: TextareaAutosize,
                             rows: 3
@@ -171,11 +173,11 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                     />
                 </Box>
             </DialogContent>
-            {isExisting && <Box style={{ marginLeft: "20px", color: "red" }}><h4>Trạng thái: {isExistingMesage}</h4></Box>}
+            {isExisting && <Box style={{ marginLeft: "20px", color: "red" }}><h4>{t('status')}: {isExistingMesage}</h4></Box>}
             <hr />
             <DialogActions>
-                <Button variant="outlined" onClick={() => closeOpen(!open)}>Đóng</Button>
-                <Button variant="contained" onClick={() => actionProductType()}>{!type ? "Thêm" : "Cập nhật"}</Button>
+                <Button variant="outlined" onClick={() => closeOpen(!open)}>{t('close')}</Button>
+                <Button variant="contained" onClick={() => actionProductType()}>{!type ? `${t('add')}` : `${t('update')}`}</Button>
             </DialogActions>
         </Dialog>
     )
