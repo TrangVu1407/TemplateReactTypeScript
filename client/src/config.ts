@@ -4,7 +4,7 @@ const config = {
   themes: true,
   name: "binh",
   API_URL: 'http://localhost:1606/api',
-  language: "en",
+  language: "vn",
 };
 
 export default config;
