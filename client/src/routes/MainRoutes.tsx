@@ -5,6 +5,7 @@ import Home from "views/pages/Home"
 import Product from "views/pages/Product"
 import ProductType from "views/pages/Product/ProductType"
 import ProductSize from "views/pages/Product/ProductSize"
+import Demo from "views/pages/Product/demo"
 
 const MainRoutes = {
     // notes: nếu đướng dẫn để trống thì phải return về nên giao diện đăng nhập. tìm cách nâng cấp ở đây sau?? ==> đã fix 
@@ -33,7 +34,7 @@ const MainRoutes = {
         },
         {
             path: "/demo",
-            element: <ProductSize />,
+            element: <Demo />,
         }
     ],
 }
