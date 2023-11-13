@@ -45,6 +45,9 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
     // loại sản phẩm đã tồn tại
     const [isExisting, setIsExisting] = React.useState(false)
     const [isExistingMesage, setIsExistingMessage] = React.useState("")
+    // error value
+    const [errorValue, setErrorValue] = React.useState(false)
+    const [errorValueMesage, setErrorValueMessage] = React.useState("")
     const [errorName, setErrorName] = React.useState('');
     const [errorDescribe, setErrorDescribe] = React.useState('');
 
@@ -53,17 +56,36 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
         //setValue({ type: REDUCER_ACTION_TYPE.setData, value: { name: `${item.name}`, notes: `${item.notes}`, describe: `${item.describe}` } })
         setIsExisting(false);
         setIsExistingMessage("");
+        setErrorValue(false);
+        setErrorValueMessage("");
     }, [open]);
 
-    const createTypeProduct = async () => {
+    async function checkValue(): Promise<boolean> {
+        let check = true;
+        if (value.describe.trim() === '' || value.name.trim() === '') {
+            setErrorValue(true);
+            setErrorValueMessage("Vui lòng nhập đầy đủ dữ liệu trước khi thực hiện thao tác");
+        } else if (value.describe.trim() !== '' || value.name.trim() !== '') {
+            setErrorValue(false);
+            setErrorValueMessage("");
+            check = false;
+        }
+        return check;
+    }
+
+
+    async function createTypeProduct() {
         try {
+            let error_value = await checkValue();
+            if (error_value) {
+                return;
+            }
             let body: PropsCreateProductType = {
                 shop_id: data.employee.shop_id,
                 name: value.name,
                 notes: value.notes,
                 describe: value.describe,
             };
-
             const response = await productTypeServices.create(body);
             const result = response.data;
             if (result && !result.error) {
@@ -88,6 +110,10 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
 
     const updateTypeProduct = async () => {
         try {
+            let error_value = await checkValue();
+            if (error_value) {
+                return;
+            }
             let body: PropsUpdateProductType = {
                 shop_id: data.employee.shop_id,
                 id: item.id,
@@ -140,6 +166,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
 
     React.useEffect(() => {
         handleSubmit();
+        checkValue();
     }, [value.describe, value.name])
 
     return (
@@ -202,6 +229,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                 </Box>
             </DialogContent>
             {isExisting && <Box style={{ marginLeft: "20px", color: "red" }}><h4>{t('status')}: {isExistingMesage}</h4></Box>}
+            {errorValue && <Box style={{ marginLeft: "20px", color: "orange" }}><h4>{t('Chú ý')}: {errorValueMesage}</h4></Box>}
             <hr />
             <DialogActions>
                 <Button variant="outlined" onClick={() => closeOpen(!open)}>{t('close')}</Button>

@@ -81,7 +81,7 @@ const ProductType = () => {
 
   const openInfoDialog = async () => {
     setType(false);
-    setItemUpdate({ name: "Quần áo", describe: "Mổ tả loại sản phẩm", notes: "", id: 0 });
+    setItemUpdate({ name: "Quần áo", describe: "Mô tả sản phẩm", notes: "", id: 0 });
     setOpen(true);
   };
   const closeOpen = async (callApi: boolean) => {
