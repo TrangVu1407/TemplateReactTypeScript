@@ -196,7 +196,6 @@ const ProductType = () => {
           <DataGrid
             rows={rows}
             columns={columns}
-            checkboxSelection
             disableRowSelectionOnClick
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
