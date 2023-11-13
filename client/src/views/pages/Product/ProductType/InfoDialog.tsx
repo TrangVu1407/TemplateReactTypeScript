@@ -167,7 +167,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
     React.useEffect(() => {
         handleSubmit();
         checkValue();
-    }, [value.describe, value.name])
+    }, [value.describe, value.name, handleSubmit, checkValue])
 
     return (
         <Dialog
