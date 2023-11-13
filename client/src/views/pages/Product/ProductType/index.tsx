@@ -122,10 +122,10 @@ const ProductType = () => {
         }
         setRows(data);
       } else {
-        console.warn("có lỗi trong qúa trình lấy dữ liệu, vui lòng kiểm tra lại")
+        console.warn(`${t('get_data_error')}`)
       }
     } catch (error: any) {
-      console.warn("Có lỗi trong quá trình lấy dữ liệu, vui lòng kiểm tra lại đường dẫn");
+      console.warn(`${t('connect_error')}`);
     }
   }
 

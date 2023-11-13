@@ -64,7 +64,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
         let check = true;
         if (value.describe.trim() === '' || value.name.trim() === '') {
             setErrorValue(true);
-            setErrorValueMessage("Vui lòng nhập đầy đủ dữ liệu trước khi thực hiện thao tác");
+            setErrorValueMessage(`${t('please_input_data')}`);
         } else if (value.describe.trim() !== '' || value.name.trim() !== '') {
             setErrorValue(false);
             setErrorValueMessage("");
@@ -100,7 +100,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                         break;
                     default:
                         // code block
-                        setMessage({ notification: `${('product_type_connect_error')}`, severity: "error" })
+                        setMessage({ notification: `${t('product_type_connect_error')}`, severity: "error" })
                 }
             }
         } catch (e) {
@@ -136,7 +136,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                         break;
                     default:
                         // code block
-                        setMessage({ notification: `${('product_type_connect_error')}`, severity: "error" })
+                        setMessage({ notification: `${t('product_type_connect_error')}`, severity: "error" })
                 }
             }
         } catch (e) {
@@ -153,12 +153,12 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
     }
     const handleSubmit = () => {
         if (value.describe.trim() === '') {
-            setErrorDescribe("trường này không được để trống");
+            setErrorDescribe(`${t('value_error')}`);
         } else {
             setErrorDescribe("");
         }
         if (value.name.trim() === '') {
-            setErrorName("trường này không được để trống");
+            setErrorName(`${t('value_error')}`);
         } else {
             setErrorName("");
         }
@@ -228,8 +228,8 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                     />
                 </Box>
             </DialogContent>
-            {isExisting && <Box style={{ marginLeft: "20px", color: "red" }}><h4>{t('status')}: {isExistingMesage}</h4></Box>}
-            {errorValue && <Box style={{ marginLeft: "20px", color: "orange" }}><h4>{t('Chú ý')}: {errorValueMesage}</h4></Box>}
+            {isExisting && <Box style={{ marginLeft: "20px", color: "red" }}><h4>{t(`${'status'}`)}: {isExistingMesage}</h4></Box>}
+            {errorValue && <Box style={{ marginLeft: "20px", color: "orange" }}><h4>{t(`${'attention'}`)}: {errorValueMesage}</h4></Box>}
             <hr />
             <DialogActions>
                 <Button variant="outlined" onClick={() => closeOpen(!open)}>{t('close')}</Button>
