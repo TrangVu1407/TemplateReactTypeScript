@@ -24,6 +24,10 @@ const Dashboard: PropsMenuItem = {
                 path: "/product_size",
                 name: "product_size",
                 icon: <CropRotate />
+            }, {
+                path: "/demo",
+                name: "demo",
+                icon: <CropRotate />
             },
         ]
     },]

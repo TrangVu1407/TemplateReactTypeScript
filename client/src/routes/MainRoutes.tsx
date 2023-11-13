@@ -30,6 +30,10 @@ const MainRoutes = {
         {
             path: "/product_size",
             element: <ProductSize />,
+        },
+        {
+            path: "/demo",
+            element: <ProductSize />,
         }
     ],
 }
