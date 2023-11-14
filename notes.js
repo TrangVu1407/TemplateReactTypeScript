@@ -31,3 +31,4 @@
 // ------------Truyền object (update from index to infoDialog)--------------------
 // React.useReducer :https://www.youtube.com/watch?v=lSY5R9ByO6Y
 // Tài liệu google: https://dev.to/craigaholliday/using-the-usereducer-hook-in-react-with-typescript-27m1
+// npm install @mui/x-data-grid-pro [table có nút mở rộng xêm chi tiết]
