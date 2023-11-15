@@ -1,6 +1,7 @@
 import * as React from 'react';
-import MainProduct from "ui-component/Product/MainProduct"
-import { DataGrid, GridColDef, useGridApiContext, useGridSelector, gridPageCountSelector, gridPageSelector, GridActionsCellItem, GridRowParams, } from '@mui/x-data-grid';
+import MainProduct from "ui-component/Product/MainProduct";
+import { Portal } from '@mui/base/Portal';
+import { DataGrid, GridColDef, useGridApiContext, useGridSelector, gridPageCountSelector, gridPageSelector, GridActionsCellItem, GridRowParams, GridToolbarQuickFilter, GridToolbar } from '@mui/x-data-grid';
 import { Box, Pagination, PaginationItem, Button, TextField, Fab, Tooltip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import InfoDialog from "./InfoDialog";
@@ -22,6 +23,17 @@ export interface objectUpdate {
 
 export interface dataUpdate extends objectUpdate {
   id: number;
+}
+
+function MyCustomToolbar(props: any) {
+  return (
+    <React.Fragment>
+      <Portal container={() => document.getElementById('filter-panel')}>
+        <GridToolbarQuickFilter />
+      </Portal>
+      <GridToolbar {...props} />
+    </React.Fragment>
+  );
 }
 
 const ProductType = () => {
@@ -201,7 +213,11 @@ const ProductType = () => {
             onPaginationModelChange={setPaginationModel}
             slots={{
               pagination: CustomPagination,
+              toolbar: MyCustomToolbar,
             }}
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
           />
         </Box>
 
