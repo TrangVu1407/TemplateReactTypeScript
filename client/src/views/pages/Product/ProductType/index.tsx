@@ -1,8 +1,7 @@
 import * as React from 'react';
 import MainProduct from "ui-component/Product/MainProduct";
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams } from '@mui/x-data-grid';
-import { Box, Button, TextField, Fab, Tooltip } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Box, Button, TextField } from '@mui/material';
 import InfoDialog from "./InfoDialog";
 import DeleteDialog from "./DeleteDialog";
 import productTypeServices from "services/product_type/product_type";
@@ -13,8 +12,9 @@ import type { typeLocalStorage } from "local-storage/localStorage";
 import SnackBar from "ui-component/Snackbar/index";
 import { messageSnackBar } from "ui-component/Snackbar/index";
 import { useTranslation } from 'react-i18next';
-import  MyCustomToolbar  from "ui-component/DataGrid/MyCustomToolbar"
-import  CustomPagination  from "ui-component/DataGrid/CustomPagination"
+import MyCustomToolbar from "ui-component/DataGrid/MyCustomToolbar";
+import CustomPagination from "ui-component/DataGrid/CustomPagination";
+import IconAdd from "ui-component/Tooltip/IconAdd";
 
 export interface objectUpdate {
   name: string;
@@ -168,11 +168,7 @@ const ProductType = () => {
         </Box>
 
         <Box sx={{ height: dimensions.height - 260 }}>
-          <Tooltip title={t('create_new')}>
-            <Fab size="medium" color="primary" aria-label="add" sx={{ ml: 2, mb: -3 }} onClick={openInfoDialog}>
-              <AddIcon />
-            </Fab>
-          </Tooltip>
+          <IconAdd title={t('create_new')} openInfoDialog={openInfoDialog} />
           <DataGrid
             rows={rows}
             columns={columns}
