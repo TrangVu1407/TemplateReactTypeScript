@@ -8,6 +8,7 @@ import {
   GridColDef,
   DataGridProProps,
 } from '@mui/x-data-grid-pro';
+import { DataGrid } from '@mui/x-data-grid';
 
 // data = [{ID: 1, detail: [{ID_DETAIL: 1.1}] }]
 const rows = [
@@ -56,7 +57,7 @@ function DetailPanelContent({ row: rowProp }: { row: Detail }) {
       <Paper sx={{ flex: 1, mx: 'auto', width: '90%', p: 1 }}>
         <Stack direction="column" spacing={1} sx={{ height: 1 }}>
           <Typography variant="h6">{`Order #${rowProp.id}`}</Typography>
-          <DataGridPro
+          <DataGrid
             density="compact"
             autoHeight
             columns={columns}
