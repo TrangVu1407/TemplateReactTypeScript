@@ -57,28 +57,43 @@ const FirebaseLogin = ({ ...others }) => {
           password: Yup.string().max(255).required("Password is required"),
         })}
         onSubmit={async (values, { setErrors }) => {
-          try {
-            let body: PropsLogin = { email: values.email, password: values.password };
-            const response = await loginServices.login(body);
-            const result = response.data;
-            if (result && !result.error) {
-              localStorage.setItem(
-                "localStorage",
-                JSON.stringify(result.data)
-              );
-              navigate("/dashboard");
-            } else {
-              setConnectError(false);
-              if (!loginError) {
-                setLoginError(!loginError);
-              }
-            }
-          } catch (error: any) {
-            if (!connectError) {
-              setConnectError(!connectError);
-            }
-            setErrors({ submit: error.message });
-          }
+          let permissions = [
+            {
+              id: 1, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/"
+            },
+            {
+              id: 11, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/dashboard"
+            },
+            {
+              id: 12, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/product"
+            }, {
+              id: 31, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/demo"
+            }, {
+              id: 14, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/product_type"
+            }, {
+              id: 16, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/product_type_create"
+            }, {
+              id: 17, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/product_type_update"
+            }, {
+              id: 1, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/product_type_delete"
+            }, {
+              id: 1, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/product_size"
+            }, {
+              id: 1, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/product_size_create"
+            },
+            {
+              id: 1, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/product_size_update"
+            },
+            {
+              id: 1, name: "Quản lý - Địa chỉ - Xem", name_sort: "Quản lý - Địa chỉ", screen: "/product_size_delete"
+            },
+          ]
+          let data = { permissions: permissions }
+          localStorage.setItem(
+            "localStorage",
+            JSON.stringify(data)
+          );
+          navigate("/dashboard");
         }}
       >
         {({
