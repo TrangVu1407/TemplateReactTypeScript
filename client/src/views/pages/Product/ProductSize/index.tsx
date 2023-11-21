@@ -66,10 +66,7 @@ const ProductSize = () => {
     const columns = React.useMemo<GridColDef[]>(
       () => [
         {
-          field: 'stt', headerName: `${t('no')}`, width: 90, sortable: false, disableColumnMenu: true, renderCell: (params: GridRenderCellParams) => {
-            // lấy số thứ tự. nhưng chưa tìm ra được cách. suy nghĩ sau :)))
-            return 0;
-          },
+          field: 'stt', headerName: `${t('no')}`, width: 90, sortable: false, disableColumnMenu: true
         },
         {
           field: 'actions',
