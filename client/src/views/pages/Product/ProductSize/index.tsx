@@ -8,7 +8,7 @@ import {
   GridColDef,
   DataGridProProps,
 } from '@mui/x-data-grid-pro';
-import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import InfoDialog from "./InfoDialog";
 import { messageSnackBar } from "ui-component/Snackbar/index";
 import type { typeLocalStorage } from "local-storage/localStorage";
