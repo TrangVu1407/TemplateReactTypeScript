@@ -8,13 +8,17 @@ export interface PropsDeleteProductSize {
   id: number;
 }
 
-export interface PropsCreateProductSize {
-  product_type_id: number;
-  shop_id: number;
+export interface Size {
   name: string;
   code?: string;
   describe: string;
   notes: string;
+  id?: number | string;
+  product_type_id?: number;
+  shop_id?: number;
+}
+export interface PropsCreateProductSize {
+  product_sizes: object;
 }
 
 export interface PropsUpdateProductSize extends PropsCreateProductSize {

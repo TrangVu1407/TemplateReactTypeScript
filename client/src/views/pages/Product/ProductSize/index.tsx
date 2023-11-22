@@ -165,7 +165,7 @@ const ProductSize = () => {
   };
   const closeOpen = async (callApi: boolean) => {
     if (callApi) {
-      setOpenMessage(true);
+      getProductSize();
     }
     setOpen(false);
   };
