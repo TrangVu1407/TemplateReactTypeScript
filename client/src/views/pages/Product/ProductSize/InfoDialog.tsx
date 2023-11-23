@@ -9,7 +9,8 @@ import type { PropsGetProductType } from "services/product_type/product_type";
 import TableSize from "./Size_v1/TableSize";
 import LoadingButton from '@mui/lab/LoadingButton';
 import productSizeServices from "services/product_size/product_size";
-import type { PropsCreateProductSize, Size } from "services/product_size/product_size";
+import type { PropsCreateProductSize, PropsUpdateProductSize, Size } from "services/product_size/product_size";
+import type { Type } from "./index"
 
 interface Props {
     open: boolean;
@@ -17,6 +18,8 @@ interface Props {
     type: boolean;
     item: dataUpdate;
     setMessage: React.Dispatch<React.SetStateAction<messageSnackBar>>;
+    listData: Type[];
+    setType: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface Option {
@@ -25,7 +28,7 @@ interface Option {
     notes: string;
 }
 
-const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }) => {
+const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage, listData, setType }) => {
     const { t } = useTranslation();
     const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
     const [errorValue, setErrorValue] = React.useState(false)
@@ -56,7 +59,6 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
             };
             const response = await productSizeServices.create(body);
             const result = response.data;
-            console.warn("result.data", result);
             if (result && !result.error) {
                 setMessage({ notification: `${t('product_type_create_success')}`, severity: "info" });
                 let callApi = true;
@@ -69,11 +71,41 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
             setMessage({ notification: `${('product_type_connect_error')}`, severity: "error" })
         }
     }
-    async function updateSizeProduct() { }
+    async function updateSizeProduct() {
+        if (productSize.length === 0) {
+            setErrorValue(true);
+            setErrorValueMessage(`${t('please_input_data')}`);
+            return;
+        }
+        let addNew = [];
+        let update = [];
+        for (let i = 0; i < productSize.length; i++) {
+            if (productSize[i].status === "update") {
+                delete productSize[i].status;
+                update.push(productSize[i]);
+            } else if (productSize[i].status === "addNew") {
+                delete productSize[i].id;
+                delete productSize[i].status;
+                addNew.push(productSize[i]);
+            }
+        }
+        let body: PropsUpdateProductSize = { product_sizes: {} }
+        if (update.length > 0) {
+            body.product_sizes.update = update;
+        }
+        if (addNew.length > 0) {
+            body.product_sizes.addNew = addNew;
+        }
+        const response = await productSizeServices.update(body);
+        const result = response.data;
+        console.warn("body", result);
+
+    }
     const [dataProductType, setDataProductType] = React.useState<Option[]>([]);
     const [productType, setProductType] = React.useState<Option>({ describe: "", notes: "", id: 0 });
     const [loading, setLoading] = React.useState(true);
     const [productSize, setProductSize] = React.useState<Size[]>([]);
+    const [deleteProductSize, setDeleteProductSize] = React.useState<[]>([]);
     // loại sản phẩm
     async function getProductType() {
         try {
@@ -98,8 +130,19 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
     const handleChange = (event: React.ChangeEvent<{}>, newValue: Option | null) => {
         setProductType({ describe: `${newValue?.describe}`, notes: `${newValue?.notes}`, id: newValue?.id ? newValue?.id : 0 });
         if (newValue?.id) {
+            setProductSize([]);
+            setType(false);
+            for (let i = 0; i < listData.length; i++) {
+                if (listData[i].id === newValue?.id) {
+                    setProductSize(listData[i].product_sizes);
+                    setType(true);
+                    setLoading(false);
+                    return;
+                }
+            }
             setLoading(false);
         } else if (!newValue?.id) {
+            setProductSize([]);
             setLoading(true);
         }
     };
@@ -155,7 +198,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage }
                         }}
                         value={productType.notes}
                     />
-                    <TableSize loading={loading} setProductSize={setProductSize} productSize={productSize} />
+                    <TableSize loading={loading} setProductSize={setProductSize} productSize={productSize} setDeleteProductSize={setDeleteProductSize}/>
                 </Box>
             </DialogContent>
             {/* // code FE không thể nào trùng với BE nên mã lỗi không trả về FE */}

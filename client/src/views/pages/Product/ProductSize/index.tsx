@@ -25,7 +25,7 @@ export interface dataUpdate extends objectUpdate {
   id: number;
 }
 
-interface Type {
+export interface Type {
   id: number;
   product_type_name: string;
   product_type_describe: string;
@@ -208,7 +208,7 @@ const ProductSize = () => {
             getDetailPanelContent={({ row }) => <DetailPanelContent row={row} />}
           />
         </Box>
-        <>{open && <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} setMessage={setMessage} />}</>
+        <>{open && <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} setMessage={setMessage} listData={rows} setType={setType}/>}</>
       </MainProduct>
     </>
   )

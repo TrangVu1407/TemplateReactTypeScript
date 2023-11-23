@@ -86,6 +86,7 @@ const AlertDialogSlide: React.FC<Props> = ({ open, type, item, closeOpen, setPro
             name: value.name,
             notes: value.notes,
             describe: value.describe,
+            status: "addNew",
         };
         let data = [];
         data.push(body);
@@ -102,7 +103,26 @@ const AlertDialogSlide: React.FC<Props> = ({ open, type, item, closeOpen, setPro
     }
 
     const updateTypeProduct = async () => {
-
+        let error_value = await checkValue();
+        if (error_value) {
+            return;
+        }
+        let data = [];
+        let body = {
+            id: item.id,
+            name: value.name,
+            describe: value.describe,
+            notes: item.notes,
+            status: "update",
+        };
+        data.push(body);
+        for (let i = 0; i < productSize.length; i++) {
+            if (productSize[i].id !== item.id) {
+                data.push(productSize[i]);
+            }
+        }
+        setProductSize(data);
+        closeOpen(false);
     }
 
     const actionProductType = async () => {

@@ -16,14 +16,22 @@ export interface Size {
   id?: number | string;
   product_type_id?: number;
   shop_id?: number;
+  status?: string;
 }
 export interface PropsCreateProductSize {
   product_sizes: object;
 }
 
-export interface PropsUpdateProductSize extends PropsCreateProductSize {
-  id: number;
+export interface PropsUpdateProductSize {
+  product_sizes: {
+    addNew?: Size[];
+    update?: Size[];
+  };
 }
+
+// export interface PropsUpdateProductSize extends PropsCreateProductSize {
+//   id: number;
+// }
 
 const productSize = {
   getList: function (params: PropsGetProductSize) {

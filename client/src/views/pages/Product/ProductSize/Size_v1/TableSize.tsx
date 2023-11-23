@@ -1,16 +1,19 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams } from '@mui/x-data-grid';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InfoDialog from "./InfoDialog_v1";
 import MyCustomToolbar from "ui-component/DataGrid/MyCustomToolbar";
 import CustomPagination from "ui-component/DataGrid/CustomPagination";
 import type { Size } from "services/product_size/product_size";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 interface Props {
     loading: boolean;
     setProductSize: React.Dispatch<React.SetStateAction<Size[]>>;
     productSize: Size[];
+    setDeleteProductSize: React.Dispatch<React.SetStateAction<[]>>;
 }
 
 export interface objectUpdate {
@@ -23,27 +26,9 @@ export interface dataUpdate extends objectUpdate {
     id: number;
 }
 
-const columns: GridColDef[] = [
-    { field: 'stt', headerName: "STT", width: 90, sortable: false, disableColumnMenu: true },
-    {
-        field: 'name',
-        headerName: 'Kích thước',
-        width: 150,
-    },
-    {
-        field: 'describe',
-        headerName: 'Mô tả',
-        width: 150,
-    },
-    {
-        field: 'notes',
-        headerName: 'Ghi chú',
-        width: 300,
-    },
-];
-
-const TableSize: React.FC<Props> = ({ loading, setProductSize, productSize }) => {
+const TableSize: React.FC<Props> = ({ loading, setProductSize, productSize, setDeleteProductSize }) => {
     const [open, setOpen] = React.useState(false);
+    const [type, setType] = React.useState(false);
     const [itemUpdate, setItemUpdate] = React.useState<dataUpdate>(Object);
     const [paginationModel, setPaginationModel] = React.useState({
         pageSize: 15,
@@ -54,9 +39,64 @@ const TableSize: React.FC<Props> = ({ loading, setProductSize, productSize }) =>
     };
 
     const openInfoDialog = async () => {
+        setType(false);
         setItemUpdate({ name: "Size M", describe: "Quần áo size M", notes: "Dành cho người có cân nặng khoản 45-50kg", id: 0 });
         setOpen(true);
     };
+
+    const columns: GridColDef[] = [
+        { field: 'stt', headerName: "STT", width: 90, sortable: false, disableColumnMenu: true },
+        {
+            field: 'actions',
+            type: 'actions',
+            headerName: 'Thao tác',
+            width: 100,
+            getActions: (item) => {
+                return [
+                    <GridActionsCellItem icon={<EditIcon color="primary" />} label="Edit" onClick={updateInfoDialog(item)} />,
+                    <GridActionsCellItem icon={<DeleteIcon sx={{ color: "red" }} />} label="Delete" onClick={deleteInfoDialog(item)} />,
+                ]
+            },
+        },
+        {
+            field: 'name',
+            headerName: 'Kích thước',
+            width: 150,
+        },
+        {
+            field: 'describe',
+            headerName: 'Mô tả',
+            width: 150,
+        },
+        {
+            field: 'notes',
+            headerName: 'Ghi chú',
+            width: 300,
+        },
+    ];
+
+    const updateInfoDialog = (item: GridRowParams) => () => {
+        setType(true);
+        let data = {
+            name: item.row.name,
+            describe: item.row.describe,
+            notes: item.row.notes,
+            id: item.row.id,
+        }
+        setItemUpdate(data);
+        setOpen(true);
+    };
+
+    const deleteInfoDialog = (item: GridRowParams) => () => {
+        // setDeleteProductSize
+        for (let i = 0; i < productSize.length; i++) {
+            if (productSize[i].id === item.row.id) {
+                productSize[i].status = "delete";
+            }
+        }
+        setProductSize(productSize);
+    };
+
     return (
         <Box sx={{ width: '100%', height: '400px' }}>
             <LoadingButton
@@ -82,7 +122,7 @@ const TableSize: React.FC<Props> = ({ loading, setProductSize, productSize }) =>
                 disableColumnSelector
                 disableDensitySelector
             />
-            <>{open && <InfoDialog open={open} type={false} item={itemUpdate} closeOpen={closeOpen} setProductSize={setProductSize} productSize={productSize} />}</>
+            <>{open && <InfoDialog open={open} type={type} item={itemUpdate} closeOpen={closeOpen} setProductSize={setProductSize} productSize={productSize} />}</>
         </Box>
     );
 }
