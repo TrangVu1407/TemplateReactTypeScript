@@ -47,9 +47,9 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage, 
                 setErrorValueMessage(`${t('please_input_data')}`);
                 return;
             }
-
             for (let i = 0; i < productSize.length; i++) {
                 delete productSize[i].id;
+                delete productSize[i].status;
                 productSize[i].shop_id = data.employee.shop_id;
                 productSize[i].product_type_id = productType.id;
             }
@@ -98,7 +98,6 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage, 
         }
         const response = await productSizeServices.update(body);
         const result = response.data;
-        console.warn("body", result);
 
     }
     const [dataProductType, setDataProductType] = React.useState<Option[]>([]);
