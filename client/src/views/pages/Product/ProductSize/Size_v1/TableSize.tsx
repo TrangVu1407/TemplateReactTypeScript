@@ -14,6 +14,7 @@ interface Props {
     setProductSize: React.Dispatch<React.SetStateAction<Size[]>>;
     productSize: Size[];
     setDeleteProductSize: React.Dispatch<React.SetStateAction<[]>>;
+    listData: {};
 }
 
 export interface objectUpdate {
@@ -26,7 +27,7 @@ export interface dataUpdate extends objectUpdate {
     id: number;
 }
 
-const TableSize: React.FC<Props> = ({ loading, setProductSize, productSize, setDeleteProductSize }) => {
+const TableSize: React.FC<Props> = ({ loading, setProductSize, productSize, setDeleteProductSize, listData }) => {
     const [open, setOpen] = React.useState(false);
     const [type, setType] = React.useState(false);
     const [itemUpdate, setItemUpdate] = React.useState<dataUpdate>(Object);
@@ -96,7 +97,11 @@ const TableSize: React.FC<Props> = ({ loading, setProductSize, productSize, setD
         }
         setProductSize(productSize);
     };
-
+    React.useEffect(() => {
+        if (listData) {
+            setProductSize(listData as Size[]);
+        }
+    }, [listData]);
     return (
         <Box sx={{ width: '100%', height: '400px' }}>
             <LoadingButton

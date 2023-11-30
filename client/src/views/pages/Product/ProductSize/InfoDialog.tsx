@@ -16,7 +16,7 @@ interface Props {
     open: boolean;
     closeOpen: (status: boolean) => Promise<void>
     type: boolean;
-    item: dataUpdate;
+    item: objectUpdate;
     setMessage: React.Dispatch<React.SetStateAction<messageSnackBar>>;
     listData: Type[];
     setType: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,6 +26,7 @@ interface Option {
     id: number;
     describe: string;
     notes: string;
+    label: string;
 }
 
 const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage, listData, setType }) => {
@@ -72,6 +73,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage, 
         }
     }
     async function updateSizeProduct() {
+        console.warn("productSize", productSize);
         if (productSize.length === 0) {
             setErrorValue(true);
             setErrorValueMessage(`${t('please_input_data')}`);
@@ -101,10 +103,11 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage, 
 
     }
     const [dataProductType, setDataProductType] = React.useState<Option[]>([]);
-    const [productType, setProductType] = React.useState<Option>({ describe: "", notes: "", id: 0 });
+    const [productType, setProductType] = React.useState<Option>({ describe: "", notes: "", id: 0, label: "" });
     const [loading, setLoading] = React.useState(true);
     const [productSize, setProductSize] = React.useState<Size[]>([]);
     const [deleteProductSize, setDeleteProductSize] = React.useState<[]>([]);
+
     // loại sản phẩm
     async function getProductType() {
         try {
@@ -127,7 +130,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage, 
     }
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: Option | null) => {
-        setProductType({ describe: `${newValue?.describe}`, notes: `${newValue?.notes}`, id: newValue?.id ? newValue?.id : 0 });
+        setProductType({ describe: `${newValue?.describe}`, notes: `${newValue?.notes}`, id: newValue?.id ? newValue?.id : 0, label: `${newValue?.label}` });
         if (newValue?.id) {
             setProductSize([]);
             setType(false);
@@ -146,9 +149,18 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage, 
         }
     };
 
+    const setDataUpdate = () => {
+        if (type) {
+            setLoading(false);
+            setProductType({ describe: `${item?.describe}`, notes: `${item?.notes}`, id: item.product_type_id, label: `${item?.product_type_name}` });
+        } else if (!type) {
+            setProductType({ describe: "", notes: "", id: 0, label: "" });
+        }
+    }
     React.useEffect(() => {
         getProductType();
-    }, []);
+        setDataUpdate();
+    }, [item]);
     return (
         <Dialog
             open={open}
@@ -171,6 +183,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage, 
                         size="small"
                         id="combo-box-demo"
                         onChange={handleChange}
+                        value={productType}
                         options={dataProductType}
                         renderInput={(params) => <TextField {...params} label="Loại sản phẩm" InputLabelProps={{
                             ...params.InputLabelProps,
@@ -197,7 +210,7 @@ const InfoDialog: React.FC<Props> = ({ open, closeOpen, type, item, setMessage, 
                         }}
                         value={productType.notes}
                     />
-                    <TableSize loading={loading} setProductSize={setProductSize} productSize={productSize} setDeleteProductSize={setDeleteProductSize}/>
+                    <TableSize loading={loading} setProductSize={setProductSize} productSize={productSize} setDeleteProductSize={setDeleteProductSize} listData={item.product_sizes} />
                 </Box>
             </DialogContent>
             {/* // code FE không thể nào trùng với BE nên mã lỗi không trả về FE */}

@@ -8,17 +8,21 @@ import {
   GridColDef,
   DataGridProProps,
 } from '@mui/x-data-grid-pro';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridRowParams } from '@mui/x-data-grid';
 import InfoDialog from "./InfoDialog";
 import { messageSnackBar } from "ui-component/Snackbar/index";
 import type { typeLocalStorage } from "local-storage/localStorage";
 import productSizeServices from "services/product_size/product_size";
 import type { PropsGetProductSize } from "services/product_size/product_size";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 export interface objectUpdate {
-  name: string;
+  product_type_id: number;
   describe: string,
   notes: string,
+  product_type_name: string;
+  product_sizes: [];
 }
 
 export interface dataUpdate extends objectUpdate {
@@ -67,17 +71,6 @@ const ProductSize = () => {
       () => [
         {
           field: 'stt', headerName: `${t('no')}`, width: 90, sortable: false, disableColumnMenu: true
-        },
-        {
-          field: 'actions',
-          type: 'actions',
-          headerName: `${t('actions')}`,
-          getActions: (item) => {
-            return [
-
-            ]
-          },
-          width: 100,
         },
         {
           field: 'name',
@@ -129,7 +122,8 @@ const ProductSize = () => {
       headerName: `${t('actions')}`,
       getActions: (item) => {
         return [
-
+          <GridActionsCellItem icon={<EditIcon color="primary" />} label="Edit" onClick={updateInfoDialog(item)} />,
+          <GridActionsCellItem icon={<DeleteIcon sx={{ color: "red" }} />} label="Delete" onClick={deleteInfoDialog(item)} />,
         ]
       },
       width: 100,
@@ -158,9 +152,10 @@ const ProductSize = () => {
   const [openMessage, setOpenMessage] = React.useState(false);
   const [message, setMessage] = React.useState<messageSnackBar>({ notification: "", severity: "success" });
   const [type, setType] = React.useState(false);
-  const [itemUpdate, setItemUpdate] = React.useState<dataUpdate>(Object);
+  const [itemUpdate, setItemUpdate] = React.useState<objectUpdate>(Object);
 
   const openInfoDialog = async () => {
+    setType(false);
     setOpen(true);
   };
   const closeOpen = async (callApi: boolean) => {
@@ -168,6 +163,30 @@ const ProductSize = () => {
       getProductSize();
     }
     setOpen(false);
+  };
+  const updateInfoDialog = (item: GridRowParams) => () => {
+    setType(true);
+    let data = {
+      product_type_id: item.row.id,
+      product_type_name: item.row.product_type_name,
+      describe: item.row.product_type_describe,
+      notes: item.row.product_type_notes,
+      product_sizes: item.row.product_sizes
+    }
+    setItemUpdate(data);
+    setOpen(true);
+  };
+
+  const deleteInfoDialog = (item: GridRowParams) => () => {
+    let data = {
+      product_type_id: item.row.id,
+      product_type_name: item.row.product_type_name,
+      describe: item.row.describe,
+      notes: item.row.notes,
+      product_sizes: item.row.product_sizes,
+    }
+    setItemUpdate(data);
+
   };
   const [dimensions, setDimensions] = React.useState({
     height: window.innerHeight,
@@ -208,7 +227,7 @@ const ProductSize = () => {
             getDetailPanelContent={({ row }) => <DetailPanelContent row={row} />}
           />
         </Box>
-        <>{open && <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} setMessage={setMessage} listData={rows} setType={setType}/>}</>
+        <>{open && <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} setMessage={setMessage} listData={rows} setType={setType} />}</>
       </MainProduct>
     </>
   )
