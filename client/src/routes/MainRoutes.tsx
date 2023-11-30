@@ -4,7 +4,7 @@ import Home from "views/pages/Home"
 // product
 import Product from "views/pages/Product"
 import ProductType from "views/pages/Product/ProductType"
-import ProductSize from "views/pages/Product/ProductSize"
+import ProductSize from "views/pages/Product/ProductSize_v1"
 import Demo from "views/pages/Product/demo"
 
 const MainRoutes = {
