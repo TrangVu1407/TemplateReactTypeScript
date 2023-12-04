@@ -15,6 +15,8 @@ import { useTranslation } from 'react-i18next';
 import MyCustomToolbar from "ui-component/DataGrid/MyCustomToolbar";
 import CustomPagination from "ui-component/DataGrid/CustomPagination";
 import IconAdd from "ui-component/Tooltip/IconAdd";
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import SizeDialog from '../ProductSize';
 
 export interface objectUpdate {
   name: string;
@@ -34,11 +36,12 @@ const ProductType = () => {
       field: 'actions',
       type: 'actions',
       headerName: `${t('actions')}`,
-      width: 100,
+      width: 120,
       getActions: (item) => {
         return [
           <GridActionsCellItem icon={<EditIcon color="primary" />} label="Edit" onClick={updateInfoDialog(item)} />,
           <GridActionsCellItem icon={<DeleteIcon sx={{ color: "red" }} />} label="Delete" onClick={deleteInfoDialog(item)} />,
+          <GridActionsCellItem icon={<BookmarksIcon sx={{ color: "orange" }} />} label="Delete" onClick={openSizeInfoDialog(item)} />,
         ]
       },
     },
@@ -75,6 +78,7 @@ const ProductType = () => {
   })
 
   const [open, setOpen] = React.useState(false);
+  const [openSize, setOpenSize] = React.useState(false);
   const [openMessage, setOpenMessage] = React.useState(false);
   const [message, setMessage] = React.useState<messageSnackBar>({ notification: "", severity: "success" })
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -154,6 +158,17 @@ const ProductType = () => {
     setOpenDelete(true);
   };
 
+  const openSizeInfoDialog = (item: GridRowParams) => () => {
+    let data = {
+      name: item.row.name,
+      id: item.row.id,
+      describe: item.row.describe,
+      notes: item.row.notes
+    }
+    setItemUpdate(data);
+    setOpenSize(true);
+  };
+
   return (
     <>
       <MainProduct title={t('product_type_title')} sx={{ border: 0 }}>
@@ -188,6 +203,7 @@ const ProductType = () => {
         <>{openMessage && (<SnackBar openMessage={openMessage} messsage={message} setOpenMessage={setOpenMessage} />)}</>
         <>{open && <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} setMessage={setMessage} />}</>
         <>{openDelete && <DeleteDialog open={openDelete} closeOpen={closeOpenDelete} item={itemUpdate} setMessage={setMessage} />}</>
+        <>{openSize && <SizeDialog open={openSize} closeOpen={setOpenSize} product_type_name={itemUpdate.name} product_type_id={itemUpdate.id} />}</>
 
       </MainProduct>
     </>

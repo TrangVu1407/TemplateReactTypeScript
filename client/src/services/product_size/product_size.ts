@@ -2,38 +2,27 @@ import axios from "axios";
 
 export interface PropsGetProductSize {
   shop_id?: number;
+  product_type_id?: number;
 }
 
 export interface PropsDeleteProductSize {
   id: number;
 }
 
-export interface Size {
+export interface PropsCreateProductSize {
+  shop_id: number;
+  product_type_id: number;
   name: string;
   code?: string;
   describe: string;
   notes: string;
-  id?: number | string;
-  product_type_id?: number;
-  shop_id?: number;
-  status?: string;
-}
-export interface PropsCreateProductSize {
-  product_sizes: object;
 }
 
-export interface PropsUpdateProductSize {
-  product_sizes: {
-    addNew?: Size[];
-    update?: Size[];
-  };
+export interface PropsUpdateProductSize extends PropsCreateProductSize {
+  id: number;
 }
 
-// export interface PropsUpdateProductSize extends PropsCreateProductSize {
-//   id: number;
-// }
-
-const productSize = {
+const productType = {
   getList: function (params: PropsGetProductSize) {
     return axios.get("/product_size/list", { params });
   },
@@ -51,4 +40,4 @@ const productSize = {
   },
 };
 
-export default productSize;
+export default productType;
