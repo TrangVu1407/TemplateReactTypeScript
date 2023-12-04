@@ -197,7 +197,7 @@ const Size: React.FC<Props> = ({ open, closeOpen, product_type_name, product_typ
                     </Toolbar>
                 </AppBar>
 
-                <Box sx={{ height: dimensions.height - 260 }}>
+                <Box sx={{ height: dimensions.height - 105 }}>
                     <Button variant="outlined" color='success' onClick={openInfoDialog}>Thêm</Button>
                     <DataGrid
                         rows={rows}
