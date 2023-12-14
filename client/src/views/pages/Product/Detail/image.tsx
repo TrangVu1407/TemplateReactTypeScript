@@ -62,6 +62,14 @@ const Image: React.FC<Props> = ({ images, setImages }) => {
         });
     };
 
+    const calculateImageListHeight = (imageCount: number): number => {
+        const baseHeightWithTwoImages = 350;
+        const baseHeightWithMoreThanTwoImages = 280;
+
+        return imageCount < 3
+            ? baseHeightWithTwoImages : baseHeightWithMoreThanTwoImages;
+    };
+
     return (
         <div>
             {images.length > 0 ? (
@@ -74,7 +82,7 @@ const Image: React.FC<Props> = ({ images, setImages }) => {
                             width: '0px',
                         },
                     }}
-                    rowHeight={280}
+                    rowHeight={calculateImageListHeight(images.length)}
                     gap={2}
                 >
                     {images.slice(1).map((item, index) => {
@@ -82,8 +90,7 @@ const Image: React.FC<Props> = ({ images, setImages }) => {
                         const cols = index === 0 ? 2 : 1;
 
                         // Chỉnh chiều cao ảnh đầu tiên nếu nó lớn hơn 290
-                        const adjustedHeight = index === 0 ? Math.min(290, rows * 200) : rows * 200;
-
+                        const adjustedHeight = images.length < 3 ? 320 : (index === 0 ? Math.min(290, rows * 200) : rows * 200);
                         return (
                             <ImageListItem key={index} cols={cols} rows={rows}>
                                 <img src={item.img} alt={item.title} loading="lazy" style={{ height: adjustedHeight }} />
