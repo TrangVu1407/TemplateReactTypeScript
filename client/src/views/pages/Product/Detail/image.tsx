@@ -62,12 +62,8 @@ const Image: React.FC<Props> = ({ images, setImages }) => {
         });
     };
 
-    const calculateImageListHeight = (imageCount: number): number => {
-        const baseHeightWithTwoImages = 350;
-        const baseHeightWithMoreThanTwoImages = 280;
-
-        return imageCount < 3
-            ? baseHeightWithTwoImages : baseHeightWithMoreThanTwoImages;
+    const calculateImageListHeight = (length: number) => {
+        return length === 2 ? 350 : 280;
     };
 
     return (
@@ -127,6 +123,7 @@ const Image: React.FC<Props> = ({ images, setImages }) => {
                             style={{ display: 'none' }}
                         />
                         <Button
+                            color={images.length < 2 ? 'error' : 'primary'}
                             startIcon={<CloudUploadIcon />}
                             variant="outlined"
                             component="span"
