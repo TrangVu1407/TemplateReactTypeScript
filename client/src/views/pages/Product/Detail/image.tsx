@@ -66,12 +66,16 @@ const Image: React.FC<Props> = ({ images, setImages }) => {
         return length === 2 ? 350 : 280;
     };
 
+    const calculateImageListHeight_v0 = (length: number) => {
+        return length < 2 ? 0 : 350;
+    };
+
     return (
         <div>
             {images.length > 0 ? (
                 <ImageList
                     sx={{
-                        height: 350,
+                        height: calculateImageListHeight_v0(images.length),
                         overflow: 'auto',
                         scrollbarWidth: '0px',
                         '&::-webkit-scrollbar': {
@@ -112,7 +116,7 @@ const Image: React.FC<Props> = ({ images, setImages }) => {
             ) : (
                 <p>Không có ảnh.</p>
             )}
-            <Grid container justifyContent="center" style={{ marginTop: 10 }}>
+            <Grid container justifyContent="center" style={{ marginTop: images.length < 2 ? 0 : 10 }}>
                 <Grid item xs={12}>
                     <label htmlFor="upload-photo" style={{ width: '100%' }}>
                         <input
@@ -127,7 +131,7 @@ const Image: React.FC<Props> = ({ images, setImages }) => {
                             startIcon={<CloudUploadIcon />}
                             variant="outlined"
                             component="span"
-                            sx={{ width: '100%' }}
+                            sx={{ width: '100%', height: images.length < 2 ? '350px' : '100%', }}
                         >
                             Tải lên ảnh
                         </Button>
