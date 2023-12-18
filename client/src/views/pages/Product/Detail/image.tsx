@@ -87,7 +87,7 @@ const Image: React.FC<Props> = ({ images, setImages }) => {
                 >
                     {images.slice(1).map((item, index) => {
                         let rows = 1;
-                        const cols = index === 0 ? 2 : 1;
+                        const cols = index === 0 ? 2 : (index + 2 === images.length && images.length % 2 !== 0) ? 2 : 1;
 
                         // Chỉnh chiều cao ảnh đầu tiên nếu nó lớn hơn 290
                         const adjustedHeight = images.length < 3 ? 320 : (index === 0 ? Math.min(290, rows * 200) : rows * 200);
