@@ -65,5 +65,11 @@
     "product_size_delete_title": "Xóa kích thước sản phẩm",
     "product_size_what_delete": "Bạn có chắc muốn xóa?",
     "product_size_delete_success": "Xóa kích thước thành công",
-    "product_size_end_no_use": ""
+    "product_size_end_no_use": "",
+    "product_start_no_use": "",
+    "product_name": "Tên sản phẩm",
+    "product_describe": "Mô tả",
+    "product_notes": "Ghi chú",
+    "product_describe_type": "Mô tả loại sản phẩm",
+    "product_end_no_use": ""
 }
