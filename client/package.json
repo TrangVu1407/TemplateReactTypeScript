@@ -60,6 +60,12 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "node-sass": "^9.0.0"
+  },
+  "babel": {
+    "plugins": [
+      "@babel/plugin-proposal-private-property-in-object"
+    ]
   }
 }
