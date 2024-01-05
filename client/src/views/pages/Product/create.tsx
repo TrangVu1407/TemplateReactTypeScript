@@ -1,11 +1,14 @@
-import React from 'react'
-import { Grid, Box, TextField, TextareaAutosize, RadioGroup, FormControlLabel, Radio, Autocomplete } from '@mui/material';
-import Image from './Detail/image'
+import React from 'react';
+import { Box, Grid, TextField, TextareaAutosize, RadioGroup, FormControlLabel, Radio, Autocomplete } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import Image from './Detail/image';
 import { useTranslation } from 'react-i18next';
-import productTypeServices from "services/product_type/product_type";
-import type { PropsGetProductType } from "services/product_type/product_type";
-import type { typeLocalStorage } from "local-storage/localStorage";
-
+import IconAdd from 'ui-component/Tooltip/IconAdd';
+import CustomPagination from 'ui-component/DataGrid/CustomPagination';
+import MyCustomToolbar from 'ui-component/DataGrid/MyCustomToolbar';
+import productTypeServices from 'services/product_type/product_type';
+import type { PropsGetProductType } from 'services/product_type/product_type';
+import type { typeLocalStorage } from 'local-storage/localStorage';
 interface Option {
   id: number;
   describe: string;
@@ -14,6 +17,11 @@ interface Option {
 }
 const Create = () => {
   const { t } = useTranslation();
+
+  const columns: GridColDef[] = [
+    { field: 'stt', headerName: `${t('no')}`, width: 90, sortable: false, disableColumnMenu: true },
+  ];
+
   const initialImages: { featured: boolean; img: string; title: string }[] = [
     {
       featured: false,
@@ -21,39 +29,67 @@ const Create = () => {
       title: 'Image Title',
     },
   ];
-  const [images, setImages] = React.useState(initialImages);
 
+  const [images, setImages] = React.useState(initialImages);
+  const [dimensions, setDimensions] = React.useState({
+    height: window.innerHeight,
+  });
   const [errorName, setErrorName] = React.useState('');
   const [errorDescribe, setErrorDescribe] = React.useState('');
   const [dataProductType, setDataProductType] = React.useState<Option[]>([]);
   const [productType, setProductType] = React.useState<Option>({ describe: "", notes: "", id: 0, label: "" });
-  // loại sản phẩm
-  async function getProductType() {
+  const [rows, setRows] = React.useState<{}[]>([]);
+  const [paginationModel, setPaginationModel] = React.useState({
+    pageSize: 15,
+    page: 0,
+  });
+
+  const openInfoDialog = async () => {
+    // ... Your implementation here
+  };
+
+  async function getProductType(): Promise<void> {
     try {
-      const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
-      let params: PropsGetProductType = { shop_id: data.employee.shop_id };
+      const data: typeLocalStorage | null = JSON.parse(localStorage.getItem("localStorage") || "{}");
+      if (!data || !data.employee || !data.employee.shop_id) {
+        console.warn(`${t('connect_error')}`);
+        return;
+      }
+
+      const params: PropsGetProductType = { shop_id: data.employee.shop_id };
       const response = await productTypeServices.getList(params);
       const result = response.data;
-      if (result && !result.error) {
-        let data = [];
-        for (let i = 0; i < result.data.length; i++) {
-          data.push({ label: result.data[i].name, describe: result.data[i].describe, notes: result.data[i].notes, id: result.data[i].id, stt: i + 1 })
-        }
-        setDataProductType(data);
+
+      if (result && result.data && !result.data.error) {
+        const formattedData = result.data.map((item: any, index: number) => ({
+          label: item.name,
+          describe: item.describe,
+          notes: item.notes,
+          id: item.id,
+          stt: index + 1,
+        }));
+
+        setDataProductType(formattedData);
       } else {
-        console.warn(`${t('get_data_error')}`)
+        console.warn(`${t('get_data_error')}`);
       }
     } catch (error: any) {
-      console.warn(`${t('connect_error')}`);
+      console.error(`${t('connect_error')}: ${error.message}`);
     }
   }
-
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: Option | null) => {
     setProductType({ describe: `${newValue?.describe}`, notes: `${newValue?.notes}`, id: newValue?.id ? newValue?.id : 0, label: `${newValue?.label}` });
   };
 
   React.useEffect(() => {
+    function handleResize() {
+      setDimensions({
+        height: window.innerHeight,
+      });
+    }
+
+    window.addEventListener('resize', handleResize);
     getProductType();
   }, []);
   return (
@@ -157,6 +193,33 @@ const Create = () => {
           </Box>
         </Box>
       </Grid>
+
+      <Grid item xs={12} md={12}>
+        <Box border={1}>
+          <Box component="form" noValidate autoComplete="off" sx={{ '& .MuiTextField-root': { margin: 1 }, margin: 2 }}>
+            Chi tiết sản phẩm
+            <Box>
+              <IconAdd title={t('create_new')} openInfoDialog={openInfoDialog} />
+              <DataGrid
+                sx={{ height: dimensions.height - 560 }}
+                rows={rows}
+                columns={columns}
+                disableRowSelectionOnClick
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+                slots={{
+                  pagination: CustomPagination,
+                  toolbar: MyCustomToolbar,
+                }}
+                disableColumnFilter
+                disableColumnSelector
+                disableDensitySelector
+              />
+            </Box>
+          </Box>
+        </Box>
+      </Grid>
+
     </Grid>
   );
 }
