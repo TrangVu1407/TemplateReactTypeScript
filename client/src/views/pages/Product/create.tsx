@@ -58,15 +58,16 @@ const Create = () => {
   }, []);
   return (
     <Grid container spacing={2}>
-      <Grid item xs={4}>
+      {/* Left Part: Image Selection */}
+      <Grid item xs={12} md={4}>
         <Image images={images} setImages={setImages} />
       </Grid>
 
-      {/* Right Part */}
-      <Grid item xs={8}>
-        <Box sx={{ border: 1 }}>
-          <Box component="form" noValidate
-            autoComplete="off" sx={{ '& .MuiTextField-root': { margin: 1 }, margin: 2 }}>
+      {/* Right Part: Product Information */}
+      <Grid item xs={12} md={8}>
+        <Box border={1}>
+          <Box component="form" noValidate autoComplete="off" sx={{ '& .MuiTextField-root': { margin: 1 }, margin: 2 }}>
+            {/* Product Name & Gender Radio Group */}
             <Grid container direction="row" alignItems="center" spacing={2}>
               <Grid item xs={9}>
                 <TextField
@@ -77,29 +78,27 @@ const Create = () => {
                   inputProps={{
                     required: true,
                   }}
-                  error={errorName !== ''}
-                  helperText={errorName !== '' ? errorName : null}
+                  error={Boolean(errorName)}
+                  helperText={errorName || null}
                 />
               </Grid>
               <Grid item xs={3}>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="row-radio-buttons-group"
-                >
+                <RadioGroup row name="row-radio-buttons-group">
                   <FormControlLabel value="female" control={<Radio />} label="Nam" />
                   <FormControlLabel value="male" control={<Radio />} label="Nữ" />
                 </RadioGroup>
               </Grid>
             </Grid>
+
+            {/* Product Describe & Notes */}
             <TextField
               fullWidth
               multiline
               inputProps={{
                 required: true,
               }}
-              error={errorDescribe !== ''}
-              helperText={errorDescribe !== '' ? errorDescribe : null}
+              error={Boolean(errorDescribe)}
+              helperText={errorDescribe || null}
               label={t('product_describe')}
               InputProps={{
                 inputComponent: TextareaAutosize,
@@ -112,14 +111,16 @@ const Create = () => {
               inputProps={{
                 required: true,
               }}
-              error={errorDescribe !== ''}
-              helperText={errorDescribe !== '' ? errorDescribe : null}
+              error={Boolean(errorDescribe)}
+              helperText={errorDescribe || null}
               label={t('product_notes')}
               InputProps={{
                 inputComponent: TextareaAutosize,
                 rows: 3
               }}
             />
+
+            {/* Product Type & Describe */}
             <Grid container direction="row" alignItems="center" spacing={2}>
               <Grid item xs={6}>
                 <Autocomplete
@@ -129,10 +130,12 @@ const Create = () => {
                   onChange={handleChange}
                   value={productType}
                   options={dataProductType}
-                  renderInput={(params) => <TextField {...params} label="Loại sản phẩm" InputLabelProps={{
-                    ...params.InputLabelProps,
-                    children: 'loại sản phẩm',
-                  }} />}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Loại sản phẩm" InputLabelProps={{
+                      ...params.InputLabelProps,
+                      children: 'loại sản phẩm',
+                    }} />
+                  )}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -146,18 +149,16 @@ const Create = () => {
                     required: true,
                   }}
                   value={productType.describe}
-                  error={errorName !== ''}
-                  helperText={errorName !== '' ? errorName : null}
+                  error={Boolean(errorName)}
+                  helperText={errorName || null}
                 />
               </Grid>
             </Grid>
           </Box>
-
-
         </Box>
       </Grid>
     </Grid>
-  )
+  );
 }
 
 export default Create
