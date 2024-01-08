@@ -9,7 +9,16 @@ import MyCustomToolbar from 'ui-component/DataGrid/MyCustomToolbar';
 import productTypeServices from 'services/product_type/product_type';
 import type { PropsGetProductType } from 'services/product_type/product_type';
 import type { typeLocalStorage } from 'local-storage/localStorage';
+import productSizeServices from 'services/product_size/product_size';
+import type { PropsGetProductSize } from 'services/product_size/product_size';
 interface Option {
+  id: number;
+  describe: string;
+  notes: string;
+  label: string;
+}
+
+interface ProductType {
   id: number;
   describe: string;
   notes: string;
@@ -20,6 +29,7 @@ const Create = () => {
 
   const columns: GridColDef[] = [
     { field: 'stt', headerName: `${t('no')}`, width: 90, sortable: false, disableColumnMenu: true },
+    { field: 'is_check', headerName: `${t('actions')}`, width: 90, sortable: false, disableColumnMenu: true },
   ];
 
   const initialImages: { featured: boolean; img: string; title: string }[] = [
@@ -37,7 +47,7 @@ const Create = () => {
   const [errorName, setErrorName] = React.useState('');
   const [errorDescribe, setErrorDescribe] = React.useState('');
   const [dataProductType, setDataProductType] = React.useState<Option[]>([]);
-  const [productType, setProductType] = React.useState<Option>({ describe: "", notes: "", id: 0, label: "" });
+  const [productType, setProductType] = React.useState<Option>(dataProductType[0] || { describe: "", notes: "", id: 0, label: "" });
   const [rows, setRows] = React.useState<{}[]>([]);
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: 15,
@@ -47,6 +57,35 @@ const Create = () => {
   const openInfoDialog = async () => {
     // ... Your implementation here
   };
+
+  async function getProductSize(): Promise<void> {
+    try {
+      const data: typeLocalStorage | null = JSON.parse(localStorage.getItem("localStorage") || "{}");
+      if (!data || !data.employee || !data.employee.shop_id) {
+        console.warn(`${t('connect_error')}`);
+        return;
+      }
+
+      const params: PropsGetProductSize = { shop_id: data.employee.shop_id, product_type_id: productType.id };
+      const response = await productSizeServices.getList(params);
+      const result = response.data;
+
+      if (result && result.data && !result.data.error) {
+        const formattedData = result.data.map((item: any, index: number) => ({
+          label: item.name,
+          describe: item.describe,
+          notes: item.notes,
+          id: item.id,
+        }));
+
+        setDataProductType(formattedData);
+      } else {
+        console.warn(`${t('get_data_error')}`);
+      }
+    } catch (error: any) {
+      console.error(`${t('connect_error')}: ${error.message}`);
+    }
+  }
 
   async function getProductType(): Promise<void> {
     try {
@@ -79,7 +118,11 @@ const Create = () => {
   }
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: Option | null) => {
-    setProductType({ describe: `${newValue?.describe}`, notes: `${newValue?.notes}`, id: newValue?.id ? newValue?.id : 0, label: `${newValue?.label}` });
+    if (newValue === null) {
+      setProductType({ describe: "", notes: "", id: 0, label: "" });
+    } else {
+      setProductType({ describe: `${newValue?.describe}`, notes: `${newValue?.notes}`, id: newValue?.id ? newValue?.id : 0, label: `${newValue?.label}` });
+    }
   };
 
   React.useEffect(() => {
@@ -164,7 +207,7 @@ const Create = () => {
                   size="small"
                   id="combo-box-demo"
                   onChange={handleChange}
-                  value={productType}
+                  value={dataProductType.find(option => option.id === productType.id) || null}
                   options={dataProductType}
                   renderInput={(params) => (
                     <TextField {...params} label="Loại sản phẩm" InputLabelProps={{
