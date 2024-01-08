@@ -76,6 +76,7 @@ const Create = () => {
           describe: item.describe,
           notes: item.notes,
           id: item.id,
+          stt: index + 1,
         }));
         setRows(formattedData);
       } else {
