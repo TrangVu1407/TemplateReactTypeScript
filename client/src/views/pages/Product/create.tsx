@@ -77,8 +77,7 @@ const Create = () => {
           notes: item.notes,
           id: item.id,
         }));
-
-        setDataProductType(formattedData);
+        setRows(formattedData);
       } else {
         console.warn(`${t('get_data_error')}`);
       }
@@ -107,7 +106,6 @@ const Create = () => {
           id: item.id,
           stt: index + 1,
         }));
-
         setDataProductType(formattedData);
       } else {
         console.warn(`${t('get_data_error')}`);
@@ -117,11 +115,29 @@ const Create = () => {
     }
   }
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: Option | null) => {
-    if (newValue === null) {
+  const handleChange = async (event: React.ChangeEvent<{}>, newValue: Option | null) => {
+    const resetProductType = () => {
       setProductType({ describe: "", notes: "", id: 0, label: "" });
-    } else {
-      setProductType({ describe: `${newValue?.describe}`, notes: `${newValue?.notes}`, id: newValue?.id ? newValue?.id : 0, label: `${newValue?.label}` });
+    };
+
+    const updateProductType = () => {
+      if (newValue) {
+        const { describe, notes, id, label } = newValue;
+        setProductType({ describe: `${describe}`, notes: `${notes}`, id: id ? id : 0, label: `${label}` });
+      }
+    };
+
+    try {
+      if (newValue === null) {
+        resetProductType();
+        setRows([]);
+      } else {
+        updateProductType();
+        await getProductSize();
+      }
+    } catch (error) {
+      console.error("Error in handleChange:", error);
+      // Xử lý lỗi ở đây nếu cần
     }
   };
 
