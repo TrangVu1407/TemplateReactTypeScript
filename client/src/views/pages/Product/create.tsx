@@ -1,9 +1,8 @@
 import React from 'react';
-import { Box, Grid, TextField, TextareaAutosize, RadioGroup, FormControlLabel, Radio, Autocomplete } from '@mui/material';
+import { Box, Grid, TextField, TextareaAutosize, RadioGroup, FormControlLabel, Radio, Autocomplete, Button } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Image from './Detail/image';
 import { useTranslation } from 'react-i18next';
-import IconAdd from 'ui-component/Tooltip/IconAdd';
 import CustomPagination from 'ui-component/DataGrid/CustomPagination';
 import MyCustomToolbar from 'ui-component/DataGrid/MyCustomToolbar';
 import productTypeServices from 'services/product_type/product_type';
@@ -17,19 +16,90 @@ interface Option {
   notes: string;
   label: string;
 }
-
-interface ProductType {
-  id: number;
-  describe: string;
-  notes: string;
-  label: string;
-}
 const Create = () => {
   const { t } = useTranslation();
 
   const columns: GridColDef[] = [
     { field: 'stt', headerName: `${t('no')}`, width: 90, sortable: false, disableColumnMenu: true },
-    { field: 'is_check', headerName: `${t('actions')}`, width: 90, sortable: false, disableColumnMenu: true },
+    { field: 'name', headerName: `${t('product_size_title')}`, width: 200, sortable: false, disableColumnMenu: true },
+    {
+      field: 'quantity',
+      headerName: `${t('product_quantity')}`,
+      width: 230,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <TextField
+          value={params.value}
+          onChange={(e) => {
+            const newValue = parseInt(e.target.value, 10); // Chuyển đổi chuỗi thành số nguyên
+            const updatedRows = rows.map((row) =>
+              row.id === params.row.id ? { ...row, quantity: newValue } : row
+            );
+            setRows(updatedRows);
+          }}
+          size="small"
+          fullWidth
+          inputProps={{
+            required: true,
+          }}
+          error={Boolean(errorName)}
+          helperText={errorName || null}
+        />
+      )
+    },
+    {
+      field: 'price_purchase',
+      headerName: `${t('product_price_purchase')}`,
+      width: 230,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <TextField
+          value={params.value}
+          onChange={(e) => {
+            const newValue = parseInt(e.target.value, 10); // Chuyển đổi chuỗi thành số nguyên
+            const updatedRows = rows.map((row) =>
+              row.id === params.row.id ? { ...row, price_purchase: newValue } : row
+            );
+            setRows(updatedRows);
+          }}
+          size="small"
+          fullWidth
+          inputProps={{
+            required: true,
+          }}
+          error={Boolean(errorName)}
+          helperText={errorName || null}
+        />
+      )
+    },
+    {
+      field: 'price_sell',
+      headerName: `${t('product_price_sell')}`,
+      width: 230,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => (
+        <TextField
+          value={params.value}
+          onChange={(e) => {
+            const newValue = parseInt(e.target.value, 10); // Chuyển đổi chuỗi thành số nguyên
+            const updatedRows = rows.map((row) =>
+              row.id === params.row.id ? { ...row, price_sell: newValue } : row
+            );
+            setRows(updatedRows);
+          }}
+          size="small"
+          fullWidth
+          inputProps={{
+            required: true,
+          }}
+          error={Boolean(errorName)}
+          helperText={errorName || null}
+        />
+      )
+    },
   ];
 
   const initialImages: { featured: boolean; img: string; title: string }[] = [
@@ -48,15 +118,11 @@ const Create = () => {
   const [errorDescribe, setErrorDescribe] = React.useState('');
   const [dataProductType, setDataProductType] = React.useState<Option[]>([]);
   const [productType, setProductType] = React.useState<Option>(dataProductType[0] || { describe: "", notes: "", id: 0, label: "" });
-  const [rows, setRows] = React.useState<{}[]>([]);
+  const [rows, setRows] = React.useState<Option[]>([]);
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: 15,
     page: 0,
   });
-
-  const openInfoDialog = async () => {
-    // ... Your implementation here
-  };
 
   async function getProductSize(): Promise<void> {
     try {
@@ -72,10 +138,14 @@ const Create = () => {
 
       if (result && result.data && !result.data.error) {
         const formattedData = result.data.map((item: any, index: number) => ({
-          label: item.name,
+          name: item.name,
           describe: item.describe,
           notes: item.notes,
           id: item.id,
+          quantity: 0,
+          price_purchase: 1000,
+          price_sell: 15000,
+          is_check: false,
           stt: index + 1,
         }));
         setRows(formattedData);
@@ -115,6 +185,15 @@ const Create = () => {
       console.error(`${t('connect_error')}: ${error.message}`);
     }
   }
+
+  const handleSelectionChange = (newSelectionModel: any) => {
+    const updatedRows = rows.map(row => ({
+      ...row,
+      is_check: newSelectionModel.includes(row.id)
+    }));
+
+    setRows(updatedRows);
+  };
 
   const handleChange = async (event: React.ChangeEvent<{}>, newValue: Option | null) => {
     const resetProductType = () => {
@@ -259,11 +338,12 @@ const Create = () => {
           <Box component="form" noValidate autoComplete="off" sx={{ '& .MuiTextField-root': { margin: 1 }, margin: 2 }}>
             Chi tiết sản phẩm
             <Box>
-              <IconAdd title={t('create_new')} openInfoDialog={openInfoDialog} />
               <DataGrid
                 sx={{ height: dimensions.height - 560 }}
                 rows={rows}
                 columns={columns}
+                checkboxSelection
+                onRowSelectionModelChange={handleSelectionChange}
                 disableRowSelectionOnClick
                 paginationModel={paginationModel}
                 onPaginationModelChange={setPaginationModel}
@@ -280,6 +360,9 @@ const Create = () => {
         </Box>
       </Grid>
 
+      <Grid item xs={12} md={12}>
+        <Button variant="outlined">Tạo sản phẩm</Button>
+      </Grid>
     </Grid>
   );
 }

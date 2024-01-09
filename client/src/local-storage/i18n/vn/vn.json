@@ -70,6 +70,9 @@
     "product_name": "Tên sản phẩm",
     "product_describe": "Mô tả",
     "product_notes": "Ghi chú",
+    "product_quantity": "Số lượng",
+    "product_price_sell": "Giá bán",
+    "product_price_purchase": "Giá nhập",
     "product_describe_type": "Mô tả loại sản phẩm",
     "product_end_no_use": ""
 }
