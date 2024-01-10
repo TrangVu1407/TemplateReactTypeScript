@@ -28,6 +28,58 @@ interface OptionSize {
 const Create = () => {
   const { t } = useTranslation();
   const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
+  const handleCellValueChange = (
+    params: any,
+    cellName: string,
+    valueFunction: React.Dispatch<React.SetStateAction<OptionSize[]>>,
+    allRowErrors: Record<number, { quantity?: string, price_purchase?: string, price_sell?: string }>,
+  ) => {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      const parsedValue = parseInt(e.target.value, 10);
+      const newValue = isNaN(parsedValue) ? 0 : parsedValue;
+      const rowId = params.row.id;
+
+      let updatedErrors = { ...allRowErrors[rowId] };
+
+      // Kiểm tra nếu is_check được kiểm tra
+      if (params.row.is_check) {
+        if (cellName === 'quantity') {
+          // Xử lý lỗi cho trường quantity
+          if (newValue <= 10) {
+            updatedErrors.quantity = `${t('value_must_be_greater_than_zero')}`;
+          } else {
+            delete updatedErrors.quantity;
+          }
+        } else if (cellName === 'price_purchase') {
+          // Xử lý lỗi cho trường price_purchase
+          if (newValue <= 10) {
+            updatedErrors.price_purchase = `${t('value_must_be_greater_than_zero')}`;
+          } else {
+            delete updatedErrors.price_purchase;
+          }
+        } else if (cellName === 'price_sell') {
+          // Xử lý lỗi cho trường price_sell
+          if (newValue <= 10) {
+            updatedErrors.price_sell = `${t('value_must_be_greater_than_zero')}`;
+          } else {
+            delete updatedErrors.price_sell;
+          }
+        }
+      }
+
+      setAllRowErrors(prevState => ({
+        ...prevState,
+        [rowId]: updatedErrors,
+      }));
+
+      // Cập nhật giá trị cho trường và gọi hàm setRows
+      const updatedRows = rows.map((row) =>
+        row.id === rowId ? { ...row, [cellName]: newValue } : row
+      );
+      valueFunction(updatedRows);
+    };
+  };
+
 
   const columns: GridColDef[] = [
     { field: 'stt', headerName: `${t('no')}`, width: 90, sortable: false, disableColumnMenu: true },
@@ -41,13 +93,8 @@ const Create = () => {
       renderCell: (params) => (
         <TextField
           value={params.value}
-          onChange={(e) => {
-            const newValue = parseInt(e.target.value, 10); // Chuyển đổi chuỗi thành số nguyên
-            const updatedRows = rows.map((row) =>
-              row.id === params.row.id ? { ...row, quantity: newValue } : row
-            );
-            setRows(updatedRows);
-          }}
+          onChange={handleCellValueChange(params, 'quantity', setRows, allRowErrors)}
+          error={Boolean(allRowErrors[params.row.id]?.quantity)}
           size="small"
           fullWidth
           inputProps={{
@@ -65,13 +112,8 @@ const Create = () => {
       renderCell: (params) => (
         <TextField
           value={params.value}
-          onChange={(e) => {
-            const newValue = parseInt(e.target.value, 10); // Chuyển đổi chuỗi thành số nguyên
-            const updatedRows = rows.map((row) =>
-              row.id === params.row.id ? { ...row, price_purchase: newValue } : row
-            );
-            setRows(updatedRows);
-          }}
+          onChange={handleCellValueChange(params, 'price_purchase', setRows, allRowErrors)}
+          error={Boolean(allRowErrors[params.row.id]?.price_purchase)}
           size="small"
           fullWidth
           inputProps={{
@@ -89,13 +131,8 @@ const Create = () => {
       renderCell: (params) => (
         <TextField
           value={params.value}
-          onChange={(e) => {
-            const newValue = parseInt(e.target.value, 10); // Chuyển đổi chuỗi thành số nguyên
-            const updatedRows = rows.map((row) =>
-              row.id === params.row.id ? { ...row, price_sell: newValue } : row
-            );
-            setRows(updatedRows);
-          }}
+          onChange={handleCellValueChange(params, 'price_sell', setRows, allRowErrors)}
+          error={Boolean(allRowErrors[params.row.id]?.price_sell)}
           size="small"
           fullWidth
           inputProps={{
@@ -122,6 +159,7 @@ const Create = () => {
   const [productType, setProductType] = React.useState<Option>(dataProductType[0] || { describe: "", notes: "", id: 0, label: "" });
   const [rows, setRows] = React.useState<OptionSize[]>([]);
   const [errorValueMesage, setErrorValueMessage] = React.useState("")
+  const [allRowErrors, setAllRowErrors] = React.useState<Record<number, { quantity?: string, price_purchase?: string, price_sell?: string }>>({});
   type ProductState = {
     product_name: string;
     product_describe: string;
