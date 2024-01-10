@@ -40,7 +40,6 @@ const Create = () => {
       const rowId = params.row.id;
 
       let updatedErrors = { ...allRowErrors[rowId] };
-
       // Kiểm tra nếu is_check được kiểm tra
       if (params.row.is_check) {
         if (cellName === 'quantity') {
@@ -66,7 +65,6 @@ const Create = () => {
           }
         }
       }
-
       setAllRowErrors(prevState => ({
         ...prevState,
         [rowId]: updatedErrors,
@@ -79,7 +77,6 @@ const Create = () => {
       valueFunction(updatedRows);
     };
   };
-
 
   const columns: GridColDef[] = [
     { field: 'stt', headerName: `${t('no')}`, width: 90, sortable: false, disableColumnMenu: true },
@@ -236,10 +233,38 @@ const Create = () => {
   }
 
   const handleSelectionChange = (newSelectionModel: any) => {
+    // Cập nhật trạng thái is_check cho từng hàng
     const updatedRows = rows.map(row => ({
       ...row,
       is_check: newSelectionModel.includes(row.id)
     }));
+
+    // Kiểm tra và cập nhật lỗi cho các hàng
+    updatedRows.forEach(row => {
+      const errors: { quantity?: string, price_purchase?: string, price_sell?: string } = {};
+
+      if (row.is_check) {
+        // Kiểm tra và cập nhật lỗi cho quantity
+        if (typeof row.quantity === 'number' && row.quantity <= 10) {
+          errors.quantity = `${t('value_must_be_greater_than_zero')}`;
+        }
+
+        // Kiểm tra và cập nhật lỗi cho price_purchase
+        if (typeof row.price_purchase === 'number' && row.price_purchase <= 10) {
+          errors.price_purchase = `${t('value_must_be_greater_than_zero')}`;
+        }
+
+        // Kiểm tra và cập nhật lỗi cho price_sell
+        if (typeof row.price_sell === 'number' && row.price_sell <= 10) {
+          errors.price_sell = `${t('value_must_be_greater_than_zero')}`;
+        }
+      }
+
+      setAllRowErrors(prevState => ({
+        ...prevState,
+        [row.id]: errors,
+      }));
+    });
 
     setRows(updatedRows);
   };
