@@ -72,6 +72,8 @@
     "product_notes": "Ghi chú",
     "product_quantity": "Số lượng",
     "product_price_sell": "Giá bán",
+    "product_error_image": "Vui lòng chọn hình ảnh sản phẩm trước khi tạo mới",
+    "product_error_detail": "Vui lòng chọn số lượng sản phẩm khi thêm vào",
     "product_price_purchase": "Giá nhập",
     "product_describe_type": "Mô tả loại sản phẩm",
     "product_end_no_use": ""

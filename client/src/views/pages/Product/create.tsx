@@ -15,9 +15,19 @@ interface Option {
   describe: string;
   notes: string;
   label: string;
+
+}
+interface OptionSize {
+  id: number;
+  is_check: boolean;
+  name: string;
+  price_purchase: number;
+  price_sell: number;
+  quantity: number;
 }
 const Create = () => {
   const { t } = useTranslation();
+  const data: typeLocalStorage = JSON.parse(localStorage.getItem("localStorage") || "{}");
 
   const columns: GridColDef[] = [
     { field: 'stt', headerName: `${t('no')}`, width: 90, sortable: false, disableColumnMenu: true },
@@ -43,8 +53,6 @@ const Create = () => {
           inputProps={{
             required: true,
           }}
-          error={Boolean(errorName)}
-          helperText={errorName || null}
         />
       )
     },
@@ -69,8 +77,6 @@ const Create = () => {
           inputProps={{
             required: true,
           }}
-          error={Boolean(errorName)}
-          helperText={errorName || null}
         />
       )
     },
@@ -95,8 +101,6 @@ const Create = () => {
           inputProps={{
             required: true,
           }}
-          error={Boolean(errorName)}
-          helperText={errorName || null}
         />
       )
     },
@@ -109,16 +113,23 @@ const Create = () => {
       title: 'Image Title',
     },
   ];
-
   const [images, setImages] = React.useState(initialImages);
   const [dimensions, setDimensions] = React.useState({
     height: window.innerHeight,
   });
   const [errorName, setErrorName] = React.useState('');
-  const [errorDescribe, setErrorDescribe] = React.useState('');
   const [dataProductType, setDataProductType] = React.useState<Option[]>([]);
   const [productType, setProductType] = React.useState<Option>(dataProductType[0] || { describe: "", notes: "", id: 0, label: "" });
-  const [rows, setRows] = React.useState<Option[]>([]);
+  const [rows, setRows] = React.useState<OptionSize[]>([]);
+  const [errorValueMesage, setErrorValueMessage] = React.useState("")
+  type ProductState = {
+    product_name: string;
+    product_describe: string;
+    product_notes: string;
+    gender: string;
+    // Các thuộc tính khác của state nếu có
+  };
+  const [value, setValue] = React.useState<ProductState>({ product_name: "Sản phẩm 1", product_describe: "", product_notes: "", gender: "male" });
   const [paginationModel, setPaginationModel] = React.useState({
     pageSize: 15,
     page: 0,
@@ -221,16 +232,101 @@ const Create = () => {
     }
   };
 
+  const handleChangeProduct = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    setValue(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = () => {
+    if (value.product_name.trim() === '') {
+      setErrorName(`${t('value_error')}`);
+    } else {
+      setErrorName("");
+    }
+  };
+
+  async function isProductValid(): Promise<boolean> {
+    let hasCheckedRow = false;
+    let hasFilledProductName = value.product_name.trim() !== '';
+
+    for (let row of rows) {
+      if (row.is_check === true) {
+        hasCheckedRow = true;
+        break;
+      }
+    }
+
+    if (!hasFilledProductName) {
+      setErrorValueMessage(t('please_input_data'));
+      return false;
+    }
+
+    if (images.length === 1) {
+      setErrorValueMessage(t('product_error_image'));
+      return false;
+    }
+
+    if (!hasCheckedRow) {
+      setErrorValueMessage(t('product_error_detail'));
+      return false;
+    }
+
+    setErrorValueMessage('');
+    return true;
+  }
+
+  const formatProductImages = () => {
+    // bắt đầu từ 1 vì hình ảnh đầu tiên được khởi tạo để tránh lỗi khi code
+    return images.slice(1).map(image => ({
+      name: image.title,
+      img: image.img
+    }));
+  };
+
+  const formatProductDetails = () => {
+    return rows.filter(row => row.is_check).map(row => ({
+      name: row.name,
+      price_purchase: row.price_purchase,
+      price_sell: row.price_sell,
+      quantity: row.quantity
+    }));
+  };
+  const createProduct = async () => {
+    let isValid = await isProductValid();
+
+    if (!isValid) {
+      return;
+    }
+
+    const productImages = formatProductImages();
+    const productDetails = formatProductDetails();
+
+    const productBody = {
+      name: value.product_name,
+      describe: value.product_describe,
+      notes: value.product_notes,
+      shop_id: data.employee.shop_id,
+      gender: value.gender,
+      product_type_id: productType.id,
+      image: productImages,
+      detail_product: productDetails
+    };
+    console.warn("productBody: ", productBody);
+  };
+
   React.useEffect(() => {
+    handleSubmit();
     function handleResize() {
       setDimensions({
         height: window.innerHeight,
       });
     }
-
     window.addEventListener('resize', handleResize);
     getProductType();
-  }, []);
+  }, [value.product_name]);
   return (
     <Grid container spacing={2}>
       {/* Left Part: Image Selection */}
@@ -250,6 +346,9 @@ const Create = () => {
                   id="outlined-size-small"
                   size="small"
                   fullWidth
+                  name="product_name"
+                  value={value.product_name}
+                  onChange={handleChangeProduct}
                   inputProps={{
                     required: true,
                   }}
@@ -258,7 +357,7 @@ const Create = () => {
                 />
               </Grid>
               <Grid item xs={3}>
-                <RadioGroup row name="row-radio-buttons-group">
+                <RadioGroup row name="gender" value={value.gender} onChange={handleChangeProduct}>
                   <FormControlLabel value="female" control={<Radio />} label="Nam" />
                   <FormControlLabel value="male" control={<Radio />} label="Nữ" />
                 </RadioGroup>
@@ -272,8 +371,9 @@ const Create = () => {
               inputProps={{
                 required: true,
               }}
-              error={Boolean(errorDescribe)}
-              helperText={errorDescribe || null}
+              name="product_describe"
+              value={value.product_describe}
+              onChange={handleChangeProduct}
               label={t('product_describe')}
               InputProps={{
                 inputComponent: TextareaAutosize,
@@ -286,8 +386,9 @@ const Create = () => {
               inputProps={{
                 required: true,
               }}
-              error={Boolean(errorDescribe)}
-              helperText={errorDescribe || null}
+              name="product_notes"
+              value={value.product_notes}
+              onChange={handleChangeProduct}
               label={t('product_notes')}
               InputProps={{
                 inputComponent: TextareaAutosize,
@@ -324,8 +425,6 @@ const Create = () => {
                     required: true,
                   }}
                   value={productType.describe}
-                  error={Boolean(errorName)}
-                  helperText={errorName || null}
                 />
               </Grid>
             </Grid>
@@ -359,9 +458,9 @@ const Create = () => {
           </Box>
         </Box>
       </Grid>
-
+      {errorValueMesage && <Box style={{ marginLeft: "20px", color: "orange", marginTop: "10px" }}><h4>{t(`${'attention'}`)}: {errorValueMesage}</h4></Box>}
       <Grid item xs={12} md={12}>
-        <Button variant="outlined">Tạo sản phẩm</Button>
+        <Button variant="outlined" onClick={createProduct}>Tạo sản phẩm</Button>
       </Grid>
     </Grid>
   );
