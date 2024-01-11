@@ -12,6 +12,8 @@ import type { PropsCreateProduct } from 'services/product/product';
 import type { typeLocalStorage } from 'local-storage/localStorage';
 import productSizeServices from 'services/product_size/product_size';
 import type { PropsGetProductSize } from 'services/product_size/product_size';
+import { messageSnackBar } from "ui-component/Snackbar/index";
+import SnackBar from "ui-component/Snackbar/index";
 interface Option {
   id: number;
   describe: string;
@@ -159,6 +161,8 @@ const Create = () => {
   const [rows, setRows] = React.useState<OptionSize[]>([]);
   const [errorValueMesage, setErrorValueMessage] = React.useState("")
   const [allRowErrors, setAllRowErrors] = React.useState<Record<number, { quantity?: string, price_purchase?: string, price_sell?: string }>>({});
+  const [message, setMessage] = React.useState<messageSnackBar>({ notification: "", severity: "success" })
+  const [openMessage, setOpenMessage] = React.useState(false);
   type ProductState = {
     product_name: string;
     product_describe: string;
@@ -388,11 +392,26 @@ const Create = () => {
         image: productImages,
         product_detail: productDetails
       };
-
+      console.log("productBodyp", productBody);
       const response = await productServices.create(productBody);
+      const result = response.data;
+      if (result && !result.error) {
+        setMessage({ notification: `${t('product_create_success')}`, severity: "success" });
+        setOpenMessage(true);
+      } else {
+        switch (result.code) {
+          case 209:
+            setErrorValueMessage(`${t('product_create_error_is_existing')}`);
+            break;
+          default:
+            // code block
+            setMessage({ notification: `${t('product_create_error_connnect')}`, severity: "error" })
+            setOpenMessage(true);
+        }
+      }
     } catch (e) {
-      //setMessage({ notification: `${('product_type_connect_error')}`, severity: "error" })
-      console.warn("error: ", e);
+      setMessage({ notification: `${('product_create_error_connnect')}`, severity: "error" })
+      setOpenMessage(true);
     }
   };
 
@@ -541,6 +560,8 @@ const Create = () => {
       <Grid item xs={12} md={12}>
         <Button variant="outlined" onClick={createProduct}>Tạo sản phẩm</Button>
       </Grid>
+
+      <>{openMessage && (<SnackBar openMessage={openMessage} messsage={message} setOpenMessage={setOpenMessage} />)}</>
     </Grid>
   );
 }
