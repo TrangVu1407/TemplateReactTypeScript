@@ -7,6 +7,8 @@ import CustomPagination from 'ui-component/DataGrid/CustomPagination';
 import MyCustomToolbar from 'ui-component/DataGrid/MyCustomToolbar';
 import productTypeServices from 'services/product_type/product_type';
 import type { PropsGetProductType } from 'services/product_type/product_type';
+import productServices from 'services/product/product';
+import type { PropsCreateProduct } from 'services/product/product';
 import type { typeLocalStorage } from 'local-storage/localStorage';
 import productSizeServices from 'services/product_size/product_size';
 import type { PropsGetProductSize } from 'services/product_size/product_size';
@@ -318,7 +320,16 @@ const Create = () => {
     for (let row of rows) {
       if (row.is_check === true) {
         hasCheckedRow = true;
-        break;
+
+        // Check if quantity, price_purchase, or price_sell is less than 10
+        if (
+          typeof row.quantity === 'number' && row.quantity <= 10 ||
+          typeof row.price_purchase === 'number' && row.price_purchase <= 10 ||
+          typeof row.price_sell === 'number' && row.price_sell <= 10
+        ) {
+          setErrorValueMessage(t('product_error_invalid_quantity_price'));
+          return false;
+        }
       }
     }
 
@@ -339,7 +350,7 @@ const Create = () => {
 
     setErrorValueMessage('');
     return true;
-  }
+  };
 
   const formatProductImages = () => {
     // bắt đầu từ 1 vì hình ảnh đầu tiên được khởi tạo để tránh lỗi khi code
@@ -351,33 +362,38 @@ const Create = () => {
 
   const formatProductDetails = () => {
     return rows.filter(row => row.is_check).map(row => ({
-      name: row.name,
+      product_size_id: row.id,
       price_purchase: row.price_purchase,
       price_sell: row.price_sell,
       quantity: row.quantity
     }));
   };
   const createProduct = async () => {
-    let isValid = await isProductValid();
+    try {
+      let isValid = await isProductValid();
+      if (!isValid) {
+        return;
+      }
 
-    if (!isValid) {
-      return;
+      const productImages = formatProductImages();
+      const productDetails = formatProductDetails();
+
+      const productBody: PropsCreateProduct = {
+        name: value.product_name,
+        describe: value.product_describe,
+        notes: value.product_notes,
+        shop_id: data.employee.shop_id,
+        gender_id: 1,
+        product_type_id: productType.id,
+        image: productImages,
+        product_detail: productDetails
+      };
+
+      const response = await productServices.create(productBody);
+    } catch (e) {
+      //setMessage({ notification: `${('product_type_connect_error')}`, severity: "error" })
+      console.warn("error: ", e);
     }
-
-    const productImages = formatProductImages();
-    const productDetails = formatProductDetails();
-
-    const productBody = {
-      name: value.product_name,
-      describe: value.product_describe,
-      notes: value.product_notes,
-      shop_id: data.employee.shop_id,
-      gender: value.gender,
-      product_type_id: productType.id,
-      image: productImages,
-      detail_product: productDetails
-    };
-    console.warn("productBody: ", productBody);
   };
 
   React.useEffect(() => {
