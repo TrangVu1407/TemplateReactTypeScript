@@ -80,5 +80,17 @@
     "product_create_error_is_existing": "Tạo thất bại, sản phẩm đã tại",
     "product_create_success": "Tạo sản phẩm mới thành công",
     "product_create_error_connnect": "Tạo thất bại, vui loại thử lại sao",
-    "product_end_no_use": ""
+    "product_end_no_use": "",
+    "product_color_start_no_use": "",
+    "product_color_name": "Tên",
+    "product_color_what_delete": "Bạn có muốn xóa không?",
+    "product_color_describe": "Mô tả",
+    "product_color_notes": "Ghi chú",
+    "product_color_delete_title": "Xóa màu sản phẩm",
+    "product_color_delete_success": "Xóa màu sản phẩm thành công",
+    "product_color_create_success": "Tạo màu sản phẩm thành công",
+    "product_color_create_error_is_existing": "Màu sản phẩm đã tồn tại, tạo mới thất bại",
+    "product_color_update_success": "Cập nhật màu sản phẩm thành công",
+    "product_color_ipdate_error_is_existing": "Màu sản phẩm đã tồn tại, cập nhật thất bại",
+    "product_color_end_no_use": ""
 }

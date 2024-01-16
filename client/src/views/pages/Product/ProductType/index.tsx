@@ -14,9 +14,11 @@ import { messageSnackBar } from "ui-component/Snackbar/index";
 import { useTranslation } from 'react-i18next';
 import MyCustomToolbar from "ui-component/DataGrid/MyCustomToolbar";
 import CustomPagination from "ui-component/DataGrid/CustomPagination";
+import AutoModeIcon from '@mui/icons-material/AutoMode';
 import IconAdd from "ui-component/Tooltip/IconAdd";
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SizeDialog from '../ProductSize';
+import ColorDialog from '../ProductColor';
 
 export interface objectUpdate {
   name: string;
@@ -36,12 +38,13 @@ const ProductType = () => {
       field: 'actions',
       type: 'actions',
       headerName: `${t('actions')}`,
-      width: 120,
+      width: 160,
       getActions: (item) => {
         return [
           <GridActionsCellItem icon={<EditIcon color="primary" />} label="Edit" onClick={updateInfoDialog(item)} />,
           <GridActionsCellItem icon={<DeleteIcon sx={{ color: "red" }} />} label="Delete" onClick={deleteInfoDialog(item)} />,
-          <GridActionsCellItem icon={<BookmarksIcon sx={{ color: "orange" }} />} label="Delete" onClick={openSizeInfoDialog(item)} />,
+          <GridActionsCellItem icon={<BookmarksIcon sx={{ color: "orange" }} />} label="Size" onClick={openSizeInfoDialog(item)} />,
+          <GridActionsCellItem icon={<AutoModeIcon sx={{ color: "green" }} />} label="Color" onClick={openColorInfoDialog(item)} />,
         ]
       },
     },
@@ -79,6 +82,7 @@ const ProductType = () => {
 
   const [open, setOpen] = React.useState(false);
   const [openSize, setOpenSize] = React.useState(false);
+  const [openColor, setOpenColor] = React.useState(false);
   const [openMessage, setOpenMessage] = React.useState(false);
   const [message, setMessage] = React.useState<messageSnackBar>({ notification: "", severity: "success" })
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -169,6 +173,17 @@ const ProductType = () => {
     setOpenSize(true);
   };
 
+  const openColorInfoDialog = (item: GridRowParams) => () => {
+    let data = {
+      name: item.row.name,
+      id: item.row.id,
+      describe: item.row.describe,
+      notes: item.row.notes
+    }
+    setItemUpdate(data);
+    setOpenColor( true);
+  };
+
   return (
     <>
       <MainProduct title={t('product_type_title')} sx={{ border: 0 }}>
@@ -204,7 +219,7 @@ const ProductType = () => {
         <>{open && <InfoDialog open={open} closeOpen={closeOpen} type={type} item={itemUpdate} setMessage={setMessage} />}</>
         <>{openDelete && <DeleteDialog open={openDelete} closeOpen={closeOpenDelete} item={itemUpdate} setMessage={setMessage} />}</>
         <>{openSize && <SizeDialog open={openSize} closeOpen={setOpenSize} product_type_name={itemUpdate.name} product_type_id={itemUpdate.id} />}</>
-
+        <>{openColor && <ColorDialog open={openColor} closeOpen={setOpenColor} product_type_name={itemUpdate.name} product_type_id={itemUpdate.id} />}</>
       </MainProduct>
     </>
   )
