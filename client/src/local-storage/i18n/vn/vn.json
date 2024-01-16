@@ -77,8 +77,8 @@
     "product_error_invalid_quantity_price": "Kiểm tra lại giá trị nhập vào chi tiết sản phẩm",
     "product_price_purchase": "Giá nhập",
     "product_describe_type": "Mô tả loại sản phẩm",
-    "product_create_error_is_existing": "Tạo thểt bị, sản phẩm đã tại",
+    "product_create_error_is_existing": "Tạo thất bại, sản phẩm đã tại",
     "product_create_success": "Tạo sản phẩm mới thành công",
-    "product_create_error_connnect": "Tạo thểt bị, vui loại thử lại sao",
+    "product_create_error_connnect": "Tạo thất bại, vui loại thử lại sao",
     "product_end_no_use": ""
 }
